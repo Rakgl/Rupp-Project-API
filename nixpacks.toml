@@ -1,0 +1,199 @@
+[phases.setup]
+nixPkgs = ["...", "python311Packages.supervisor"] # Keep your existing nixPkgs
+
+[phases.install]
+cmds = [
+  "mkdir -p /app/storage/logs", # Ensure the main log directory exists
+  "mkdir -p /var/log/nginx && mkdir -p /var/cache/nginx",
+  "composer install --no-dev --optimize-autoloader"
+]
+
+[phases.build]
+cmds = [
+  "mkdir -p /etc/supervisor/conf.d/",
+  "cp /assets/worker-*.conf /etc/supervisor/conf.d/",
+  "cp /assets/supervisord.conf /etc/supervisord.conf",
+  "chmod +x /assets/start.sh",
+  "..." # Keep your existing build commands
+]
+
+[start]
+cmd = '/assets/start.sh'
+
+[staticAssets]
+"start.sh" = '''
+#!/bin/bash
+# Transform the nginx configuration
+node /assets/scripts/prestart.mjs /assets/nginx.template.conf /etc/nginx.conf
+# Start supervisor, teeing its output to both stdout and its dedicated log file
+supervisord -c /etc/supervisord.conf -n 2>&1 | tee -a /app/storage/logs/supervisor.log
+'''
+
+"supervisord.conf" = '''
+[unix_http_server]
+file=/assets/supervisor.sock
+
+[supervisord]
+logfile=/dev/fd/1           # Supervisor logs to its stdout (then tee'd in start.sh)
+logfile_maxbytes=0        # Explicitly disable rotation by size for this stream
+logfile_backups=0         # Explicitly disable backups for this stream
+loglevel=info
+pidfile=/assets/supervisord.pid
+nodaemon=true
+silent=false
+minfds=1024
+minprocs=200
+
+[rpcinterface:supervisor]
+supervisor.rpcinterface_factory = supervisor.rpcinterface:make_main_rpcinterface
+
+[supervisorctl]
+serverurl=unix:///assets/supervisor.sock
+
+[include]
+files = /etc/supervisor/conf.d/*.conf
+'''
+
+"worker-nginx.conf" = '''
+[program:worker-nginx]
+process_name=%(program_name)s_%(process_num)02d
+command=bash -c "nginx -c /etc/nginx.conf 2>&1 | tee -a /app/storage/logs/nginx.log" # Tee Nginx output
+autostart=true
+autorestart=true
+stdout_logfile=/dev/stdout
+stdout_logfile_maxbytes=0
+redirect_stderr=true
+'''
+
+"worker-phpfpm.conf" = '''
+[program:worker-phpfpm]
+process_name=%(program_name)s_%(process_num)02d
+command=bash -c "php-fpm -y /assets/php-fpm.conf -F 2>&1 | tee -a /app/storage/logs/php-fpm.log" # Tee PHP-FPM output
+autostart=true
+autorestart=true
+stdout_logfile=/dev/stdout
+stdout_logfile_maxbytes=0
+redirect_stderr=true
+'''
+
+"worker-laravel.conf" = '''
+[program:worker-laravel]
+process_name=%(program_name)s_%(process_num)02d
+command=php /app/artisan queue:work --sleep=3 --tries=3 --max-time=3600 -v # Added -v for verbosity
+autostart=true
+autorestart=true
+stopasgroup=true
+killasgroup=true
+numprocs=12
+startsecs=0                # Set to 0 so Supervisor doesn't wait long to consider it "started"
+stopwaitsecs=3600
+stdout_logfile=/dev/stdout   # Directs command's stdout (and stderr) to Supervisor's stdout
+stdout_logfile_maxbytes=0
+redirect_stderr=true         # Redirects command's stderr to its stdout stream
+'''
+
+"worker-laravel-scheduler.conf" = '''
+[program:worker-laravel-scheduler]
+process_name=%(program_name)s_%(process_num)02d
+command=php /app/artisan schedule:work --no-interaction -v
+autostart=true
+autorestart=true
+stdout_logfile=/dev/stdout
+stdout_logfile_maxbytes=0
+redirect_stderr=true
+'''
+
+"php-fpm.conf" = '''
+error_log = /dev/stderr
+[www]
+listen = 127.0.0.1:9000
+user = www-data
+group = www-data
+listen.owner = www-data
+listen.group = www-data
+pm = dynamic
+pm.max_children = 50
+pm.min_spare_servers = 4
+pm.max_spare_servers = 32
+pm.start_servers = 18
+clear_env = no
+catch_workers_output = yes
+decorate_workers_output = no
+'''
+
+"nginx.template.conf" = '''
+user www-data www-data;
+worker_processes 5;
+daemon off; # Ensures Nginx runs in the foreground for Supervisor
+
+worker_rlimit_nofile 8192;
+
+events {
+  worker_connections  4096;  # Default: 1024
+}
+
+http {
+    include    $!{nginx}/conf/mime.types;
+    index    index.html index.htm index.php;
+
+    default_type application/octet-stream;
+    log_format   main '$remote_addr - $remote_user [$time_local]  $status '
+        '"$request" $body_bytes_sent "$http_referer" '
+        '"$http_user_agent" "$http_x_forwarded_for"';
+    access_log /proc/self/fd/1  main; # Nginx access logs go to its stdout
+    error_log  /proc/self/fd/2  warn; # Nginx error logs go to its stderr
+    sendfile     on;
+    tcp_nopush   on;
+    server_names_hash_bucket_size 128; # this seems to be required for some vhosts
+
+    server {
+        listen ${PORT};
+        listen [::]:${PORT};
+        server_name localhost;
+
+        $if(NIXPACKS_PHP_ROOT_DIR) (
+            root ${NIXPACKS_PHP_ROOT_DIR};
+        ) else (
+            root /app;
+        )
+
+        add_header X-Content-Type-Options "nosniff";
+
+        client_max_body_size 35M;
+
+        index index.php;
+
+        charset utf-8;
+
+        $if(NIXPACKS_PHP_FALLBACK_PATH) (
+            location / {
+                try_files $uri $uri/ ${NIXPACKS_PHP_FALLBACK_PATH}?$query_string;
+            }
+        ) else (
+            location / {
+                try_files $uri $uri/ /index.php?$query_string;
+            }
+        )
+
+        location = /favicon.ico { access_log off; log_not_found off; }
+        location = /robots.txt  { access_log off; log_not_found off; }
+
+        $if(IS_LARAVEL) (
+            error_page 404 /index.php;
+        ) else ()
+
+        location ~ \.php$ {
+            fastcgi_pass 127.0.0.1:9000;
+            fastcgi_param SCRIPT_FILENAME $realpath_root$fastcgi_script_name;
+            include $!{nginx}/conf/fastcgi_params;
+            include $!{nginx}/conf/fastcgi.conf;
+
+            fastcgi_param PHP_VALUE "upload_max_filesize=30M \n post_max_size=35M";
+        }
+
+        location ~ /\.(?!well-known).* {
+            deny all;
+        }
+    }
+}
+'''
