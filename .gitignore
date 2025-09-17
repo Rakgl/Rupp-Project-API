@@ -3,11 +3,10 @@
 /public/build
 /public/hot
 /public/storage
+/public/uploads
 /storage/*.key
 /storage/pail
 /vendor
-config/firebase/*.json
-config/firebase/nhr-energy-sandbox-firebase-adminsdk-8odnu-db1b6fcd56.json
 .env
 .env.backup
 .env.production
