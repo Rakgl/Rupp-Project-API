@@ -15,12 +15,14 @@ class Role extends Model implements Auditable
         'name',
         'description',
 		'status',
+        'type'
     ];
 
     protected $fillable=[
         'name',
         'description',
         'status',
+        'type',
 		'created_by', 
 		'updated_by',
 		'update_num'

@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('name', 50);
             $table->string('description')->nullable();
 			$table->string('status', 10)->comment('ACTIVE, INACTIVE , DELETED')->default('ACTIVE');
+			$table->string('type', 50)->comment('admin, developer, user')->default('user');
 			$table->string('created_by')->nullable();
 			$table->string('updated_by')->nullable();
 			$table->integer('update_num')->default(0);

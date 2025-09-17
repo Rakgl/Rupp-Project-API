@@ -14,5 +14,9 @@ class Setting extends Model implements Auditable
     protected $fillable = [
         'setting_value',
         'setting_key',
+        'created_by',
+        'updated_by',
+        'deleted_by',
+
     ];
 }

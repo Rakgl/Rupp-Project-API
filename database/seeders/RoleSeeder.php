@@ -24,6 +24,7 @@ class RoleSeeder extends Seeder
                 'name' => "Super Admin",
                 'description' => "Full Control over the entire system.",
                 'status' => 'ACTIVE',
+                'type' => 'admin',
                 'created_at' => $now,
                 'updated_at' => $now,
             ],
@@ -32,6 +33,7 @@ class RoleSeeder extends Seeder
                 'name' => "Developer",
                 'description' => "Full development access and system control.",
                 'status' => 'ACTIVE',
+                'type' => 'admin',
                 'created_at' => $now,
                 'updated_at' => $now,
             ],
@@ -40,9 +42,20 @@ class RoleSeeder extends Seeder
                 'name' => "Admin",
                 'description' => "Administrative control over most system features.",
                 'status' => 'ACTIVE',
+                'type' => 'admin',
                 'created_at' => $now,
                 'updated_at' => $now,
             ],
+			[
+                'id' => Str::uuid()->toString(),
+                'name' => "User",
+                'description' => "User only!",
+                'status' => 'ACTIVE',
+                'type' => 'user',
+                'created_at' => $now,
+                'updated_at' => $now,
+            ],
+
         ];
 
         // // Generate the remaining 97 roles

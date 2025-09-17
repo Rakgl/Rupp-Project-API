@@ -22,7 +22,9 @@ class DatabaseSeeder extends Seeder
             AnnouncementSeeder::class,
             StaticContentSeeder::class,
             NotificationSeeder::class,
-            AppVersionSeeder::class
-            ]);
+            AppVersionSeeder::class,
+            TranslationSeeder::class,
+            GeneralSettingSeeder::class,
+        ]);
     }
 }

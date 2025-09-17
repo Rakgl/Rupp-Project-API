@@ -7,13 +7,26 @@ use App\Http\Controllers\Api\V1\Admin\Security\UserController;
 use App\Http\Controllers\Api\V1\Admin\Security\RoleController;
 use App\Http\Controllers\Api\V1\Admin\Security\RolePermissionController;
 use App\Http\Controllers\Api\V1\Admin\Configuration\SettingController;
+use App\Http\Controllers\Api\V1\Admin\TranslationController;
+use App\Http\Controllers\Api\V1\Admin\GeneralSettingController;
+
 
 
 // Public routes
 Route::post('/auth/login', [AuthController::class, 'login']);
 Route::get('/settings', [SettingController::class, 'index']);
 Route::post('/auth/refresh-token', [AuthController::class, 'refreshToken']);
+Route::get('/debug-ip', function (Request $request) {
+    return response()->json([
+        'laravel_request_ip' => $request->ip(),
+        'server_remote_addr' => $_SERVER['REMOTE_ADDR'] ?? 'not set',
+        'header_x_forwarded_for' => $request->header('X-Forwarded-For'),
+        'all_headers' => $request->headers->all(),
+    ]);
+});
 
+
+Route::get('/translations/{locale}', [TranslationController::class, 'getTranslationsByLocale']);
 // Authenticated routes
 Route::middleware(['auth:sanctum'])->group(function () {
 	Route::post('/auth/logout', [AuthController::class, 'logout']);
@@ -51,7 +64,13 @@ Route::middleware(['auth:sanctum'])->group(function () {
         Route::post('/role-permissions/update', [RolePermissionController::class, 'updateRolePermission']);
 
         // Settings
-        Route::get('/general-settings', [SettingController::class, 'show']);
-        Route::post('/general-settings/update', [SettingController::class, 'update']);
+        // Route::get('/general-settings', [SettingController::class, 'show']);
+        // Route::post('/general-settings/update', [SettingController::class, 'update']);
+
+        // General setting
+        Route::get('general-settings', [GeneralSettingController::class, 'index']);
+        Route::post('general-settings', [GeneralSettingController::class, 'storeOrUpdate']);
+
+        Route::apiResource('translations',TranslationController::class);
     });
 });

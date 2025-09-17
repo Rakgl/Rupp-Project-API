@@ -17,6 +17,7 @@ class UserSeeder extends Seeder
         // Fetch roles
         $adminRole = Role::where('name', 'Admin')->first();
         $developerRole = Role::where('name', 'Developer')->first();
+        $userRole = Role::where('name', 'User')->first();
 
         if (!$adminRole || !$developerRole) {
             if (!$adminRole) {
@@ -36,13 +37,30 @@ class UserSeeder extends Seeder
                 'name' => 'Admin',
                 'password' => bcrypt('admin@123'),
                 'role_id' => $adminRole->id,
+                'type' => 'Admin',
             ],
             [
                 'username' => 'developer',
                 'name' => 'Developer',
                 'password' => bcrypt('dev@123'),
                 'role_id' => $developerRole->id,
+                'type' => 'Developer',
             ],
+            [
+				'username' => 'u1',
+				'name' => 'User 1',
+				'password' => bcrypt('p@123'),
+				'role_id' => $userRole->id,
+				'type' => 'User',
+			],
+			[
+				'username' => 'd1',
+				'name' => 'Marry Woo', 
+				'password' => bcrypt('p@123'),
+				'role_id' => $userRole->id,
+				'type' => 'User',
+			]
+
         ];
 
         // Insert or update system users
