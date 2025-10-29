@@ -10,3 +10,7 @@ Route::prefix('v1/admin')->group(function () {
 Route::prefix('v1/mobile')->group(function () {
     require __DIR__.'/api/v1/mobile.php';
 });
+
+Route::prefix('v1/mobile')->group(function () {
+    require __DIR__.'/api/v1/web.php';
+});

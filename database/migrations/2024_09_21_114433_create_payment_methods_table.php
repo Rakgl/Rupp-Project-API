@@ -13,15 +13,17 @@ return new class extends Migration
     {
         Schema::create('payment_methods', function (Blueprint $table) {
             $table->uuid('id')->primary();
-			$table->string('name', 100); // Payment method name, e.g., ABA Bank, Credit Card
-			$table->string('image')->nullable();
+            $table->string('name',100); // Payment method name, e.g., ABA Bank, Credit Card
+            $table->string('image')->nullable();
             $table->text('description')->nullable();
-			$table->string('type', 50)->comment('BANK, E_WALLET, CREDIT_CARD');
-			$table->string('status', 10)->default('ACTIVE')->comment('ACTIVE, INACTIVE');
-			$table->string('created_by')->nullable();
-			$table->string('updated_by')->nullable();
-			$table->integer('update_num')->default(0);
-			$table->timestampsTz();
+            $table->string('type', 50)->comment('online,cash,card_on_delivery');
+
+            $table->string('status', 10)->default('ACTIVE')->comment('ACTIVE, INACTIVE');
+            $table->string('created_by')->nullable();
+            $table->string('updated_by')->nullable();
+            $table->integer('update_num')->default(0);
+            $table->timestampsTz();
+            $table->softDeletesTz(); // Adds a nullable `deleted_at` timestamp with timezone
         });
     }
 
