@@ -9,8 +9,9 @@ use App\Http\Controllers\Api\V1\Admin\Security\RolePermissionController;
 use App\Http\Controllers\Api\V1\Admin\Configuration\SettingController;
 use App\Http\Controllers\Api\V1\Admin\TranslationController;
 use App\Http\Controllers\Api\V1\Admin\GeneralSettingController;
-
-
+use App\Http\Controllers\Api\V1\Admin\StoreController;
+use App\Http\Controllers\Api\V1\Admin\PaymentMethodController;
+use App\Http\Controllers\Api\V1\Admin\StoreNotificationSettingController;
 
 // Public routes
 Route::post('/auth/login', [AuthController::class, 'login']);
@@ -57,6 +58,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
         Route::get('roles/audit/{id}', [RoleController::class, 'audit']);
         Route::get('roles/active', [RoleController::class, 'active']);
         Route::resource('/roles', RoleController::class);
+        Route::post('roles/suggest', [RoleController::class, 'suggestRoles']);
 
         // Role Permissions
         Route::get('/role-permissions/role/{id}', [RolePermissionController::class, 'permissionsByRole']);
@@ -72,5 +74,19 @@ Route::middleware(['auth:sanctum'])->group(function () {
         Route::post('general-settings', [GeneralSettingController::class, 'storeOrUpdate']);
 
         Route::apiResource('translations',TranslationController::class);
+
+         Route::apiResource('/stores/fetch', StoreController::class);
+        Route::apiResource('/stores', StoreController::class);
+        Route::apiResource('stores.notification-settings', StoreNotificationSettingController::class)->shallow();
+        Route::post('notification-settings/{notification_setting}/test', [StoreNotificationSettingController::class, 'test'])
+            ->name('notification-settings.test');
+        Route::post('notification-settings/get-chat-id', [StoreNotificationSettingController::class, 'getChatId'])
+            ->name('notification-settings.get-chat-id');
+
+
+
+        // Payment Methods
+        Route::apiResource('payment-methods', PaymentMethodController::class);
+
     });
 });

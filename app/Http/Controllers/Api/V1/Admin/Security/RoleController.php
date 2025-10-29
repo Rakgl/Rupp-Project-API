@@ -6,13 +6,16 @@ use App\Helpers\Helper;
 use App\Http\Controllers\Controller;
 use App\Models\Role;
 use App\Http\Resources\Api\V1\Admin\Security\RoleResource;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use App\Http\Requests\Api\V1\Admin\Security\RoleRequest;
 use App\Http\Resources\Api\V1\Admin\AuditResource;
 use App\Http\Resources\Api\V1\Admin\Security\Role\RoleIndexResource;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Validator;
 
 class RoleController extends Controller
 {
@@ -178,4 +181,82 @@ class RoleController extends Controller
 			'items' => AuditResource::collection($audits)
 		]);
 	}
+
+    public function suggestRoles(Request $request): JsonResponse
+    {
+        // 1. Validate the incoming request
+        $validator = Validator::make($request->all(), [
+            'context' => 'required|string|max:100',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Validation failed.',
+                'errors' => $validator->errors()
+            ], 422);
+        }
+
+        try {
+            $context = $request->input('context');
+
+            // 2. Define the prompt and schema for the Gemini API
+            $prompt = "Based on the context of a '{$context}' system, generate a list of 5 to 7 common user role names with a brief, one-sentence description for each. For example, for 'school management', suggest roles like 'Principal', 'Teacher', 'Student', etc.";
+
+            $schema = [
+                'type' => 'ARRAY',
+                'items' => [
+                    'type' => 'OBJECT',
+                    'properties' => [
+                        'name' => ['type' => 'STRING', 'description' => 'The name of the user role'],
+                        'description' => ['type' => 'STRING', 'description' => 'A brief description of the role\'s responsibilities'],
+                    ],
+                    'required' => ['name', 'description'],
+                ],
+            ];
+
+            // 3. Construct the payload for the Gemini API call
+            $payload = [
+                'contents' => [
+                    ['parts' => [['text' => $prompt]]],
+                ],
+                'generationConfig' => [
+                    'responseMimeType' => 'application/json',
+                    'responseSchema' => $schema,
+                ],
+            ];
+
+            $apiKey = config('services.gemini.api_key');
+            $apiUrl = config('services.gemini.api_url');
+//            dd($apiUrl);
+//            dd($apiKey);
+
+            // 4. Make the API call to Gemini
+            $response = Http::withHeaders(['Content-Type' => 'application/json'])
+                ->timeout(60)
+                ->post("{$apiUrl}?key={$apiKey}", $payload);
+
+            if ($response->failed()) {
+                $errorDetails = $response->json();
+                Log::error('Gemini API Error during role suggestion: ', $errorDetails ?? ['message' => $response->body()]);
+                $errorMessage = $errorDetails['error']['message'] ?? 'The AI model could not process the request.';
+                return response()->json(['success' => false, 'error' => $errorMessage], $response->status());
+            }
+
+            // 5. Process the successful API response
+            $result = $response->json();
+            $suggestedRolesJson = $result['candidates'][0]['content']['parts'][0]['text'] ?? '[]';
+            $suggestedRoles = json_decode($suggestedRolesJson, true);
+
+            return response()->json([
+                'success' => true,
+                'data' => $suggestedRoles,
+            ]);
+
+        } catch (\Exception $e) {
+            Log::error('Role Suggestion Exception: ' . $e->getMessage());
+            return response()->json(['success' => false, 'error' => 'An unexpected server error occurred.'], 500);
+        }
+    }
+
 }

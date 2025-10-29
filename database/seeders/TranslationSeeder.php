@@ -51,6 +51,11 @@ class TranslationSeeder extends Seeder
             $this->getUserManagementTranslations(),
             $this->getPaginationTranslations(),
             $this->getTranslationManagementTranslations(),
+            $this->getNotificationSettingsTranslations(),
+            $this->getSharedTranslations(),
+            $this->getCommonTranslations(),
+            $this->getPaymentMethod(),
+            $this->getStoreTranslations(),
         );
     }
 
@@ -632,4 +637,402 @@ class TranslationSeeder extends Seeder
             ['key' => 'translationManagement.form.status.inactive', 'en' => 'Inactive', 'km' => 'អសកម្ម', 'zh' => '无效'],
         ];
     }
+
+    private function getNotificationSettingsTranslations(): array
+    {
+        return [
+            // Store Selector Card
+            ['key' => 'store_notifications.validation.error', 'en' => 'Validation Error', 'km' => 'កំហុសក្នុងការផ្ទៀងផ្ទាត់', 'zh' => '验证错误'],
+            ['key' => 'store_notifications.validation.name_required', 'en' => 'Please provide a name for the notification setting.', 'km' => 'សូមផ្តល់ឈ្មោះសម្រាប់ការកំណត់ការជូនដំណឹង។', 'zh' => '请为通知设置提供一个名称。'],
+            ['key' => 'store_notifications.validation.bot_token_required', 'en' => 'Please provide a Telegram Bot Token.', 'km' => 'សូមផ្តល់ Telegram Bot Token។', 'zh' => '请提供一个 Telegram 机器人令牌。'],
+            ['key' => 'store_notifications.validation.chat_id_required', 'en' => 'Please provide a Telegram Chat ID or fetch it first.', 'km' => 'សូមផ្តល់ Telegram Chat ID ឬទាញយកវាជាមុនសិន។', 'zh' => '请提供一个 Telegram 聊天 ID 或先获取它。'],
+
+            // Toast/Popup Messages
+            ['key' => 'store_notifications.toast.success', 'en' => 'Success', 'km' => 'ជោគជ័យ', 'zh' => '成功'],
+            ['key' => 'store_notifications.toast.setting_updated', 'en' => 'Notification setting updated.', 'km' => 'ការកំណត់ការជូនដំណឹងត្រូវបានធ្វើបច្ចុប្បន្នភាព។', 'zh' => '通知设置已更新。'],
+            ['key' => 'store_notifications.toast.setting_created', 'en' => 'Notification setting created.', 'km' => 'ការកំណត់ការជូនដំណឹងត្រូវបានបង្កើត។', 'zh' => '通知设置已创建。'],
+            ['key' => 'store_notifications.toast.error', 'en' => 'Error', 'km' => 'កំហុស', 'zh' => '错误'],
+            ['key' => 'store_notifications.toast.setting_deleted', 'en' => 'Notification setting deleted.', 'km' => 'ការកំណត់ការជូនដំណឹងត្រូវបានលុប។', 'zh' => '通知设置已删除。'],
+            ['key' => 'store_notifications.toast.cannot_test', 'en' => 'Cannot Test', 'km' => 'មិនអាចសាកល្បងបាន', 'zh' => '无法测试'],
+            ['key' => 'store_notifications.toast.save_before_test', 'en' => 'Please save the setting before testing.', 'km' => 'សូមរក្សាទុកការកំណត់មុនពេលសាកល្បង។', 'zh' => '请在测试前保存设置。'],
+            ['key' => 'store_notifications.toast.test_failed', 'en' => 'Test Failed', 'km' => 'ការសាកល្បងបានបរាជ័យ', 'zh' => '测试失败'],
+            ['key' => 'store_notifications.toast.missing_token', 'en' => 'Missing Token', 'km' => 'មិនមាន Token', 'zh' => '缺少令牌'],
+            ['key' => 'store_notifications.toast.enter_bot_token_first', 'en' => 'Please enter a Bot Token first.', 'km' => 'សូមបញ្ចូល Bot Token ជាមុនសិន។', 'zh' => '请先输入机器人令牌。'],
+            ['key' => 'store_notifications.toast.chat_id_fetched', 'en' => 'Chat ID has been fetched and populated.', 'km' => 'Chat ID ត្រូវបានទាញយក និងបំពេញរួចរាល់។', 'zh' => '聊天 ID 已获取并填充。'],
+
+            // Confirmation Dialogs
+            ['key' => 'store_notifications.confirm.delete_setting', 'en' => 'Are you sure you want to delete this notification setting?', 'km' => 'តើអ្នកប្រាកដទេថាចង់លុបការកំណត់ការជូនដំណឹងនេះ?', 'zh' => '您确定要删除此通知设置吗？'],
+
+            // Store Selection UI (Standardized to 'store')
+            ['key' => 'store_notifications.select_store.title', 'en' => 'Select a Store', 'km' => 'ជ្រើសរើសហាង', 'zh' => '选择商店'],
+            ['key' => 'store_notifications.select_store.description', 'en' => 'Choose a store to view and manage its notification settings.', 'km' => 'ជ្រើសរើសហាងដើម្បីមើល និងគ្រប់គ្រងការកំណត់ការជូនដំណឹងរបស់វា។', 'zh' => '选择一家商店以查看和管理其通知设置。'],
+            ['key' => 'store_notifications.select_store.placeholder', 'en' => 'Search and select a store...', 'km' => 'ស្វែងរក និងជ្រើសរើសហាង...', 'zh' => '搜索并选择商店...'],
+            ['key' => 'store_notifications.select_store.prompt', 'en' => 'Please select a store to continue.', 'km' => 'សូមជ្រើសរើសហាងដើម្បីបន្ត។', 'zh' => '请选择一家商店以继续。'],
+
+            // Main Notifications UI (Standardized to 'store')
+            ['key' => 'store_notifications.notifications.title', 'en' => 'Notifications', 'km' => 'ការជូនដំណឹង', 'zh' => '通知'],
+            ['key' => 'store_notifications.notifications.description', 'en' => 'Manage notification providers for sales orders.', 'km' => 'គ្រប់គ្រងអ្នកផ្តល់ការជូនដំណឹងសម្រាប់ការបញ្ជាទិញ។', 'zh' => '管理销售订单的通知提供商。'],
+            ['key' => 'store_notifications.notifications.add_button', 'en' => 'Add Provider', 'km' => 'បន្ថែមអ្នកផ្តល់', 'zh' => '添加提供商'],
+            ['key' => 'store_notifications.notifications.no_providers', 'en' => 'No notification providers have been added for this store.', 'km' => 'មិនទាន់មានអ្នកផ្តល់ការជូនដំណឹងត្រូវបានបន្ថែមសម្រាប់ហាងនេះទេ។', 'zh' => '尚未为此商店添加通知提供商。'],
+
+            // Dialog Box UI
+            ['key' => 'store_notifications.dialog.edit_title', 'en' => 'Edit Notification Provider', 'km' => 'កែសម្រួលអ្នកផ្តល់ការជូនដំណឹង', 'zh' => '编辑通知提供商'],
+            ['key' => 'store_notifications.dialog.add_title', 'en' => 'Add Notification Provider', 'km' => 'បន្ថែមអ្នកផ្តល់ការជូនដំណឹង', 'zh' => '添加通知提供商'],
+            ['key' => 'store_notifications.dialog.description', 'en' => 'Fill in the details for your Telegram notification.', 'km' => 'បំពេញព័ត៌មានលម្អិតសម្រាប់ការជូនដំណឹងតាម Telegram របស់អ្នក។', 'zh' => '填写您的 Telegram 通知详细信息。'],
+            ['key' => 'store_notifications.dialog.test_button', 'en' => 'Test', 'km' => 'សាកល្បង', 'zh' => '测试'],
+            ['key' => 'store_notifications.dialog.cancel_button', 'en' => 'Cancel', 'km' => 'បោះបង់', 'zh' => '取消'],
+            ['key' => 'store_notifications.dialog.saving_button', 'en' => 'Saving...', 'km' => 'កំពុងរក្សាទុក...', 'zh' => '正在保存...'],
+            ['key' => 'store_notifications.dialog.save_button', 'en' => 'Save', 'km' => 'រក្សាទុក', 'zh' => '保存'],
+
+            // Form Fields
+            ['key' => 'store_notifications.form.name_label', 'en' => 'Name', 'km' => 'ឈ្មោះ', 'zh' => '名称'],
+            ['key' => 'store_notifications.form.name_placeholder', 'en' => 'e.g., Sales Alerts', 'km' => 'ឧទាហរណ៍៖ ការជូនដំណឹងពេលមានការលក់', 'zh' => '例如：销售提醒'],
+            ['key' => 'store_notifications.form.bot_token_label', 'en' => 'Bot Token', 'km' => 'Bot Token', 'zh' => '机器人令牌'],
+            ['key' => 'store_notifications.form.bot_token_placeholder', 'en' => 'From Telegram BotFather', 'km' => 'ពី Telegram BotFather', 'zh' => '来自 Telegram BotFather'],
+            ['key' => 'store_notifications.form.chat_id_label', 'en' => 'Chat ID', 'km' => 'Chat ID', 'zh' => '聊天 ID'],
+            ['key' => 'store_notifications.form.chat_id_placeholder', 'en' => 'User, group, or channel ID', 'km' => 'ID អ្នកប្រើប្រាស់ ក្រុម ឬឆានែល', 'zh' => '用户、群组或频道 ID'],
+            ['key' => 'store_notifications.form.chat_id_help_text', 'en' => 'To get this automatically, enter the Bot Token and send a message to your bot, then click Fetch.', 'km' => 'ដើម្បីទទួលបាន ID នេះដោយស្វ័យប្រវត្តិ សូមបញ្ចូល Bot Token រួចផ្ញើសារទៅកាន់ Bot របស់អ្នក បន្ទាប់មកចុចប៊ូតុង Fetch។', 'zh' => '要自动获取，请输入机器人令牌并向您的机器人发送一条消息，然后单击“获取”。'],
+            ['key' => 'store_notifications.form.thread_id_label', 'en' => 'Thread ID (Optional)', 'km' => 'Thread ID (ស្រេចចិត្ត)', 'zh' => '话题 ID (可选)'],
+            ['key' => 'store_notifications.form.thread_id_placeholder', 'en' => 'Optional topic/thread ID', 'km' => 'ID ប្រធានបទ/ខ្សែស្រឡាយ (ស្រេចចិត្ត)', 'zh' => '可选的话题 ID'],
+            ['key' => 'store_notifications.form.enabled_label', 'en' => 'Enabled', 'km' => 'បើកដំណើរការ', 'zh' => '已启用'],
+
+        ];
+    }
+
+
+    private function getCommonTranslations(): array
+    {
+        return [
+            ['key' => 'common.loading', 'en' => 'Loading...', 'km' => 'កំពុងដំណើរការ...', 'zh' => '加载中...'],
+            ['key' => 'common.error', 'en' => 'Error', 'km' => 'កំហុស', 'zh' => '错误'],
+            ['key' => 'common.success', 'en' => 'Success!', 'km' => 'ជោគជ័យ!', 'zh' => '成功！'],
+
+            // Generic Common Keys used across modules
+            ['key' => 'common.add', 'en' => 'Add', 'km' => 'បន្ថែម', 'zh' => '添加'],
+            ['key' => 'common.applyFilters', 'en' => 'Apply Filters', 'km' => 'អនុវត្តតម្រង', 'zh' => '应用筛选'],
+            ['key' => 'common.cancel', 'en' => 'Cancel', 'km' => 'បោះបង់', 'zh' => '取消'],
+            ['key' => 'common.clearFilters', 'en' => 'Clear filters', 'km' => 'សម្អាតតម្រង', 'zh' => '清除筛选'],
+            ['key' => 'common.close', 'en' => 'Close', 'km' => 'បិទ', 'zh' => '关闭'],
+            ['key' => 'common.confirmation.title', 'en' => 'Are you sure?', 'km' => 'តើអ្នកប្រាកដទេ?', 'zh' => '您确定吗？'],
+            ['key' => 'common.deleting', 'en' => 'Deleting...', 'km' => 'កំពុងលុប...', 'zh' => '正在删除...'],
+            ['key' => 'common.edit', 'en' => 'Edit', 'km' => 'កែសម្រួល', 'zh' => '编辑'],
+            ['key' => 'common.export', 'en' => 'Export', 'km' => 'នាំចេញ', 'zh' => '导出'],
+            ['key' => 'common.exportAsCsv', 'en' => 'Export as CSV', 'km' => 'នាំចេញជា CSV', 'zh' => '导出为 CSV'],
+            ['key' => 'common.exportAsXlsx', 'en' => 'Export as Excel (.xlsx)', 'km' => 'នាំចេញជា Excel (.xlsx)', 'zh' => '导出为 Excel (.xlsx)'],
+            ['key' => 'common.filter', 'en' => 'Filter', 'km' => 'ត្រង', 'zh' => '筛选'],
+            ['key' => 'common.filters', 'en' => 'Filters', 'km' => 'តម្រង', 'zh' => '筛选器'],
+            ['key' => 'common.filtersDescription', 'en' => 'Adjust the filters to refine the results.', 'km' => 'កែតម្រូវតម្រងដើម្បីកែលម្អលទ្ធផល។', 'zh' => '调整筛选器以优化结果。'],
+            ['key' => 'common.hide', 'en' => 'Hide', 'km' => 'លាក់', 'zh' => '隐藏'],
+            ['key' => 'common.loading', 'en' => 'Loading...', 'km' => 'កំពុងផ្ទុក...', 'zh' => '正在加载...'],
+            ['key' => 'common.noResults', 'en' => 'No results.', 'km' => 'គ្មានលទ្ធផល។', 'zh' => '无结果。'],
+            ['key' => 'common.noResultsFound', 'en' => 'No results found.', 'km' => 'រកមិនឃើញលទ្ធផល។', 'zh' => '未找到结果。'],
+            ['key' => 'common.of', 'en' => 'of', 'km' => 'នៃ', 'zh' => '之'],
+            ['key' => 'common.page', 'en' => 'Page', 'km' => 'ទំព័រ', 'zh' => '页面'],
+            ['key' => 'common.reset', 'en' => 'Reset', 'km' => 'កំណត់ឡើងវិញ', 'zh' => '重置'],
+            ['key' => 'common.rowsPerPage', 'en' => 'Rows per page', 'km' => 'ជួរក្នុងមួយទំព័រ', 'zh' => '每页行数'],
+            ['key' => 'common.rowsSelected', 'en' => 'row(s) selected.', 'km' => 'ជួរបានជ្រើសរើស។', 'zh' => '行已选择。'],
+            ['key' => 'common.saveChanges', 'en' => 'Save Changes', 'km' => 'រក្សាទុកការផ្លាស់ប្តូរ', 'zh' => '保存更改'],
+            ['key' => 'common.saving', 'en' => 'Saving...', 'km' => 'កំពុងរក្សាទុក...', 'zh' => '正在保存...'],
+            ['key' => 'common.searchPlaceholder', 'en' => 'Search...', 'km' => 'ស្វែងរក...', 'zh' => '搜索...'],
+            ['key' => 'common.selected', 'en' => 'selected', 'km' => 'បានជ្រើសរើស', 'zh' => '已选择'],
+            ['key' => 'common.toggleColumns', 'en' => 'Toggle columns', 'km' => 'បិទ/បើកជួរឈរ', 'zh' => '切换列'],
+            ['key' => 'common.view', 'en' => 'View', 'km' => 'មើល', 'zh' => '查看'],
+            ['key' => 'common.actions.viewDetail', 'en' => 'View Detail', 'km' => 'មើលលម្អិត', 'zh' => '查看详情'],
+            ['key' => 'common.actions.edit', 'en' => 'Edit', 'km' => 'កែសម្រួល', 'zh' => '编辑'],
+            ['key' => 'common.actions.delete', 'en' => 'Delete', 'km' => 'លុប', 'zh' => '删除'],
+            ['key' => 'common.actions.confirmDelete', 'en' => 'Yes, delete', 'km' => 'បាទ/ចាស លុប', 'zh' => '是的，删除'],
+            ['key' => 'common.sort.asc', 'en' => 'Asc', 'km' => 'ឡើង', 'zh' => '升序'],
+            ['key' => 'common.sort.desc', 'en' => 'Desc', 'km' => 'ចុះ', 'zh' => '降序'],
+            ['key' => 'common.goToFirstPage', 'en' => 'Go to first page', 'km' => 'ទៅទំព័រដំបូង', 'zh' => '转到第一页'],
+            ['key' => 'common.goToPreviousPage', 'en' => 'Go to previous page', 'km' => 'ទៅទំព័រមុន', 'zh' => '转到上一页'],
+            ['key' => 'common.goToNextPage', 'en' => 'Go to next page', 'km' => 'ទៅទំព័របន្ទាប់', 'zh' => '转到下一页'],
+            ['key' => 'common.goToLastPage', 'en' => 'Go to last page', 'km' => 'ទៅទំព័រចុងក្រោយ', 'zh' => '转到最后一页'],
+            ['key' => 'common.toasts.success', 'en' => 'Success!', 'km' => 'ជោគជ័យ!', 'zh' => '成功！'],
+            ['key' => 'common.toasts.error', 'en' => 'Error', 'km' => 'កំហុស', 'zh' => '错误'],
+            ['key' => 'common.toasts.exportInProgress', 'en' => 'Export in Progress', 'km' => 'កំពុងនាំចេញ', 'zh' => '正在导出'],
+            ['key' => 'common.toasts.exportInProgressDescription', 'en' => 'Generating your {format} file.', 'km' => 'កំពុងបង្កើតឯកសារ {format} របស់អ្នក។', 'zh' => '正在生成您的 {format} 文件。'],
+            ['key' => 'common.toasts.exportFailed', 'en' => 'Export Error', 'km' => 'កំហុសក្នុងការនាំចេញ', 'zh' => '导出错误'],
+            ['key' => 'common.notAvailableAbbr', 'en' => 'N/A', 'km' => 'គ្មាន', 'zh' => '不适用'],
+
+            // Common
+            ['key' => 'common.noResults', 'en' => 'No results.', 'km' => 'គ្មានលទ្ធផល។', 'zh' => '无结果。'],
+            ['key' => 'common.sort.asc', 'en' => 'Asc', 'km' => 'ឡើង', 'zh' => '升序'],
+            ['key' => 'common.sort.desc', 'en' => 'Desc', 'km' => 'ចុះ', 'zh' => '降序'],
+            ['key' => 'common.hide', 'en' => 'Hide', 'km' => 'លាក់', 'zh' => '隐藏'],
+            ['key' => 'common.selected', 'en' => 'selected', 'km' => 'បានជ្រើសរើស', 'zh' => '已选择'],
+            ['key' => 'common.noResultsFound', 'en' => 'No results found.', 'km' => 'រកមិនឃើញលទ្ធផល។', 'zh' => '未找到结果。'],
+            ['key' => 'common.clearFilters', 'en' => 'Clear filters', 'km' => 'សម្អាតតម្រង', 'zh' => '清除筛选'],
+            ['key' => 'common.of', 'en' => 'of', 'km' => 'នៃ', 'zh' => '之'],
+            ['key' => 'common.rowsSelected', 'en' => 'row(s) selected', 'km' => 'ជួរបានជ្រើសរើស', 'zh' => '行已选择'],
+            ['key' => 'common.rowsPerPage', 'en' => 'Rows per page', 'km' => 'ជួរក្នុងមួយទំព័រ', 'zh' => '每页行数'],
+            ['key' => 'common.page', 'en' => 'Page', 'km' => 'ទំព័រ', 'zh' => '页面'],
+            ['key' => 'common.goToFirstPage', 'en' => 'Go to first page', 'km' => 'ទៅទំព័រដំបូង', 'zh' => '转到第一页'],
+            ['key' => 'common.goToPreviousPage', 'en' => 'Go to previous page', 'km' => 'ទៅទំព័រមុន', 'zh' => '转到上一页'],
+            ['key' => 'common.goToNextPage', 'en' => 'Go to next page', 'km' => 'ទៅទំព័របន្ទាប់', 'zh' => '转到下一页'],
+            ['key' => 'common.goToLastPage', 'en' => 'Go to last page', 'km' => 'ទៅទំព័រចុងក្រោយ', 'zh' => '转到最后一页'],
+            ['key' => 'common.openMenu', 'en' => 'Open menu', 'km' => 'បើកម៉ឺនុយ', 'zh' => '打开菜单'],
+            ['key' => 'common.edit', 'en' => 'Edit', 'km' => 'កែសម្រួល', 'zh' => '编辑'],
+            ['key' => 'common.delete', 'en' => 'Delete', 'km' => 'លុប', 'zh' => '删除'],
+            ['key' => 'common.loadingDetails', 'en' => 'Loading details...', 'km' => 'កំពុងផ្ទុកព័ត៌មានលម្អិត...', 'zh' => '正在加载详情...'],
+            ['key' => 'common.saveChanges', 'en' => 'Save Changes', 'km' => 'រក្សាទុកការផ្លាស់ប្តូរ', 'zh' => '保存更改'],
+            ['key' => 'common.areYouSure', 'en' => 'Are you sure?', 'km' => 'តើអ្នកប្រាកដទេ?', 'zh' => '您确定吗？'],
+            ['key' => 'common.yesDelete', 'en' => 'Yes, delete', 'km' => 'បាទ/ចាស លុប', 'zh' => '是的，删除'],
+            ['key' => 'common.creating', 'en' => 'Creating...', 'km' => 'កំពុងបង្កើត...', 'zh' => '正在创建...'],
+            // Additional Common Terms
+            ['key' => 'common.no', 'en' => 'No', 'km' => 'ទេ', 'zh' => '否'],
+
+            // Common Terms
+            ['key' => 'common.loading', 'en' => 'Loading...', 'km' => 'កំពុងផ្ទុក...', 'zh' => '正在加载...'],
+            ['key' => 'common.close', 'en' => 'Close', 'km' => 'បិទ', 'zh' => '关闭'],
+            ['key' => 'common.doctor', 'en' => 'Doctor', 'km' => 'វេជ្ជបណ្ឌិត', 'zh' => '医生'],
+            ['key' => 'common.cancel', 'en' => 'Cancel', 'km' => 'បោះបង់', 'zh' => '取消'],
+            ['key' => 'common.none', 'en' => 'None', 'km' => 'គ្មាន', 'zh' => '无'],
+            ['key' => 'common.success', 'en' => 'Success', 'km' => 'ជោគជ័យ', 'zh' => '成功'],
+            ['key' => 'common.error', 'en' => 'Error', 'km' => 'កំហុស', 'zh' => '错误'],
+            ['key' => 'common.unknown', 'en' => 'Unknown', 'km' => 'មិនដឹង', 'zh' => '未知'],
+            ['key' => 'common.notAvailable', 'en' => 'N/A', 'km' => 'មិនមាន', 'zh' => '不适用'],
+            ['key' => 'common.unexpectedError', 'en' => 'An unexpected error occurred.', 'km' => 'មានកំហុសដែលមិនបានរំពឹងទុកកើតឡើង។', 'zh' => '发生意外错误。'],
+
+        ];
+    }
+
+    private function getSharedTranslations(): array
+    {
+        return [
+            ['key' => 'shared.ACTIVE', 'en' => 'Active', 'km' => 'សកម្ម', 'zh' => '有效'],
+            ['key' => 'shared.INACTIVE', 'en' => 'Inactive', 'km' => 'អសកម្ម', 'zh' => '无效'],
+            ['key' => 'shared.na', 'en' => 'N/A', 'km' => 'គ្មាន', 'zh' => '无'],
+//            ['key' => 'stores.table.no_results', 'en' => 'No results.', 'km' => 'គ្មានលទ្ធផល។', 'zh' => '无结果。'],
+
+        ];
+    }
+
+    private function getPaymentMethod(): array
+    {
+        return [
+            ['key' => 'paymentMethods.title', 'en' => 'Payment Methods', 'km' => 'វិធីសាស្រ្តទូទាត់', 'zh' => '支付方式'],
+            ['key' => 'paymentMethods.description', 'en' => 'Manage the payment methods available for appointments and services.', 'km' => 'គ្រប់គ្រងវិធីសាស្រ្តទូទាត់ដែលមានសម្រាប់ការណាត់ជួប និងសេវាកម្ម។', 'zh' => '管理可用于预约和服务的支付方式。'],
+            ['key' => 'paymentMethods.columns.index', 'en' => 'Index', 'km' => 'លំដាប់', 'zh' => '序号'],
+            ['key' => 'paymentMethods.columns.image', 'en' => 'Image', 'km' => 'រូបភាព', 'zh' => '图片'],
+            ['key' => 'paymentMethods.columns.name', 'en' => 'Name', 'km' => 'ឈ្មោះ', 'zh' => '名称'],
+            ['key' => 'paymentMethods.columns.type', 'en' => 'Type', 'km' => 'ប្រភេទ', 'zh' => '类型'],
+            ['key' => 'paymentMethods.columns.description', 'en' => 'Description', 'km' => 'ការពិពណ៌នា', 'zh' => '描述'],
+            ['key' => 'paymentMethods.columns.status', 'en' => 'Status', 'km' => 'ស្ថានភាព', 'zh' => '状态'],
+            ['key' => 'paymentMethods.status.active', 'en' => 'Active', 'km' => 'សកម្ម', 'zh' => '启用'],
+            ['key' => 'paymentMethods.status.inactive', 'en' => 'Inactive', 'km' => 'អសកម្ម', 'zh' => '禁用'],
+            ['key' => 'paymentMethods.status.unknown', 'en' => 'Unknown', 'km' => 'មិនស្គាល់', 'zh' => '未知'],
+            ['key' => 'paymentMethods.form.name', 'en' => 'Name', 'km' => 'ឈ្មោះ', 'zh' => '名称'],
+            ['key' => 'paymentMethods.form.namePlaceholder', 'en' => 'Enter payment method name', 'km' => 'បញ្ចូលឈ្មោះវិធីសាស្រ្តទូទាត់', 'zh' => '输入支付方式名称'],
+            ['key' => 'paymentMethods.form.type', 'en' => 'Type', 'km' => 'ប្រភេទ', 'zh' => '类型'],
+            ['key' => 'paymentMethods.form.selectType', 'en' => 'Select a type', 'km' => 'ជ្រើសរើសប្រភេទ', 'zh' => '选择类型'],
+            ['key' => 'paymentMethods.form.status', 'en' => 'Status', 'km' => 'ស្ថានភាព', 'zh' => '状态'],
+            ['key' => 'paymentMethods.form.selectStatus', 'en' => 'Select a status', 'km' => 'ជ្រើសរើសស្ថានភាព', 'zh' => '选择状态'],
+            ['key' => 'paymentMethods.form.image', 'en' => 'Image', 'km' => 'រូបភាព', 'zh' => '图片'],
+            ['key' => 'paymentMethods.form.description', 'en' => 'Description', 'km' => 'ការពិពណ៌នា', 'zh' => '描述'],
+            ['key' => 'paymentMethods.form.descriptionPlaceholder', 'en' => 'Enter description', 'km' => 'បញ្ចូលការពិពណ៌នា', 'zh' => '输入描述'],
+            ['key' => 'paymentMethods.add.title', 'en' => 'Add Payment Method', 'km' => 'បន្ថែមវិធីសាស្រ្តទូទាត់', 'zh' => '添加支付方式'],
+            ['key' => 'paymentMethods.create.title', 'en' => 'Create Payment Method', 'km' => 'បង្កើតវិធីសាស្រ្តទូទាត់', 'zh' => '创建支付方式'],
+            ['key' => 'paymentMethods.create.description', 'en' => 'Fill in the details to create a new payment method.', 'km' => 'បំពេញព័ត៌មានលម្អិតដើម្បីបង្កើតវិធីសាស្រ្តទូទាត់ថ្មី។', 'zh' => '填写详细信息以创建新的支付方式。'],
+            ['key' => 'paymentMethods.create.action', 'en' => 'Create', 'km' => 'បង្កើត', 'zh' => '创建'],
+            ['key' => 'paymentMethods.edit.title', 'en' => 'Edit Payment Method', 'km' => 'កែសម្រួលវិធីសាស្រ្តទូទាត់', 'zh' => '编辑支付方式'],
+            ['key' => 'paymentMethods.edit.description', 'en' => 'Update the details for this payment method.', 'km' => 'ធ្វើបច្ចុប្បន្នភាពព័ត៌មានលម្អិតសម្រាប់វិធីសាស្រ្តទូទាត់នេះ។', 'zh' => '更新此支付方式的详细信息。'],
+            ['key' => 'paymentMethods.delete.confirmation', 'en' => 'Are you sure you want to delete this payment method?', 'km' => 'តើអ្នកប្រាកដជាចង់លុបវិធីសាស្រ្តទូទាត់នេះទេ?', 'zh' => '您确定要删除此支付方式吗？'],
+            ['key' => 'paymentMethods.search.filterByName', 'en' => 'Filter by name...', 'km' => 'ត្រងតាមឈ្មោះ...', 'zh' => '按名称筛选...'],
+            ['key' => 'paymentMethods.search.filter', 'en' => 'Filter', 'km' => 'ត្រង', 'zh' => '筛选'],
+            ['key' => 'paymentMethods.search.filters', 'en' => 'Filters', 'km' => 'តម្រង', 'zh' => '筛选器'],
+            ['key' => 'paymentMethods.search.adjustFilters', 'en' => 'Adjust your filters to find results.', 'km' => 'កែសម្រួលតម្រងរបស់អ្នកដើម្បីស្វែងរកលទ្ធផល។', 'zh' => '调整筛选器以查找结果。'],
+            ['key' => 'paymentMethods.search.anyStatus', 'en' => 'Any Status', 'km' => 'ស្ថានភាពណាមួយ', 'zh' => '任何状态'],
+            ['key' => 'paymentMethods.search.anyType', 'en' => 'Any Type', 'km' => 'ប្រភេទណាមួយ', 'zh' => '任何类型'],
+            ['key' => 'paymentMethods.search.applyFilters', 'en' => 'Apply Filters', 'km' => 'អនុវត្តតម្រង', 'zh' => '应用筛选'],
+            ['key' => 'paymentMethods.validation.nameRequired', 'en' => 'Name is required.', 'km' => 'ត្រូវតែមានឈ្មោះ។', 'zh' => '名称为必填项。'],
+            ['key' => 'paymentMethods.messages.created', 'en' => 'Payment method created successfully.', 'km' => 'វិធីសាស្រ្តទូទាត់ត្រូវបានបង្កើតដោយជោគជ័យ។', 'zh' => '支付方式创建成功。'],
+            ['key' => 'paymentMethods.messages.createFailed', 'en' => 'Failed to create payment method.', 'km' => 'បរាជ័យក្នុងការបង្កើតវិធីសាស្រ្តទូទាត់។', 'zh' => '创建支付方式失败。'],
+        ];
+    }
+
+
+       private function getStoreTranslations(): array
+    {
+        return [
+            ['key' => 'stores.title', 'en' => 'Store', 'km' => 'ហាង', 'zh' => '商店'],
+            ['key' => 'stores.description', 'en' => 'Manage your store settings and preferences.', 'km' => 'គ្រប់គ្រងការកំណត់ហាង និងចំណូលចិត្តរបស់អ្នក។', 'zh' => '管理您的商店设置和偏好。'],
+            // Toolbar
+            ['key' => 'stores.toolbar.filter_placeholder', 'en' => 'Filter by store name...', 'km' => 'ត្រងតាមឈ្មោះហាង...', 'zh' => '按店铺名称筛选...'],
+            ['key' => 'stores.toolbar.status_filter_title', 'en' => 'Status', 'km' => 'ស្ថានភាព', 'zh' => '状态'],
+            ['key' => 'stores.toolbar.reset_button', 'en' => 'Reset', 'km' => 'កំណត់ឡើងវិញ', 'zh' => '重置'],
+            ['key' => 'stores.toolbar.new_store_button', 'en' => 'New Store', 'km' => 'ហាងថ្មី', 'zh' => '新店铺'],
+
+            // Create/Edit Dialog
+            ['key' => 'stores.dialog.create.title', 'en' => 'Create New Store', 'km' => 'បង្កើតហាងថ្មី', 'zh' => '创建新店铺'],
+            ['key' => 'stores.dialog.create.description', 'en' => 'Use the tabs to enter the store details. Fields marked with * are required.', 'km' => 'ប្រើផ្ទាំងដើម្បីបញ្ចូលព័ត៌មានលម្អិតរបស់ហាង។ បំពេញគ្រប់វាលដែលមានសញ្ញា * ។', 'zh' => '使用选项卡输入店铺详细信息。标有 * 的字段为必填项。'],
+            ['key' => 'stores.dialog.error_prefix', 'en' => 'Error:', 'km' => 'កំហុស៖', 'zh' => '错误：'],
+            ['key' => 'stores.dialog.buttons.saving', 'en' => 'Saving...', 'km' => 'កំពុងរក្សាទុក...', 'zh' => '正在保存...'],
+            ['key' => 'stores.dialog.buttons.create', 'en' => 'Create Store', 'km' => 'បង្កើតហាង', 'zh' => '创建店铺'],
+            ['key' => 'stores.dialog.buttons.cancel', 'en' => 'Cancel', 'km' => 'បោះបង់', 'zh' => '取消'],
+
+            // Tabs
+            ['key' => 'stores.tabs.basic', 'en' => 'Basic Info', 'km' => 'ព័ត៌មានមូលដ្ឋាន', 'zh' => '基本信息'],
+            ['key' => 'stores.tabs.location', 'en' => 'Location', 'km' => 'ទីតាំង', 'zh' => '位置'],
+            ['key' => 'stores.tabs.operations', 'en' => 'Operations', 'km' => 'ប្រតិបត្តិការ', 'zh' => '运营'],
+            ['key' => 'stores.tabs.status', 'en' => 'Status', 'km' => 'ស្ថានភាព', 'zh' => '状态'],
+
+            // Form Fields - Basic Info
+            ['key' => 'stores.form.name.label', 'en' => 'Store Name', 'km' => 'ឈ្មោះហាង', 'zh' => '店铺名称'],
+            ['key' => 'stores.form.name.placeholder', 'en' => 'e.g., City Central Store', 'km' => 'ឧ. ហាង ស៊ីធី សេនត្រល', 'zh' => '例如：市中心店'],
+            ['key' => 'stores.form.license.label', 'en' => 'License Number', 'km' => 'លេខអាជ្ញាប័ណ្ណ', 'zh' => '许可证号'],
+            ['key' => 'stores.form.license.placeholder', 'en' => 'e.g., PH-12345678', 'km' => 'ឧ. PH-12345678', 'zh' => '例如：PH-12345678'],
+            ['key' => 'stores.form.phone.label', 'en' => 'Phone Number', 'km' => 'លេខទូរស័ព្ទ', 'zh' => '电话号码'],
+            ['key' => 'stores.form.phone.placeholder', 'en' => 'e.g., (555) 123-4567', 'km' => 'ឧ. (555) 123-4567', 'zh' => '例如：(555) 123-4567'],
+            ['key' => 'stores.form.email.label', 'en' => 'Email Address', 'km' => 'អាសយដ្ឋានអ៊ីមែល', 'zh' => '电子邮件地址'],
+            ['key' => 'stores.form.email.placeholder', 'en' => 'e.g., contact@ccstore.com', 'km' => 'ឧ. contact@ccstore.com', 'zh' => '例如：contact@ccstore.com'],
+            ['key' => 'stores.form.logo.label', 'en' => 'Store Logo (Max 2MB)', 'km' => 'ឡូហ្គោហាង (អតិបរមា 2MB)', 'zh' => '店铺标志 (最大2MB)'],
+            ['key' => 'stores.form.logo.prompt', 'en' => 'Click to browse or drag & drop', 'km' => 'ចុចដើម្បីរកមើល ឬអូសនិងទម្លាក់', 'zh' => '点击浏览或拖放文件'],
+            ['key' => 'stores.form.logo.formats', 'en' => 'JPG, PNG, GIF, WEBP', 'km' => 'JPG, PNG, GIF, WEBP', 'zh' => 'JPG, PNG, GIF, WEBP'],
+            ['key' => 'stores.form.logo.remove_button', 'en' => 'Remove Logo', 'km' => 'ដកឡូហ្គោចេញ', 'zh' => '移除标志'],
+
+            // Form Fields - Location
+            ['key' => 'stores.form.location.map_label', 'en' => 'Select Location on Map', 'km' => 'ជ្រើសរើសទីតាំងលើផែនទី', 'zh' => '在地图上选择位置'],
+            ['key' => 'stores.form.location.latitude.label', 'en' => 'Latitude', 'km' => 'រយៈទទឹង', 'zh' => '纬度'],
+            ['key' => 'stores.form.location.latitude.placeholder', 'en' => 'e.g., 11.562108', 'km' => 'ឧ. 11.562108', 'zh' => '例如：11.562108'],
+            ['key' => 'stores.form.location.longitude.label', 'en' => 'Longitude', 'km' => 'រយៈបណ្តោយ', 'zh' => '经度'],
+            ['key' => 'stores.form.location.longitude.placeholder', 'en' => 'e.g., 104.888535', 'km' => 'ឧ. 104.888535', 'zh' => '例如：104.888535'],
+            ['key' => 'stores.form.location.address.label', 'en' => 'Address', 'km' => 'អាសយដ្ឋាន', 'zh' => '地址'],
+            ['key' => 'stores.form.location.address.placeholder', 'en' => 'e.g., 123 Main St', 'km' => 'ឧ. 123 ផ្លូវធំ', 'zh' => '例如：北京路123号'],
+            ['key' => 'stores.form.location.city.label', 'en' => 'City', 'km' => 'ក្រុង/ខេត្ត', 'zh' => '城市'],
+            ['key' => 'stores.form.location.city.placeholder', 'en' => 'e.g., Phnom Penh', 'km' => 'ឧ. ភ្នំពេញ', 'zh' => '例如：金边'],
+            ['key' => 'stores.form.location.state.label', 'en' => 'State / Province', 'km' => 'រដ្ឋ / ខេត្ត', 'zh' => '州/省'],
+            ['key' => 'stores.form.location.state.placeholder', 'en' => 'e.g., Phnom Penh', 'km' => 'ឧ. ភ្នំពេញ', 'zh' => '例如：金边'],
+            ['key' => 'stores.form.location.zip.label', 'en' => 'Zip Code', 'km' => 'លេខកូដប្រៃសណីយ៍', 'zh' => '邮政编码'],
+            ['key' => 'stores.form.location.zip.placeholder', 'en' => 'e.g., 12000', 'km' => 'ឧ. 12000', 'zh' => '例如：12000'],
+            ['key' => 'stores.form.location.country.label', 'en' => 'Country', 'km' => 'ប្រទេស', 'zh' => '国家'],
+            ['key' => 'stores.form.location.country.placeholder', 'en' => 'e.g., Cambodia', 'km' => 'ឧ. កម្ពុជា', 'zh' => '例如：柬埔寨'],
+            ['key' => 'stores.form.location.geocoder_placeholder', 'en' => 'Search for a place...', 'km' => 'ស្វែងរកទីកន្លែង...', 'zh' => '搜索地点...'],
+
+
+            // Form Fields - Operations
+            ['key' => 'stores.form.operations.hours_title', 'en' => 'Operating Hours', 'km' => 'ម៉ោងធ្វើការ', 'zh' => '营业时间'],
+            ['key' => 'stores.form.operations.is_24h_label', 'en' => 'Open 24 Hours', 'km' => 'បើក ២៤ ម៉ោង', 'zh' => '24小时营业'],
+            ['key' => 'stores.form.operations.opening_time_label', 'en' => 'Opening Time', 'km' => 'ម៉ោងបើក', 'zh' => '开始时间'],
+            ['key' => 'stores.form.operations.closing_time_label', 'en' => 'Closing Time', 'km' => 'ម៉ោងបិទ', 'zh' => '结束时间'],
+            ['key' => 'stores.form.operations.delivery_title', 'en' => 'Delivery Services', 'km' => 'សេវាកម្មដឹកជញ្ជូន', 'zh' => '配送服务'],
+            ['key' => 'stores.form.operations.delivers_product_label', 'en' => 'Offers Product Delivery', 'km' => 'មានសេវាដឹកជញ្ជូនផលិតផល', 'zh' => '提供产品配送'],
+            ['key' => 'stores.form.operations.delivery_details_label', 'en' => 'Delivery Details', 'km' => 'ព័ត៌មានលម្អិតអំពីការដឹកជញ្ជូន', 'zh' => '配送详情'],
+            ['key' => 'stores.form.operations.delivery_details_placeholder', 'en' => 'e.g., Free delivery within 5km...', 'km' => 'ឧ. ដឹកជញ្ជូនឥតគិតថ្លៃក្នុងរង្វង់ ៥គម...', 'zh' => '例如：5公里内免费配送...'],
+
+            // Form Fields - Status
+            ['key' => 'stores.form.status.profile_status_label', 'en' => 'Profile Status', 'km' => 'ស្ថានភាពប្រវត្តិរូប', 'zh' => '资料状态'],
+            ['key' => 'stores.form.status.select_placeholder', 'en' => 'Select status', 'km' => 'ជ្រើសរើសស្ថានភាព', 'zh' => '选择状态'],
+            ['key' => 'stores.form.status.option_active', 'en' => 'Active', 'km' => 'សកម្ម', 'zh' => '有效'],
+            ['key' => 'stores.form.status.option_inactive', 'en' => 'Inactive', 'km' => 'អសកម្ម', 'zh' => '无效'],
+            ['key' => 'stores.form.status.is_verified_label', 'en' => 'Is Verified', 'km' => 'បានផ្ទៀងផ្ទាត់', 'zh' => '已验证'],
+            ['key' => 'stores.form.status.is_highlighted', 'en' => 'Highlighted', 'km' => 'បានបន្លិច', 'zh' => '精选'],
+            ['key' => 'stores.form.status.is_top_choice', 'en' => 'Top Choice', 'km' => 'ជម្រើសកំពូល', 'zh' => '首选'],
+
+            // Toasts & Notifications
+            ['key' => 'stores.toast.create_success_title', 'en' => 'Store Created!', 'km' => 'ហាងបានបង្កើតដោយជោគជ័យ!', 'zh' => '店铺已创建！'],
+            ['key' => 'stores.toast.create_success_desc', 'en' => 'The store "{name}" has been successfully created.', 'km' => 'ហាង "{name}" ត្រូវបានបង្កើតដោយជោគជ័យ។', 'zh' => '店铺 "{name}" 已成功创建。'],
+            ['key' => 'stores.toast.create_error_title', 'en' => 'Creation Error', 'km' => 'កំហុសក្នុងការបង្កើត', 'zh' => '创建错误'],
+            ['key' => 'stores.toast.create_error_desc', 'en' => 'Failed to create the store.', 'km' => 'បរាជ័យក្នុងការបង្កើតហាង។', 'zh' => '创建店铺失败。'],
+            ['key' => 'stores.toast.api_error_title', 'en' => 'API Error', 'km' => 'កំហុស API', 'zh' => 'API 错误'],
+            ['key' => 'stores.toast.invalid_file_type_title', 'en' => 'Invalid File Type', 'km' => 'ប្រភេទឯកសារមិនត្រឹមត្រូវ', 'zh' => '无效的文件类型'],
+            ['key' => 'stores.toast.invalid_file_type_desc', 'en' => 'Please use JPG, PNG, GIF, or WEBP.', 'km' => 'សូមប្រើ JPG, PNG, GIF, ឬ WEBP។', 'zh' => '请使用 JPG, PNG, GIF 或 WEBP。'],
+            ['key' => 'stores.toast.file_too_large_title', 'en' => 'File Too Large', 'km' => 'ឯកសារធំពេក', 'zh' => '文件过大'],
+            ['key' => 'stores.toast.file_too_large_desc', 'en' => 'File must be less than {size}MB.', 'km' => 'ឯកសារត្រូវតែតូចជាង {size}MB។', 'zh' => '文件必须小于 {size}MB。'],
+            ['key' => 'stores.toast.map_load_error', 'en' => 'Map library failed to load.', 'km' => 'ការផ្ទុកបណ្ណាល័យផែនទីបានបរាជ័យ។', 'zh' => '地图库加载失败。'],
+
+            // Dropdown Menu
+            ['key' => 'stores.row_actions.open_menu', 'en' => 'Open menu', 'km' => 'បើកម៉ឺនុយ', 'zh' => '打开菜单'],
+            ['key' => 'stores.row_actions.view_details', 'en' => 'View Detail', 'km' => 'មើលព័ត៌មានលម្អិត', 'zh' => '查看详情'],
+            ['key' => 'stores.row_actions.edit', 'en' => 'Edit', 'km' => 'កែសម្រួល', 'zh' => '编辑'],
+            ['key' => 'stores.row_actions.delete', 'en' => 'Delete', 'km' => 'លុប', 'zh' => '删除'],
+
+            // View Dialog
+            ['key' => 'stores.dialog.view.title', 'en' => 'Store Details', 'km' => 'ព័ត៌មានលម្អិតអំពីហាង', 'zh' => '店铺详情'],
+            ['key' => 'stores.dialog.view.description', 'en' => 'Viewing details for {name}.', 'km' => 'កំពុងមើលព័ត៌មានលម្អិតសម្រាប់ {name}។', 'zh' => '正在查看 {name} 的详情。'],
+            ['key' => 'stores.dialog.view.loading', 'en' => 'Loading...', 'km' => 'កំពុងផ្ទុក...', 'zh' => '加载中...'],
+            ['key' => 'stores.dialog.view.label_logo', 'en' => 'Logo', 'km' => 'ឡូហ្គោ', 'zh' => '标志'],
+            ['key' => 'stores.dialog.view.label_store_name', 'en' => 'Store Name', 'km' => 'ឈ្មោះហាង', 'zh' => '店铺名称'],
+            ['key' => 'stores.dialog.view.label_license', 'en' => 'License Number', 'km' => 'លេខអាជ្ញាប័ណ្ណ', 'zh' => '许可证号'],
+            ['key' => 'stores.dialog.view.label_status', 'en' => 'Status', 'km' => 'ស្ថានភាព', 'zh' => '状态'],
+            ['key' => 'stores.dialog.view.label_email', 'en' => 'Email:', 'km' => 'អ៊ីមែល៖', 'zh' => '电子邮件：'],
+            ['key' => 'stores.dialog.view.label_phone', 'en' => 'Phone:', 'km' => 'ទូរស័ព្ទ៖', 'zh' => '电话：'],
+            ['key' => 'stores.dialog.view.label_address', 'en' => 'Address:', 'km' => 'អាសយដ្ឋាន៖', 'zh' => '地址：'],
+            ['key' => 'stores.dialog.view.label_hours', 'en' => 'Hours:', 'km' => 'ម៉ោងធ្វើការ៖', 'zh' => '营业时间：'],
+            ['key' => 'stores.dialog.view.label_delivery', 'en' => 'Delivery:', 'km' => 'ការដឹកជញ្ជូន៖', 'zh' => '配送：'],
+            ['key' => 'stores.dialog.view.hours_24', 'en' => 'Open 24 Hours', 'km' => 'បើក ២៤ ម៉ោង', 'zh' => '24小时营业'],
+            ['key' => 'stores.dialog.view.delivery_yes', 'en' => 'Yes ({details})', 'km' => 'បាទ ({details})', 'zh' => '是 ({details})'],
+            ['key' => 'stores.dialog.view.delivery_no', 'en' => 'No', 'km' => 'ទេ', 'zh' => '否'],
+            ['key' => 'stores.dialog.view.verified_store', 'en' => 'Verified Store', 'km' => 'ហាងបានផ្ទៀងផ្ទាត់', 'zh' => '已验证店铺'],
+            ['key' => 'stores.dialog.view.close_button', 'en' => 'Close', 'km' => 'បិទ', 'zh' => '关闭'],
+            ['key' => 'stores.dialog.view.status_active', 'en' => 'Active', 'km' => 'សកម្ម', 'zh' => '有效'],
+            ['key' => 'stores.dialog.view.status_inactive', 'en' => 'Inactive', 'km' => 'អសកម្ម', 'zh' => '无效'],
+            ['key' => 'stores.dialog.view.is_highlighted', 'en' => 'Highlighted', 'km' => 'បានបន្លិច', 'zh' => '精选'],
+            ['key' => 'stores.dialog.view.is_top_choice', 'en' => 'Top Choice', 'km' => 'ជម្រើសកំពូល', 'zh' => '首选'],
+
+            // Edit Dialog
+            ['key' => 'stores.dialog.edit.title', 'en' => 'Edit Store', 'km' => 'កែសម្រួលហាង', 'zh' => '编辑店铺'],
+            ['key' => 'stores.dialog.edit.description', 'en' => 'Update details for {name}. Fields with * are required.', 'km' => 'ធ្វើបច្ចុប្បន្នភាពព័ត៌មានលម្អិតសម្រាប់ {name}។ បំពេញគ្រប់វាលដែលមានសញ្ញា * ។', 'zh' => '更新 {name} 的详情。标有 * 的字段为必填项。'],
+            ['key' => 'stores.dialog.edit.button_save', 'en' => 'Save Changes', 'km' => 'រក្សាទុកការផ្លាស់ប្តូរ', 'zh' => '保存更改'],
+            ['key' => 'stores.dialog.edit.button_saving', 'en' => 'Saving...', 'km' => 'កំពុងរក្សាទុក...', 'zh' => '保存中...'],
+            ['key' => 'stores.dialog.edit.logo_upload_prompt', 'en' => 'Click to upload', 'km' => 'ចុចដើម្បីបង្ហោះ', 'zh' => '点击上传'],
+
+            // Delete Dialog
+            ['key' => 'stores.dialog.delete.title', 'en' => 'Are you absolutely sure?', 'km' => 'តើអ្នកពិតជាប្រាកដមែនទេ?', 'zh' => '您确定要这样做吗？'],
+            ['key' => 'stores.dialog.delete.description', 'en' => 'This action cannot be undone. This will permanently delete the store "{name}".', 'km' => 'សកម្មភាពនេះមិនអាចមិនធ្វើវិញបានទេ។ វានឹងលុបហាង "{name}" ជាអចិន្ត្រៃយ៍។', 'zh' => '此操作无法撤销。这将永久删除店铺 “{name}”。'],
+            ['key' => 'stores.dialog.delete.button_cancel', 'en' => 'Cancel', 'km' => 'បោះបង់', 'zh' => '取消'],
+            ['key' => 'stores.dialog.delete.button_confirm', 'en' => 'Yes, delete', 'km' => 'បាទ/ចាស, លុប', 'zh' => '是的，删除'],
+            ['key' => 'stores.dialog.delete.button_deleting', 'en' => 'Deleting...', 'km' => 'កំពុងលុប...', 'zh' => '删除中...'],
+
+            // Toasts & Errors
+            ['key' => 'stores.toast.error_title', 'en' => 'Error', 'km' => 'កំហុស', 'zh' => '错误'],
+            ['key' => 'stores.toast.loading_error_title', 'en' => 'Loading Error', 'km' => 'កំហុសក្នុងការផ្ទុក', 'zh' => '加载错误'],
+            ['key' => 'stores.toast.update_error_title', 'en' => 'Update Error', 'km' => 'កំហុសក្នុងការធ្វើបច្ចុប្បន្នភាព', 'zh' => '更新错误'],
+            ['key' => 'stores.toast.delete_error_title', 'en' => 'Deletion Error', 'km' => 'កំហុសក្នុងការលុប', 'zh' => '删除错误'],
+            ['key' => 'stores.toast.missing_id', 'en' => 'Store ID is missing.', 'km' => 'លេខសម្គាល់ហាងបានបាត់។', 'zh' => '店铺ID缺失。'],
+            ['key' => 'stores.toast.load_failed', 'en' => 'Failed to load store data.', 'km' => 'ការផ្ទុកទិន្នន័យហាងបានបរាជ័យ។', 'zh' => '加载店铺数据失败。'],
+            ['key' => 'stores.toast.update_failed', 'en' => 'Failed to update store.', 'km' => 'ការធ្វើបច្ចុប្បន្នភាពហាងបានបរាជ័យ។', 'zh' => '更新店铺失败。'],
+            ['key' => 'stores.toast.delete_failed', 'en' => 'Could not delete store.', 'km' => 'មិនអាចលុបហាងបានទេ។', 'zh' => '无法删除店铺。'],
+            ['key' => 'stores.toast.unexpected_error', 'en' => 'An unexpected error occurred.', 'km' => 'មានកំហុសដែលមិនបានរំពឹងទុកកើតឡើង។', 'zh' => '发生意外错误。'],
+            ['key' => 'stores.toast.update_success_title', 'en' => 'Store Updated!', 'km' => 'ហាងបានធ្វើបច្ចុប្បន្នភាព!', 'zh' => '店铺已更新！'],
+            ['key' => 'stores.toast.update_success_desc', 'en' => 'Details for {name} updated successfully.', 'km' => 'ព័ត៌មានលម្អិតសម្រាប់ {name} បានធ្វើបច្ចុប្បន្នភាពដោយជោគជ័យ។', 'zh' => '{name} 的详情已成功更新。'],
+            ['key' => 'stores.toast.delete_success_title', 'en' => 'Store Deleted', 'km' => 'ហាងបានលុប', 'zh' => '店铺已删除'],
+            ['key' => 'stores.toast.delete_success_desc', 'en' => 'Store "{name}" deleted successfully.', 'km' => 'ហាង "{name}" បានលុបដោយជោគជ័យ។', 'zh' => '店铺 “{name}” 已成功删除。'],
+
+            // Column Headers
+            ['key' => 'stores.table.columns.index', 'en' => '#', 'km' => 'ល.រ.', 'zh' => '#'],
+            ['key' => 'stores.table.columns.logo', 'en' => 'Logo', 'km' => 'ឡូហ្គោ', 'zh' => '标志'],
+            ['key' => 'stores.table.columns.name', 'en' => 'Name', 'km' => 'ឈ្មោះ', 'zh' => '名称'],
+            ['key' => 'stores.table.columns.address', 'en' => 'Address', 'km' => 'អាសយដ្ឋាន', 'zh' => '地址'],
+            ['key' => 'stores.table.columns.hours', 'en' => 'Hours', 'km' => 'ម៉ោងធ្វើការ', 'zh' => '营业时间'],
+            ['key' => 'stores.table.columns.status', 'en' => 'Status', 'km' => 'ស្ថានភាព', 'zh' => '状态'],
+            ['key' => 'stores.table.columns.features', 'en' => 'Features', 'km' => 'លក្ខណៈពិសេស', 'zh' => '特征'],
+            ['key' => 'stores.table.columns.verified_status', 'en' => 'Verified Status', 'km' => 'ស្ថានភាពផ្ទៀងផ្ទាត់', 'zh' => '验证状态'],
+            ['key' => 'stores.table.columns.delivery_status', 'en' => 'Delivery', 'km' => 'សេវាដឹកជញ្ជូន', 'zh' => '配送服务'],
+            ['key' => 'stores.table.columns.actions', 'en' => 'Actions', 'km' => 'សកម្មភាព', 'zh' => '操作'],
+
+
+            // Status Badge Labels
+            ['key' => 'stores.table.status.active', 'en' => 'Active', 'km' => 'សកម្ម', 'zh' => '有效'],
+            ['key' => 'stores.table.status.inactive', 'en' => 'Inactive', 'km' => 'អសកម្ម', 'zh' => '无效'],
+            ['key' => 'stores.table.status.unknown', 'en' => 'Unknown', 'km' => 'មិនស្គាល់', 'zh' => '未知'],
+
+            // Features Column Labels & Tooltips
+            ['key' => 'stores.table.features.verified_tooltip', 'en' => 'Verified Store', 'km' => 'ហាងបានផ្ទៀងផ្ទាត់', 'zh' => '已验证店铺'],
+            ['key' => 'stores.table.features.verified_label', 'en' => 'Verified', 'km' => 'បានផ្ទៀងផ្ទាត់', 'zh' => '已验证'],
+            ['key' => 'stores.table.features.unverified_tooltip', 'en' => 'Unverified Store', 'km' => 'ហាងមិនទាន់បានផ្ទៀងផ្ទាត់', 'zh' => '未验证店铺'],
+            ['key' => 'stores.table.features.unverified_label', 'en' => 'Unverified', 'km' => 'មិនទាន់បានផ្ទៀងផ្ទាត់', 'zh' => '未验证'],
+            ['key' => 'stores.table.features.delivery_tooltip', 'en' => 'Offers Delivery', 'km' => 'មានសេវាដឹកជញ្ជូន', 'zh' => '提供配送'],
+            ['key' => 'stores.table.features.delivery_label', 'en' => 'Delivers', 'km' => 'ដឹកជញ្ជូន', 'zh' => '可配送'],
+
+            // Fallback & Alt Text
+            ['key' => 'stores.table.alt_text.logo', 'en' => '{name}\'s logo', 'km' => 'ឡូហ្គោរបស់ {name}', 'zh' => '{name} 的标志'],
+            ['key' => 'stores.table.alt_text.store_fallback', 'en' => 'Store', 'km' => 'ហាង', 'zh' => '店铺'],
+            ['key' => 'stores.table.fallback.not_applicable', 'en' => 'N/A', 'km' => 'គ្មាន', 'zh' => '无'],
+
+            // Add this new key for the "no results" message
+            ['key' => 'stores.table.no_results', 'en' => 'No results.', 'km' => 'គ្មានលទ្ធផល។', 'zh' => '无结果。'],
+        ];
+    }
+
+
 }
