@@ -607,15 +607,17 @@ return new class extends Migration
     {
         Schema::create('payment_methods', function (Blueprint $table) {
             $table->uuid('id')->primary();
-			$table->string('name', 100); // Payment method name, e.g., ABA Bank, Credit Card
-			$table->string('image')->nullable();
+            $table->string('name',100); // Payment method name, e.g., ABA Bank, Credit Card
+            $table->string('image')->nullable();
             $table->text('description')->nullable();
-			$table->string('type', 50)->comment('BANK, E_WALLET, CREDIT_CARD');
-			$table->string('status', 10)->default('ACTIVE')->comment('ACTIVE, INACTIVE');
-			$table->string('created_by')->nullable();
-			$table->string('updated_by')->nullable();
-			$table->integer('update_num')->default(0);
-			$table->timestampsTz();
+            $table->string('type', 50)->comment('online,cash,card_on_delivery');
+
+            $table->string('status', 10)->default('ACTIVE')->comment('ACTIVE, INACTIVE');
+            $table->string('created_by')->nullable();
+            $table->string('updated_by')->nullable();
+            $table->integer('update_num')->default(0);
+            $table->timestampsTz();
+            $table->softDeletesTz(); // Adds a nullable `deleted_at` timestamp with timezone
         });
     }
 
@@ -627,7 +629,6 @@ return new class extends Migration
         Schema::dropIfExists('payment_methods');
     }
 };
-
 ```
 
 # 2024_09_23_184037_create_faqs_table.php
@@ -1107,6 +1108,599 @@ return new class extends Migration
     public function down(): void
     {
         Schema::dropIfExists('general_settings');
+    }
+};
+```
+
+# 2025_10_08_090121_create_table_products.php
+
+```php
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    public function up(): void
+    {
+        // ----- BRANDS -----
+        Schema::create('brands', function (Blueprint $table) {
+            $table->uuid('id')->primary();
+            $table->string('name')->unique();
+            $table->text('description')->nullable();
+            $table->timestamps();
+        });
+
+        // ----- CATEGORIES (e.g. EV, Gasoline, Hybrid) -----
+        Schema::create('categories', function (Blueprint $table) {
+            $table->uuid('id')->primary(); 
+            $table->string('name')->unique();
+            $table->text('description')->nullable();
+            $table->timestamps();
+        });
+
+        // ----- LISTING TYPES (e.g. Car, Bike, Boat) -----
+        Schema::create('listing_types', function (Blueprint $table) {
+            $table->uuid('id')->primary(); 
+            $table->string('name')->unique();
+            $table->string('description')->nullable();
+            $table->timestamps();
+        });
+
+        // ----- VEHICLE LISTINGS -----
+        Schema::create('listings', function (Blueprint $table) {
+            $table->uuid('id')->primary(); 
+            
+            // All foreign keys referencing a UUID primary key must use foreignUuid()
+            $table->foreignUuid('seller_id')->constrained('users')->cascadeOnDelete();
+            
+            // Foreign keys referencing UUIDs in new tables
+            $table->foreignUuid('brand_id')->nullable()->constrained('brands')->nullOnDelete();
+            $table->foreignUuid('category_id')->nullable()->constrained('categories')->nullOnDelete();
+            $table->foreignUuid('listing_type_id')->nullable()->constrained('listing_types')->nullOnDelete();
+
+            $table->string('title');
+            $table->text('description')->nullable();
+            $table->decimal('price', 12, 2)->nullable();
+            $table->string('location')->nullable();
+            $table->enum('condition', ['new', 'used'])->default('used');
+            $table->enum('status', ['pending', 'approved', 'rejected', 'sold'])->default('pending');
+
+            $table->timestamps();
+        });
+
+        // ----- SHOP PRODUCT TYPES (e.g. Car Parts, Accessories) -----
+        Schema::create('shop_product_types', function (Blueprint $table) {
+            $table->uuid('id')->primary(); 
+            $table->string('name')->unique();
+            $table->string('description')->nullable();
+            $table->timestamps();
+        });
+
+        // ----- SHOP PRODUCTS (orderable small items) -----
+        Schema::create('shop_products', function (Blueprint $table) {
+            $table->uuid('id')->primary(); 
+            $table->string('name');
+            $table->text('description')->nullable();
+            $table->decimal('price', 12, 2);
+            $table->integer('stock')->default(0);
+            
+            // Foreign keys referencing UUIDs
+            $table->foreignUuid('seller_id')->nullable()->constrained('users')->nullOnDelete();
+            $table->foreignUuid('brand_id')->nullable()->constrained('brands')->nullOnDelete();
+            $table->foreignUuid('category_id')->nullable()->constrained('categories')->nullOnDelete();
+            $table->foreignUuid('type_id')->nullable()->constrained('shop_product_types')->nullOnDelete();
+            
+            $table->string('image_url')->nullable();
+            $table->enum('status', ['active', 'inactive'])->default('active');
+            $table->timestamps();
+        });
+
+        // ----- ADDRESSES -----
+        Schema::create('addresses', function (Blueprint $table) {
+            $table->uuid('id')->primary(); 
+            $table->foreignUuid('user_id')->constrained('users')->cascadeOnDelete(); // CHANGED to foreignUuid
+            $table->string('address_line_1');
+            $table->string('address_line_2')->nullable();
+            $table->string('city');
+            $table->string('state')->nullable();
+            $table->string('zip_code')->nullable();
+            $table->string('country');
+            $table->string('phone_number');
+            $table->boolean('is_primary')->default(false);
+            $table->timestamps();
+        });
+
+        // ----- ORDERS -----
+        Schema::create('orders', function (Blueprint $table) {
+            $table->uuid('id')->primary(); 
+            $table->foreignUuid('buyer_id')->constrained('users')->cascadeOnDelete(); 
+            $table->decimal('total_price', 12, 2);
+            $table->foreignUuid('shipping_address_id')->nullable()->constrained('addresses')->nullOnDelete();
+            
+            $table->string('shipping_phone')->nullable(); 
+            $table->enum('status', ['pending', 'paid', 'shipped', 'completed', 'cancelled'])->default('pending');
+            $table->timestamps();
+        });
+
+        // ----- ORDER ITEMS -----
+        Schema::create('order_items', function (Blueprint $table) {
+            $table->uuid('id')->primary(); 
+            $table->foreignUuid('order_id')->constrained('orders')->cascadeOnDelete();
+            $table->foreignUuid('shop_product_id')->constrained('shop_products')->cascadeOnDelete();
+            
+            $table->integer('quantity');
+            $table->decimal('price', 12, 2);
+            $table->timestamps();
+        });
+
+        // ----- PAYMENTS -----
+        Schema::create('payments', function (Blueprint $table) {
+            $table->uuid('id')->primary(); 
+            $table->foreignUuid('order_id')->nullable()->constrained('orders')->nullOnDelete();
+            $table->foreignUuid('user_id')->constrained('users')->cascadeOnDelete(); 
+            
+            $table->decimal('amount', 12, 2);
+            $table->string('method')->nullable();
+            $table->enum('purpose', ['order', 'listing_fee', 'feature_fee'])->default('order');
+            $table->enum('status', ['pending', 'success', 'failed'])->default('pending');
+            $table->timestamps();
+        });
+    }
+
+    public function down(): void
+    {
+        Schema::dropIfExists('payments');
+        Schema::dropIfExists('order_items');
+        Schema::dropIfExists('orders');
+        Schema::dropIfExists('addresses');
+        Schema::dropIfExists('shop_products');
+        Schema::dropIfExists('shop_product_types');
+        Schema::dropIfExists('listings');
+        Schema::dropIfExists('listing_types');
+        Schema::dropIfExists('categories');
+        Schema::dropIfExists('brands');
+    }
+};
+```
+
+# 2025_10_15_121029_create_stores_table.php
+
+```php
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    /**
+     * Run the migrations.
+     */
+    public function up(): void
+    {
+        Schema::create('stores', function (Blueprint $table) {
+            $table->uuid('id')->primary();
+            $table->string('name');
+            $table->string('logo_url')->nullable();
+            $table->text('address');
+            $table->string('city');
+            $table->string('state')->nullable();
+            $table->string('zip_code');
+            $table->string('country')->default('DefaultCountry');
+            $table->decimal('latitude', 10, 7)->nullable();
+            $table->decimal('longitude', 10, 7)->nullable();
+            $table->string('phone_number')->nullable();
+            $table->string('telegram')->nullable();
+            $table->string('email')->nullable()->unique();
+            $table->string('license_number')->nullable()->unique();
+            $table->time('opening_time')->nullable();
+            $table->time('closing_time')->nullable();
+            $table->boolean('is_24_hours')->default(false);
+            $table->boolean('delivers_product')->default(false);
+            $table->text('delivery_details')->nullable(); // e.g., radius, fees
+            $table->decimal('average_rating', 2, 1)->default(0);
+            $table->unsignedInteger('review_count')->default(0);
+            $table->boolean('is_highlighted')->default(false);
+            $table->boolean('is_top_choice')->default(false);
+            $table->boolean('is_verified')->default(false);
+            $table->string('status')->default('ACTIVE');
+            $table->timestamps();
+            $table->softDeletes();
+
+            $table->string('created_by')->nullable();
+            $table->string('updated_by')->nullable();
+            $table->string('deleted_by')->nullable();
+
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     */
+    public function down(): void
+    {
+        Schema::dropIfExists('stores');
+    }
+};
+```
+
+# 2025_10_29_114244_create_store_notification_settings_table.php
+
+```php
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    /**
+     * Run the migrations.
+     * This table stores notification channel settings for each store,
+     * allowing a store to have multiple notification providers (e.g., Telegram, Slack).
+     */
+    public function up(): void
+    {
+        Schema::create('store_notification_settings', function (Blueprint $table) {
+            $table->uuid('id')->primary();
+            
+            // Link to the store
+            $table->foreignUuid('store_id')->constrained('stores')->onDelete('cascade');
+
+            $table->enum('provider', ['telegram', 'email', 'facebook'])
+                ->comment("The notification service provider: 'telegram', 'email', or 'facebook'");
+
+            $table->string('name', 255)
+                ->comment('A friendly name for this configuration, e.g., "Sales Alerts Chat" or "Order Notifications"');
+
+
+            // Store provider-specific details like bot_token, chat_id, webhook_url, etc.
+            $table->json('credentials')
+                ->comment('Provider-specific configuration stored as JSON');
+
+
+            $table->boolean('is_active')
+                ->default(true)
+                ->comment('Toggle to enable or disable this specific notification channel');
+
+
+            $table->timestamps();
+
+            // Add indexes for better performance
+            $table->index(['store_id', 'provider']);
+            $table->index(['store_id', 'is_active']);
+
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     */
+    public function down(): void
+    {
+        Schema::dropIfExists('store_notification_settings');
+    }
+};
+```
+
+# 2025_10_31_150230_create_content_blocks_table.php
+
+```php
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    /**
+     * Run the migrations.
+     */
+    public function up(): void
+    {
+        Schema::create('content_blocks', function (Blueprint $table) {
+            $table->id();
+            $table->string('slug')->unique(); 
+            $table->json('title')->nullable();
+            $table->json('description')->nullable();
+            $table->json('booking_btn')->nullable();
+            $table->text('image_path')->nullable();
+            $table->string('status', 10)->comment('ACTIVE, INACTIVE , DELETED')->default('ACTIVE');
+            $table->timestamps();
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     */
+    public function down(): void
+    {
+        Schema::dropIfExists('content_blocks');
+    }
+};
+```
+
+# 2025_11_10_135356_create_service_cards_table.php
+
+```php
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    /**
+     * Run the migrations.
+     */
+    public function up(): void
+    {
+        Schema::create('service_cards', function (Blueprint $table) {
+            $table->id();
+            $table->json('title');
+            $table->json('description');
+            $table->json('button_text');
+            $table->string('image_url');
+            $table->string('status', 10)->comment('ACTIVE, INACTIVE , DELETED')->default('ACTIVE');
+            $table->timestamps();
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     */
+    public function down(): void
+    {
+        Schema::dropIfExists('service_cards');
+    }
+};
+```
+
+# 2025_11_24_142200_conversations.php
+
+```php
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    /**
+     * Run the migrations.
+     */
+    public function up(): void
+    {
+        Schema::create('conversations', function (Blueprint $table) {
+            $table->uuid('id')->primary();
+            $table->timestamp('last_message_at')->nullable()->index();
+            $table->foreignUuid('pharmacy_id')
+                  ->nullable()
+                  ->constrained('pharmacies')
+                  ->onDelete('cascade');
+				  
+			$table->enum('type', ['DOCTOR_PATIENT', 'PHARMACIST_PATIENT'])->default('DOCTOR_PATIENT')->after('id');
+
+            $table->timestamps();
+            $table->softDeletes();
+            $table->uuid('created_by')->nullable();
+            $table->uuid('updated_by')->nullable();
+            $table->uuid('deleted_by')->nullable();
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     */
+    public function down(): void
+    {
+        Schema::dropIfExists('conversations');
+    }
+};
+```
+
+# 2025_11_24_142401_messages.php
+
+```php
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    /**
+     * Run the migrations.
+     */
+    public function up(): void
+    {
+        Schema::create('messages', function (Blueprint $table) {
+			$table->uuid('id')->primary();
+            $table->foreignUuid('conversation_id')->constrained('conversations')->onDelete('cascade');
+            $table->foreignUuid('sender_id')->nullable()->constrained('users')->onDelete('cascade');
+            $table->json('content');
+
+            // To handle different types of messages, e.g., text, image, file, system message.
+            $table->string('type')->default('text');
+
+            $table->timestamp('read_at')->nullable();
+
+			$table->foreignUuid('reply_to_message_id')->nullable()->onDelete('set null');
+            
+            // For tracking edits
+            $table->timestamp('edited_at')->nullable();
+
+
+            $table->timestamps();
+            $table->softDeletes();
+            $table->uuid('created_by')->nullable();
+            $table->uuid('updated_by')->nullable();
+            $table->uuid('deleted_by')->nullable();
+
+            $table->index('conversation_id');
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     */
+    public function down(): void
+    {
+        Schema::dropIfExists('messages');
+    }
+};
+```
+
+# 2025_11_24_142432_message_reactions.php
+
+```php
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    /**
+     * Run the migrations.
+     */
+    public function up(): void
+    {
+        Schema::create('message_reactions', function (Blueprint $table) {
+			$table->uuid('id')->primary();
+            $table->foreignUuid('message_id')->constrained()->onDelete('cascade');
+            $table->foreignUuid('user_id')->constrained()->onDelete('cascade');
+            $table->string('emoji', 16); // Store the emoji character
+            $table->timestamps();
+
+            // A user can only react with the same emoji once per message
+            $table->unique(['message_id', 'user_id', 'emoji']);
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     */
+    public function down(): void
+    {
+        Schema::dropIfExists('message_reactions');
+    }
+};
+```
+
+# 2025_11_24_142459_message_read_statuses.php
+
+```php
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    /**
+     * Run the migrations.
+     */
+    public function up(): void
+    {
+        Schema::create('message_read_statuses', function (Blueprint $table) {
+			$table->uuid('id')->primary();
+			$table->foreignUuid('message_id')->constrained()->onDelete('cascade');
+			$table->foreignUuid('user_id')->constrained()->onDelete('cascade');
+			$table->timestamp('read_at');
+			$table->timestamps();
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     */
+    public function down(): void
+    {
+        Schema::dropIfExists('message_read_statuses');
+    }
+};
+```
+
+# 2025_11_24_142735_conversation_participants.php
+
+```php
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    /**
+     * Run the migrations.
+     */
+    public function up(): void
+    {
+        Schema::create('conversation_participants', function (Blueprint $table) {
+            $table->foreignUuid('conversation_id')->constrained('conversations')->onDelete('cascade');
+            $table->foreignUuid('user_id')->constrained('users')->onDelete('cascade');
+            $table->timestamps();
+            $table->uuid('created_by')->nullable();
+            $table->uuid('updated_by')->nullable();
+            $table->uuid('deleted_by')->nullable();
+            $table->unique(['conversation_id', 'user_id']);
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     */
+    public function down(): void
+    {
+        Schema::dropIfExists('conversation_participants');
+    }
+};
+```
+
+# 2025_11_24_142822_conversation_participants.php
+
+```php
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    /**
+     * Run the migrations.
+     */
+    public function up(): void
+    {
+        Schema::table('conversation_participants', function (Blueprint $table) {
+            // Add this line
+            $table->timestamp('last_read')->nullable()->after('user_id');
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     */
+    public function down(): void
+    {
+        Schema::table('conversation_participants', function (Blueprint $table) {
+            // This allows you to undo the migration if needed
+            $table->dropColumn('last_read');
+        });
     }
 };
 ```

@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Http\Request;
 use App\Http\Controllers\Api\V1\Admin\Security\AuthController;
 use App\Http\Controllers\Api\V1\Admin\Security\RegisterController;
 use App\Http\Controllers\Api\V1\Admin\Security\UserController;
@@ -12,6 +13,9 @@ use App\Http\Controllers\Api\V1\Admin\GeneralSettingController;
 use App\Http\Controllers\Api\V1\Admin\StoreController;
 use App\Http\Controllers\Api\V1\Admin\PaymentMethodController;
 use App\Http\Controllers\Api\V1\Admin\StoreNotificationSettingController;
+use App\Http\Controllers\Api\V1\Admin\ContentBlockController;
+use App\Http\Controllers\Api\V1\Admin\ServiceCardController;
+
 
 // Public routes
 Route::post('/auth/login', [AuthController::class, 'login']);
@@ -83,10 +87,13 @@ Route::middleware(['auth:sanctum'])->group(function () {
         Route::post('notification-settings/get-chat-id', [StoreNotificationSettingController::class, 'getChatId'])
             ->name('notification-settings.get-chat-id');
 
-
-
         // Payment Methods
         Route::apiResource('payment-methods', PaymentMethodController::class);
 
+        // For website home page content blocks
+        Route::apiResource('content-blocks', ContentBlockController::class);
+
+        // Service Cards
+        Route::apiResource('service-cards', ServiceCardController::class);
     });
 });
