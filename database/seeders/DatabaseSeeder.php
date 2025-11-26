@@ -25,6 +25,9 @@ class DatabaseSeeder extends Seeder
             AppVersionSeeder::class,
             TranslationSeeder::class,
             GeneralSettingSeeder::class,
+            ServiceCardSeeder::class,
+            ContentBlockSeeder::class,
+            StoreSeeder::class,
         ]);
     }
 }

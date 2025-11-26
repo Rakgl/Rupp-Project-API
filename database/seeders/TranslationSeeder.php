@@ -56,6 +56,11 @@ class TranslationSeeder extends Seeder
             $this->getCommonTranslations(),
             $this->getPaymentMethod(),
             $this->getStoreTranslations(),
+            $this->getContentBlockTranslations(),
+            $this->getServiceCardTranslations(),
+
+            // for web
+            // $this->getHome(),
         );
     }
 
@@ -196,6 +201,10 @@ class TranslationSeeder extends Seeder
             ['key' => 'nav.items.conversations', 'en' => 'Conversations', 'km' => 'ការសន្ទនា', 'zh' => '会话'],
             ['key' => 'nav.items.ai_assitant', 'en' => 'AI Assistant', 'km' => 'ជំនួយការ AI', 'zh' => 'AI助手'],
             ['key' => 'nav.items.ocr', 'en' => 'OCR', 'km' => 'OCR', 'zh' => 'OCR'],
+            ['key' => 'nav.content_blocks', 'en' => 'Content Blocks', 'km' => 'ប្លុកមាតិកា', 'zh' => '内容块'],
+            ['key' => 'nav.home_page', 'en' => 'Home Page', 'km' => 'ទំព័រដើម', 'zh' => '首页'],
+            ['key' => 'nav.service_cards', 'en' => 'Service Cards', 'km' => 'ប័ណ្ណសេវាកម្ម', 'zh' => '服务卡'],
+            ['key' => 'nav.content_management', 'en' => 'Content Management', 'km' => 'ការគ្រប់គ្រងមាតិកា', 'zh' => '内容管理'],
         ];
     }
 
@@ -1034,5 +1043,54 @@ class TranslationSeeder extends Seeder
         ];
     }
 
+    private function getContentBlockTranslations(): array
+    {
+        return [
+            ['key' => 'contentBlocks.title', 'en' => 'Content Blocks Management', 'km' => 'ការគ្រប់គ្រងប្លុកមាតិកា', 'zh' => '内容块管理'],
+            ['key' => 'contentBlocks.description', 'en' => 'Manage key textual and multimedia content for your application\'s static pages.', 'km' => 'គ្រប់គ្រងអត្ថបទ និងមាតិកាពហុព័ត៌មានសំខាន់ៗសម្រាប់ទំព័រឋិតិវន្តនៃកម្មវិធីរបស់អ្នក។', 'zh' => '管理应用程序静态页面的主要文本和多媒体内容。'],
+            ['key' => 'contentBlocks.columns.index', 'en' => '#', 'km' => '#', 'zh' => '序号'],
+            ['key' => 'contentBlocks.columns.slug', 'en' => 'Slug (API Key)', 'km' => 'ស្លាក (កូនសោ API)', 'zh' => '标识符 (API键)'],
+            ['key' => 'contentBlocks.columns.title', 'en' => 'Title (EN Preview)', 'km' => 'ចំណងជើង (EN មើលជាមុន)', 'zh' => '标题 (英文预览)'],
+            ['key' => 'contentBlocks.columns.description', 'en' => 'Description', 'km' => 'អត្ថបទពិពណ៌នាខ្លី', 'zh' => '描述片段'],
+            ['key' => 'contentBlocks.columns.updatedAt', 'en' => 'Last Updated', 'km' => 'បានធ្វើបច្ចុប្បន្នភាពចុងក្រោយ', 'zh' => '上次更新'],
+            ['key' => 'contentBlocks.columns.actions', 'en' => 'Actions', 'km' => 'សកម្មភាព', 'zh' => '操作'],
+            ['key' => 'contentBlocks.toolbar.filterBySlug', 'en' => 'Filter by slug...', 'km' => 'ត្រងតាមស្លាក...', 'zh' => '按标识符筛选...'],
+            ['key' => 'contentBlocks.toolbar.new', 'en' => 'New Content Block', 'km' => 'ប្លុកមាតិកាថ្មី', 'zh' => '新建内容块'],
+            ['key' => 'contentBlocks.dialog.create.title', 'en' => 'Create New Content Block', 'km' => 'បង្កើតប្លុកមាតិកាថ្មី', 'zh' => '创建新内容块'],
+            ['key' => 'contentBlocks.dialog.create.description', 'en' => 'Define a unique API slug and enter multilingual content.', 'km' => 'កំណត់ស្លាក API ពិសេស និងបញ្ចូលមាតិកាជាច្រើនភាសា។', 'zh' => '定义唯一的API标识符并输入多语言内容。'],
+            ['key' => 'contentBlocks.dialog.create.form.slug.label', 'en' => 'API Slug', 'km' => 'ស្លាក API', 'zh' => 'API标识符'],
+            ['key' => 'contentBlocks.editDialog.title', 'en' => 'Edit Content Block', 'km' => 'កែសម្រួលប្លុកមាតិកា', 'zh' => '编辑内容块'],
+            ['key' => 'contentBlocks.editDialog.description', 'en' => 'Update translations across all locales.', 'km' => 'ធ្វើបច្ចុប្បន្នភាពការបកប្រែនៅគ្រប់ភាសា។', 'zh' => '更新所有语言区域的翻译。'],
+            ['key' => 'contentBlocks.editDialog.multilingualTitle', 'en' => 'Multilingual Content', 'km' => 'មាតិកាពហុភាសា', 'zh' => '多语言内容'],
+            ['key' => 'contentBlocks.columns.status', 'en' => 'Status', 'km' => 'ស្ថានភាព', 'zh' => '状态'],
+        ];
+    }
 
+    private function getServiceCardTranslations(): array
+    {
+        return [
+            ['key' => 'serviceCards.title', 'en' => 'Service Cards', 'km' => 'ប័ណ្ណសេវាកម្ម', 'zh' => '服务卡'],
+            ['key' => 'serviceCards.description', 'en' => 'Manage your service cards for the website.', 'km' => 'គ្រប់គ្រងប័ណ្ណសេវាកម្មរបស់អ្នកសម្រាប់គេហទំព័រ។', 'zh' => '管理您网站的服务卡。'],
+            ['key' => 'serviceCards.toolbar.filterByTitle', 'en' => 'Filter by title...', 'km' => 'ស្វែងរកតាមចំណងជើង...', 'zh' => '按标题筛选...'],
+            ['key' => 'serviceCards.toolbar.new', 'en' => 'New Card', 'km' => 'បង្កើតប័ណ្ណថ្មី', 'zh' => '新建卡片'],
+            ['key' => 'serviceCards.columns.index', 'en' => '#', 'km' => '#', 'zh' => '序号'],
+            ['key' => 'serviceCards.columns.image_url', 'en' => 'Image', 'km' => 'រូបភាព', 'zh' => '图片'],
+            ['key' => 'serviceCards.columns.image_alt_fallback', 'en' => 'Service image', 'km' => 'រូបភាពសេវាកម្ម', 'zh' => '服务图片'],
+            ['key' => 'serviceCards.columns.title', 'en' => 'Title', 'km' => 'ចំណងជើង', 'zh' => '标题'],
+            ['key' => 'serviceCards.columns.description', 'en' => 'Description', 'km' => 'ការពិពណ៌នា', 'zh' => '描述'],
+            ['key' => 'serviceCards.columns.actions', 'en' => 'Actions', 'km' => 'សកម្មភាព', 'zh' => '操作'],
+            ['key' => 'serviceCards.dialog.create.title', 'en' => 'Create New Service Card', 'km' => 'បង្កើតប័ណ្ណសេវាកម្មថ្មី', 'zh' => '创建新服务卡'],
+            ['key' => 'serviceCards.dialog.create.description', 'en' => 'Fill in the details below to add a new service card.', 'km' => 'បំពេញព័ត៌មានលម្អិតខាងក្រោម ដើម្បីបន្ថែមប័ណ្ណសេវាកម្មថ្មី។', 'zh' => '请填写以下详细信息以添加新服务卡。'],
+            ['key' => 'serviceCards.dialog.create.form.image.label', 'en' => 'Image', 'km' => 'រូបភាព', 'zh' => '图片'],
+            ['key' => 'serviceCards.dialog.create.form.buttonLink.label', 'en' => 'Button Link', 'km' => 'តំណប៊ូតុង', 'zh' => '按钮链接'],
+            ['key' => 'serviceCards.dialog.create.error.unexpected', 'en' => 'An unexpected error occurred.', 'km' => 'មានកំហុសដែលមិនបានរំពឹងទុក។', 'zh' => '发生意外错误。'],
+            ['key' => 'serviceCards.editDialog.title', 'en' => 'Edit Service Card', 'km' => 'កែសម្រួលប័ណ្ណសេវាកម្ម', 'zh' => '编辑服务卡'],
+            ['key' => 'serviceCards.editDialog.description', 'en' => 'Make changes to your service card here. Click save when you\'re done.', 'km' => 'ធ្វើការផ្លាស់ប្តូរប័ណ្ណសេវាកម្មរបស់អ្នកនៅទីនេះ។', 'zh' => '在此处更改您的服务卡。完成后点击保存。'],
+            ['key' => 'serviceCards.editDialog.multilingualTitle', 'en' => 'Multilingual Content', 'km' => 'មាតិកាពហុភាសា', 'zh' => '多语言内容'],
+            ['key' => 'serviceCards.columns.status', 'en' => 'Status', 'km' => 'ស្ថានភាព', 'zh' => '状态'],
+            ['key' => 'serviceCards.status.active', 'en' => 'Active', 'km' => 'សកម្ម', 'zh' => '活跃'],
+            ['key' => 'serviceCards.status.inactive', 'en' => 'Inactive', 'km' => 'អសកម្ម', 'zh' => '非活跃'], 
+            ['key' => 'serviceCards.status.unknown', 'en' => 'Unknown', 'km' => 'មិនស្គាល់', 'zh' => '未知'],
+        ];
+    }
 }
