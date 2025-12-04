@@ -58,6 +58,7 @@ class TranslationSeeder extends Seeder
             $this->getStoreTranslations(),
             $this->getContentBlockTranslations(),
             $this->getServiceCardTranslations(),
+            $this->getNewsTranslations(),
 
             // for web
             // $this->getHome(),
@@ -205,6 +206,8 @@ class TranslationSeeder extends Seeder
             ['key' => 'nav.home_page', 'en' => 'Home Page', 'km' => 'ទំព័រដើម', 'zh' => '首页'],
             ['key' => 'nav.service_cards', 'en' => 'Service Cards', 'km' => 'ប័ណ្ណសេវាកម្ម', 'zh' => '服务卡'],
             ['key' => 'nav.content_management', 'en' => 'Content Management', 'km' => 'ការគ្រប់គ្រងមាតិកា', 'zh' => '内容管理'],
+            ['key' => 'nav.news', 'en' => 'News', 'km' => 'ព័ត៍មាន', 'zh' => '新闻'],
+            ['key' => 'nav.models', 'en' => 'Models', 'km' => 'ម៉ូដែល'],
         ];
     }
 
@@ -470,7 +473,10 @@ class TranslationSeeder extends Seeder
         return [
             // User Page
             ['key' => 'users.title', 'en' => 'Users', 'km' => 'អ្នកប្រើប្រាស់', 'zh' => '用户'],
+            ['key' => 'news.title', 'en' => 'News', 'km' => 'ព័ត៍មាន', 'zh' => '新闻'],
             ['key' => 'users.description', 'en' => 'Here\'s a list of users!', 'km' => 'នេះគឺជាបញ្ជីអ្នកប្រើប្រាស់!', 'zh' => '这是用户列表！'],
+            ['key' => 'news.description', 'en' => 'Here\'s a list of news!', 'km' => 'នេះគឺជាបញ្ជីព័ត៌មាន!', 'zh' => '这是新闻列表！'],
+            ['key' => 'users.table.noResults', 'en' => 'No results.', 'km' => 'គ្មានលទ្ធផល។', 'zh' => '无结果。'],
             ['key' => 'users.table.noResults', 'en' => 'No results.', 'km' => 'គ្មានលទ្ធផល។', 'zh' => '无结果。'],
 
             // User Toolbar & Create Dialog
@@ -1091,6 +1097,17 @@ class TranslationSeeder extends Seeder
             ['key' => 'serviceCards.status.active', 'en' => 'Active', 'km' => 'សកម្ម', 'zh' => '活跃'],
             ['key' => 'serviceCards.status.inactive', 'en' => 'Inactive', 'km' => 'អសកម្ម', 'zh' => '非活跃'], 
             ['key' => 'serviceCards.status.unknown', 'en' => 'Unknown', 'km' => 'មិនស្គាល់', 'zh' => '未知'],
+        ];
+    }
+
+    private function getNewsTranslations(): array
+    {
+        return [
+            ['key' => 'image', 'en' => 'Image', 'km' => 'រូបភាព', 'zh' => '图片'],
+            ['key' => 'status', 'en' => 'Status', 'km' => 'ស្ថានភាព', 'zh' => '状态'],
+            ['key' => 'news.title', 'en' => 'News', 'km' => 'ព័ត៍មាន', 'zh' => '新闻'],
+            ['key' => 'news.description', 'en' => 'Here\'s a list of news!', 'km' => 'នេះគឺជាបញ្ជីព័ត៌មាន!', 'zh' => '这是新闻列表！'],
+            ['key' => 'news.create.title', 'en' => 'New News', 'km' => 'បង្កើតព័ត៌មានថ្មី', 'zh' => '新建新闻'],
         ];
     }
 }

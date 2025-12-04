@@ -15,6 +15,9 @@ use App\Http\Controllers\Api\V1\Admin\PaymentMethodController;
 use App\Http\Controllers\Api\V1\Admin\StoreNotificationSettingController;
 use App\Http\Controllers\Api\V1\Admin\ContentBlockController;
 use App\Http\Controllers\Api\V1\Admin\ServiceCardController;
+use App\Http\Controllers\Api\V1\Admin\NewsController;
+use App\Http\Controllers\Api\V1\Admin\BrandController;
+use App\Http\Controllers\Api\V1\Admin\ModelController;
 
 
 // Public routes
@@ -95,5 +98,15 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
         // Service Cards
         Route::apiResource('service-cards', ServiceCardController::class);
+
+        // News
+        Route::apiResource('news', NewsController::class);
+
+        // Brands
+        Route::get('brands/all', [BrandController::class, 'all'])->name('brands.all');
+        Route::apiResource('brands', BrandController::class);
+
+        // Models
+        Route::apiResource('models', ModelController::class);
     });
 });
