@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Controllers\Api\V1\Admin;
 
 use App\Http\Controllers\Controller;
@@ -15,7 +16,8 @@ class ModelController extends Controller
     public function index(Request $request)
     {
         $search = $request->input('search');
-        
+        $brandId = $request->input('brand_id');
+
         $models = VehicleModel::with('brand:id,name,image_url')
             ->withCount(['cars', 'userListings', 'reviews'])
             ->when($search, function ($query, $search) {
@@ -25,9 +27,12 @@ class ModelController extends Controller
                         $q->whereRaw('LOWER(name) like ?', ["%{$searchTerm}%"]);
                     });
             })
+            ->when($brandId, function ($query, $brandId) {
+                $query->where('brand_id', $brandId);
+            })
             ->latest()
             ->paginate(10);
-            
+
         return response()->json($models);
     }
 
@@ -65,7 +70,7 @@ class ModelController extends Controller
     public function show(VehicleModel $model)
     {
         $model->load(['brand:id,name', 'cars', 'userListings', 'reviews']);
-        
+
         return response()->json($model);
     }
 
@@ -90,7 +95,7 @@ class ModelController extends Controller
             ]);
 
             $model->update($data);
-            
+
             return response()->json($model);
         } catch (Exception $e) {
             return response()->json(['error' => 'Failed to update model.', 'message' => $e->getMessage()], 500);
@@ -104,8 +109,8 @@ class ModelController extends Controller
     {
         try {
             // Check if model has associated cars, listings, or reviews
-            $hasRelations = $model->cars()->count() > 0 
-                || $model->userListings()->count() > 0 
+            $hasRelations = $model->cars()->count() > 0
+                || $model->userListings()->count() > 0
                 || $model->reviews()->count() > 0;
 
             if ($hasRelations) {
@@ -113,7 +118,7 @@ class ModelController extends Controller
             }
 
             $model->delete();
-            
+
             return response()->noContent();
         } catch (Exception $e) {
             return response()->json(['error' => 'Failed to delete model.', 'message' => $e->getMessage()], 500);

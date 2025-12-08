@@ -18,6 +18,8 @@ use App\Http\Controllers\Api\V1\Admin\ServiceCardController;
 use App\Http\Controllers\Api\V1\Admin\NewsController;
 use App\Http\Controllers\Api\V1\Admin\BrandController;
 use App\Http\Controllers\Api\V1\Admin\ModelController;
+use App\Http\Controllers\Api\V1\Admin\BodyTypeController;
+use App\Http\Controllers\Api\V1\Admin\CarController;
 
 
 // Public routes
@@ -108,5 +110,13 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
         // Models
         Route::apiResource('models', ModelController::class);
+
+        // Body Types
+        Route::get('body-types/all', [BodyTypeController::class, 'all'])->name('body-types.all');
+        Route::apiResource('body-types', BodyTypeController::class);
+
+        
+        // Models
+        Route::apiResource('cars', CarController::class);
     });
 });

@@ -1,12 +1,16 @@
 <?php
 namespace App\Models;
 
+use App\Models\Model as VehicleModel;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Car extends Model
 {
+    use HasFactory, HasUuids;
     protected $fillable = [
         'model_id', 'body_type_id', 'stock_quantity', 'status', 'year', 'price', 
         'seat', 'engine', 'door', 'fuel_type', 'condition', 'transmission', 
@@ -15,7 +19,7 @@ class Car extends Model
 
     public function model(): BelongsTo
     {
-        return $this->belongsTo(Model::class);
+        return $this->belongsTo(VehicleModel::class);
     }
 
     public function bodyType(): BelongsTo

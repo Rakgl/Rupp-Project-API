@@ -205,9 +205,11 @@ class TranslationSeeder extends Seeder
             ['key' => 'nav.content_blocks', 'en' => 'Content Blocks', 'km' => 'ប្លុកមាតិកា', 'zh' => '内容块'],
             ['key' => 'nav.home_page', 'en' => 'Home Page', 'km' => 'ទំព័រដើម', 'zh' => '首页'],
             ['key' => 'nav.service_cards', 'en' => 'Service Cards', 'km' => 'ប័ណ្ណសេវាកម្ម', 'zh' => '服务卡'],
-            ['key' => 'nav.content_management', 'en' => 'Content Management', 'km' => 'ការគ្រប់គ្រងមាតិកា', 'zh' => '内容管理'],
-            ['key' => 'nav.news', 'en' => 'News', 'km' => 'ព័ត៍មាន', 'zh' => '新闻'],
+            ['key' => 'nav.content_management', 'en' => 'Content Management', 'km' => 'ការគ្រប់គ្រងមាតិកា'],
+            ['key' => 'nav.news', 'en' => 'News', 'km' => 'ព័ត៍មាន'],
             ['key' => 'nav.models', 'en' => 'Models', 'km' => 'ម៉ូដែល'],
+            ['key' => 'nav.body_types', 'en' => 'Body Types', 'km' => 'ប្រភេទរាងកាយ'],
+            ['key' => 'nav.cars', 'en' => 'Cars', 'km' => 'រថយន្ត'],
         ];
     }
 
