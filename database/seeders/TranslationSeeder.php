@@ -58,7 +58,7 @@ class TranslationSeeder extends Seeder
             $this->getStoreTranslations(),
             $this->getContentBlockTranslations(),
             $this->getServiceCardTranslations(),
-            $this->getNewsTranslations(),
+            $this->getHengTranslations(),
 
             // for web
             // $this->getHome(),
@@ -187,7 +187,8 @@ class TranslationSeeder extends Seeder
             ['key' => 'nav.manage_services', 'en' => 'Manage Services', 'km' => 'គ្រប់គ្រងសេវាកម្ម', 'zh' => '管理服务'],
             ['key' => 'nav.product_sales', 'en' => 'Product Sales', 'km' => 'ការលក់ផលិតផល', 'zh' => '产品销售'],
             ['key' => 'nav.store', 'en' => 'Store', 'km' => 'ហាង', 'zh' => '店铺'],
-            ['key' => 'nav.product_inventory', 'en' => 'Product Inventory', 'km' => 'សារពើភ័ណ្ឌផលិតផល', 'zh' => '产品库存'],
+            ['key' => 'nav.car_inventory', 'en' => 'Car Inventory', 'km' => 'សារពើភ័ណ្ឌរថយន្ត', 'zh' => '汽车库存'],
+            ['key' => 'nav.accessory_inventory', 'en' => 'Accessory Inventory', 'km' => 'សារពើភ័ណ្ឌគ្រឿងបន្លាស់', 'zh' => '配件库存'],
             ['key' => 'nav.product_list', 'en' => 'Product List', 'km' => 'បញ្ជីផលិតផល', 'zh' => '产品列表'],
             ['key' => 'nav.store_inventories', 'en' => 'Store Inventories', 'km' => 'សារពើភ័ណ្ឌហាង', 'zh' => '店铺库存'],
             ['key' => 'nav.manage_categories', 'en' => 'Manage Categories', 'km' => 'គ្រប់គ្រងប្រភេទ', 'zh' => '管理分类'],
@@ -210,6 +211,8 @@ class TranslationSeeder extends Seeder
             ['key' => 'nav.models', 'en' => 'Models', 'km' => 'ម៉ូដែល'],
             ['key' => 'nav.body_types', 'en' => 'Body Types', 'km' => 'ប្រភេទរាងកាយ'],
             ['key' => 'nav.cars', 'en' => 'Cars', 'km' => 'រថយន្ត'],
+            ['key' => 'nav.user_listings', 'en' => 'User Listing', 'km' => 'បញ្ជីអ្នកប្រើប្រាស់'],
+            ['key' => 'nav.accessory', 'en' => 'Accessory', 'km' => 'សារពើភ័ណ្ឌគ្រឿងបន្លាស់'],
         ];
     }
 
@@ -790,6 +793,7 @@ class TranslationSeeder extends Seeder
             ['key' => 'common.openMenu', 'en' => 'Open menu', 'km' => 'បើកម៉ឺនុយ', 'zh' => '打开菜单'],
             ['key' => 'common.edit', 'en' => 'Edit', 'km' => 'កែសម្រួល', 'zh' => '编辑'],
             ['key' => 'common.delete', 'en' => 'Delete', 'km' => 'លុប', 'zh' => '删除'],
+            ['key' => 'common.create', 'en' => 'Create', 'km' => 'បង្កើត', 'zh' => '创建'],
             ['key' => 'common.loadingDetails', 'en' => 'Loading details...', 'km' => 'កំពុងផ្ទុកព័ត៌មានលម្អិត...', 'zh' => '正在加载详情...'],
             ['key' => 'common.saveChanges', 'en' => 'Save Changes', 'km' => 'រក្សាទុកការផ្លាស់ប្តូរ', 'zh' => '保存更改'],
             ['key' => 'common.areYouSure', 'en' => 'Are you sure?', 'km' => 'តើអ្នកប្រាកដទេ?', 'zh' => '您确定吗？'],
@@ -1102,14 +1106,31 @@ class TranslationSeeder extends Seeder
         ];
     }
 
-    private function getNewsTranslations(): array
+    private function getHengTranslations(): array
     {
         return [
-            ['key' => 'image', 'en' => 'Image', 'km' => 'រូបភាព', 'zh' => '图片'],
-            ['key' => 'status', 'en' => 'Status', 'km' => 'ស្ថានភាព', 'zh' => '状态'],
-            ['key' => 'news.title', 'en' => 'News', 'km' => 'ព័ត៍មាន', 'zh' => '新闻'],
-            ['key' => 'news.description', 'en' => 'Here\'s a list of news!', 'km' => 'នេះគឺជាបញ្ជីព័ត៌មាន!', 'zh' => '这是新闻列表！'],
-            ['key' => 'news.create.title', 'en' => 'New News', 'km' => 'បង្កើតព័ត៌មានថ្មី', 'zh' => '新建新闻'],
+            ['key' => 'image', 'en' => 'Image', 'km' => 'រូបភាព'],
+            ['key' => 'status', 'en' => 'Status', 'km' => 'ស្ថានភាព'],
+            //news
+            ['key' => 'news.title', 'en' => 'News', 'km' => 'ព័ត៍មាន'],
+            ['key' => 'news.description', 'en' => 'Here\'s a list of news!', 'km' => 'នេះគឺជាបញ្ជីព័ត៌មាន!'],
+            ['key' => 'news.create.title', 'en' => 'New News', 'km' => 'បង្កើតព័ត៌មានថ្មី'],
+            //brand
+            ['key' => 'brand.title', 'en' => 'Brand', 'km' => 'ម៉ាក'],
+            ['key' => 'brand.description', 'en' => 'Here\'s a list of brands!', 'km' => 'នេះគឺជាបញ្ជីម៉ាក!'],
+            //model
+            ['key' => 'model.title', 'en' => 'Model', 'km' => 'ម៉ូដែល'],
+            ['key' => 'model.description', 'en' => 'Here\'s a list of models!', 'km' => 'នេះគឺជាបញ្ជីម៉ូដែល!'],
+            //body-type
+            ['key' => 'body-type.title', 'en' => 'Body Type', 'km' => 'ប្រភេទរាងកាយ'],
+            ['key' => 'body-type.description', 'en' => 'Here\'s a list of body types!', 'km' => 'នេះគឺជាបញ្ជីប្រភេទរាងកាយ!'],
+            //cars
+            ['key' => 'cars.title', 'en' => 'Cars', 'km' => 'រថយន្ត'],
+            ['key' => 'cars.description', 'en' => 'Here\'s a list of cars!', 'km' => 'នេះគឺជាបញ្ជីរថយន្ត!'],
+
+            //cars
+            ['key' => 'listing.title', 'en' => 'User Listing', 'km' => 'បញ្ជីអ្នកប្រើប្រាស់'],
+            ['key' => 'listing.description', 'en' => 'Here\'s a list of user listings!', 'km' => 'នេះគឺជាបញ្ជីបញ្ជីអ្នកប្រើប្រាស់!'],
         ];
     }
 }

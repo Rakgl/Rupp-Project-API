@@ -20,7 +20,7 @@ use App\Http\Controllers\Api\V1\Admin\BrandController;
 use App\Http\Controllers\Api\V1\Admin\ModelController;
 use App\Http\Controllers\Api\V1\Admin\BodyTypeController;
 use App\Http\Controllers\Api\V1\Admin\CarController;
-
+use App\Http\Controllers\Api\V1\Admin\UserListingController;
 
 // Public routes
 Route::post('/auth/login', [AuthController::class, 'login']);
@@ -118,5 +118,10 @@ Route::middleware(['auth:sanctum'])->group(function () {
         
         // Models
         Route::apiResource('cars', CarController::class);
+
+        // User Listings
+        Route::post('listings/{listing}/mark-sold', [UserListingController::class, 'markAsSold']);
+        Route::post('listings/{listing}/reactivate', [UserListingController::class, 'requestReactivation']);
+        Route::apiResource('listings', UserListingController::class);
     });
 });
