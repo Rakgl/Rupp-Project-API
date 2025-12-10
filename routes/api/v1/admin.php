@@ -15,7 +15,13 @@ use App\Http\Controllers\Api\V1\Admin\PaymentMethodController;
 use App\Http\Controllers\Api\V1\Admin\StoreNotificationSettingController;
 use App\Http\Controllers\Api\V1\Admin\ContentBlockController;
 use App\Http\Controllers\Api\V1\Admin\ServiceCardController;
-
+use App\Http\Controllers\Api\V1\Admin\NewsController;
+use App\Http\Controllers\Api\V1\Admin\BrandController;
+use App\Http\Controllers\Api\V1\Admin\ModelController;
+use App\Http\Controllers\Api\V1\Admin\BodyTypeController;
+use App\Http\Controllers\Api\V1\Admin\CarController;
+use App\Http\Controllers\Api\V1\Admin\UserListingController;
+use App\Http\Controllers\Api\V1\Admin\ReviewController;
 
 // Public routes
 Route::post('/auth/login', [AuthController::class, 'login']);
@@ -95,5 +101,31 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
         // Service Cards
         Route::apiResource('service-cards', ServiceCardController::class);
+
+        // News
+        Route::apiResource('news', NewsController::class);
+
+        // Brands
+        Route::get('brands/all', [BrandController::class, 'all'])->name('brands.all');
+        Route::apiResource('brands', BrandController::class);
+
+        // Models
+        Route::apiResource('models', ModelController::class);
+
+        // Body Types
+        Route::get('body-types/all', [BodyTypeController::class, 'all'])->name('body-types.all');
+        Route::apiResource('body-types', BodyTypeController::class);
+
+        
+        // Models
+        Route::apiResource('cars', CarController::class);
+
+        // User Listings
+        Route::post('listings/{listing}/mark-sold', [UserListingController::class, 'markAsSold']);
+        Route::post('listings/{listing}/reactivate', [UserListingController::class, 'requestReactivation']);
+        Route::apiResource('listings', UserListingController::class);
+
+        // User Listings
+        Route::apiResource('reviews', ReviewController::class);
     });
 });

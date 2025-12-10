@@ -10,6 +10,7 @@ use Laravel\Sanctum\HasApiTokens;  // Changed from Laravel\Passport\HasApiTokens
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use App\Traits\DataScope;
 use OwenIt\Auditing\Contracts\Auditable;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class User extends Authenticatable implements Auditable
 {
@@ -105,7 +106,17 @@ class User extends Authenticatable implements Auditable
 		return $this->belongsToMany(Station::class, 'station_user');
 	}
 
-	public function logins() {
-		return $this->hasMany(UserLogin::class);
-	}
+    public function logins() {
+        return $this->hasMany(UserLogin::class);
+    }
+
+    public function listings(): HasMany
+    {
+        return $this->hasMany(UserListing::class);
+    }
+
+    public function reviews(): HasMany
+    {
+        return $this->hasMany(Review::class);
+    }
 }
