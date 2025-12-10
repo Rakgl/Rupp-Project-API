@@ -17,15 +17,15 @@ class Model extends VehicleModel
         return $this->belongsTo(Brand::class);
     }
 
-    public function cars(): HasMany
-    {
-        return $this->hasMany(Car::class);
-    }
+    // public function cars(): HasMany
+    // {
+    //     return $this->hasMany(Car::class);
+    // }
 
-    public function userListings(): HasMany
-    {
-        return $this->hasMany(UserListing::class);
-    }
+    // public function userListings(): HasMany
+    // {
+    //     return $this->hasMany(UserListing::class);
+    // }
     
     public function reviews(): HasMany
     {

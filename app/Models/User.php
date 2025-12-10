@@ -106,12 +106,17 @@ class User extends Authenticatable implements Auditable
 		return $this->belongsToMany(Station::class, 'station_user');
 	}
 
-	public function logins() {
-		return $this->hasMany(UserLogin::class);
-	}
+    public function logins() {
+        return $this->hasMany(UserLogin::class);
+    }
 
-	public function listings(): HasMany
+    public function listings(): HasMany
     {
         return $this->hasMany(UserListing::class);
+    }
+
+    public function reviews(): HasMany
+    {
+        return $this->hasMany(Review::class);
     }
 }

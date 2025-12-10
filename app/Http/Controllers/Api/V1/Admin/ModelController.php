@@ -19,7 +19,7 @@ class ModelController extends Controller
         $brandId = $request->input('brand_id');
 
         $models = VehicleModel::with('brand:id,name,image_url')
-            ->withCount(['cars', 'userListings', 'reviews'])
+            ->withCount(['reviews'])
             ->when($search, function ($query, $search) {
                 $searchTerm = strtolower($search);
                 $query->whereRaw('LOWER(name) like ?', ["%{$searchTerm}%"])
@@ -69,7 +69,7 @@ class ModelController extends Controller
      */
     public function show(VehicleModel $model)
     {
-        $model->load(['brand:id,name', 'cars', 'userListings', 'reviews']);
+        $model->load(['brand:id,name', 'reviews']);
 
         return response()->json($model);
     }

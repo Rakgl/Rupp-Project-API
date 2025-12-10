@@ -213,6 +213,7 @@ class TranslationSeeder extends Seeder
             ['key' => 'nav.cars', 'en' => 'Cars', 'km' => 'រថយន្ត'],
             ['key' => 'nav.user_listings', 'en' => 'User Listing', 'km' => 'បញ្ជីអ្នកប្រើប្រាស់'],
             ['key' => 'nav.accessory', 'en' => 'Accessory', 'km' => 'សារពើភ័ណ្ឌគ្រឿងបន្លាស់'],
+            ['key' => 'nav.reviews', 'en' => 'Reviews', 'km' => 'មតិវិភាគ'],
         ];
     }
 
@@ -1131,6 +1132,10 @@ class TranslationSeeder extends Seeder
             //cars
             ['key' => 'listing.title', 'en' => 'User Listing', 'km' => 'បញ្ជីអ្នកប្រើប្រាស់'],
             ['key' => 'listing.description', 'en' => 'Here\'s a list of user listings!', 'km' => 'នេះគឺជាបញ្ជីបញ្ជីអ្នកប្រើប្រាស់!'],
+
+            //reviews
+            ['key' => 'reviews.title', 'en' => 'Reviews', 'km' => 'មតិវិភាគ'],
+            ['key' => 'reviews.description', 'en' => 'Here\'s a list of reviews!', 'km' => 'នេះគឺជាបញ្ជីមតិវិភាគ!'],
         ];
     }
 }

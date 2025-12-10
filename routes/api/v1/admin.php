@@ -21,6 +21,7 @@ use App\Http\Controllers\Api\V1\Admin\ModelController;
 use App\Http\Controllers\Api\V1\Admin\BodyTypeController;
 use App\Http\Controllers\Api\V1\Admin\CarController;
 use App\Http\Controllers\Api\V1\Admin\UserListingController;
+use App\Http\Controllers\Api\V1\Admin\ReviewController;
 
 // Public routes
 Route::post('/auth/login', [AuthController::class, 'login']);
@@ -123,5 +124,8 @@ Route::middleware(['auth:sanctum'])->group(function () {
         Route::post('listings/{listing}/mark-sold', [UserListingController::class, 'markAsSold']);
         Route::post('listings/{listing}/reactivate', [UserListingController::class, 'requestReactivation']);
         Route::apiResource('listings', UserListingController::class);
+
+        // User Listings
+        Route::apiResource('reviews', ReviewController::class);
     });
 });
