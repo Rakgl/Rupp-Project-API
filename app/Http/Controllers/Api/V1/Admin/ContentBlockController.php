@@ -22,10 +22,12 @@ class ContentBlockController extends Controller
         try {
             $query = ContentBlock::query();
 
-            // Handle the search parameter (by slug)
             if ($request->has('search') && !empty($request->input('search'))) {
-                $searchTerm = $request->input('search');
-                $query->whereRaw('LOWER(slug) LIKE ?', ['%' . strtolower($searchTerm) . '%']);
+                $searchTerm = strtolower($request->input('search'));
+                // Changed from searching 'slug' to searching 'title'
+                $query->where(function($q) use ($searchTerm) {
+                    $q->whereRaw('LOWER(title) LIKE ?', ["%{$searchTerm}%"]);
+                });
             }
 
             $blocks = $query->latest()->paginate($request->input('per_page', 15));
@@ -52,8 +54,8 @@ class ContentBlockController extends Controller
      */
     public function store(Request $request)
     {
+        // REMOVED 'slug' from validation
         $validator = Validator::make($request->all(), [
-            'slug' => 'required|string|max:255|unique:content_blocks,slug',
             'title' => 'sometimes|required|array',
             'description' => 'sometimes|required|array',
             'booking_btn' => 'sometimes|required|array',
@@ -114,13 +116,12 @@ class ContentBlockController extends Controller
     public function update(Request $request, ContentBlock $contentBlock)
     {
         $validator = Validator::make($request->all(), [
-            'slug' => ['sometimes', 'required', 'string', 'max:255', Rule::unique('content_blocks', 'slug')->ignore($contentBlock->id)],
             'title' => 'sometimes|required|array',
             'description' => 'sometimes|required|array',
             'booking_btn' => 'sometimes|required|array',
             'status' => 'sometimes|required|in:ACTIVE,INACTIVE,DELETED',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
-            'delete_image' => 'sometimes|boolean', // Flag to delete image
+            'delete_image' => 'sometimes|boolean',
         ]);
         
         if ($validator->fails()) {
@@ -136,7 +137,6 @@ class ContentBlockController extends Controller
                 }
                 $imagePath = $request->file('image')->store('content_blocks', 'public');
                 $data['image_path'] = $imagePath;
-
             } elseif ($request->input('delete_image') == '1') {
                 if ($contentBlock->image_path && Storage::disk('public')->exists($contentBlock->image_path)) {
                     Storage::disk('public')->delete($contentBlock->image_path);
@@ -166,7 +166,6 @@ class ContentBlockController extends Controller
     public function destroy(ContentBlock $contentBlock)
     {
         try {
-            // Delete the associated image file
             if ($contentBlock->image_path && Storage::disk('public')->exists($contentBlock->image_path)) {
                 Storage::disk('public')->delete($contentBlock->image_path);
             }

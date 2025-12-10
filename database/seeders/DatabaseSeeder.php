@@ -28,6 +28,7 @@ class DatabaseSeeder extends Seeder
             ServiceCardSeeder::class,
             ContentBlockSeeder::class,
             StoreSeeder::class,
+            AboutUsSeeder::class,
         ]);
     }
 }
