@@ -59,6 +59,7 @@ class TranslationSeeder extends Seeder
             $this->getContentBlockTranslations(),
             $this->getServiceCardTranslations(),
             $this->getHengTranslations(),
+            $this->getAboutUsTranslations(),
 
             // for web
             // $this->getHome(),
@@ -214,6 +215,8 @@ class TranslationSeeder extends Seeder
             ['key' => 'nav.user_listings', 'en' => 'User Listing', 'km' => 'បញ្ជីអ្នកប្រើប្រាស់'],
             ['key' => 'nav.accessory', 'en' => 'Accessory', 'km' => 'សារពើភ័ណ្ឌគ្រឿងបន្លាស់'],
             ['key' => 'nav.reviews', 'en' => 'Reviews', 'km' => 'មតិវិភាគ'],
+            ['key' => 'nav.content_management', 'en' => 'Content Management', 'km' => 'ការគ្រប់គ្រងមាតិកា', 'zh' => '内容管理'],
+            ['key' => 'nav.aboutUs', 'en' => 'About Us', 'km' => 'អំពីយើង', 'zh' => '关于我们'],
         ];
     }
 
@@ -1059,23 +1062,44 @@ class TranslationSeeder extends Seeder
     private function getContentBlockTranslations(): array
     {
         return [
-            ['key' => 'contentBlocks.title', 'en' => 'Content Blocks Management', 'km' => 'ការគ្រប់គ្រងប្លុកមាតិកា', 'zh' => '内容块管理'],
-            ['key' => 'contentBlocks.description', 'en' => 'Manage key textual and multimedia content for your application\'s static pages.', 'km' => 'គ្រប់គ្រងអត្ថបទ និងមាតិកាពហុព័ត៌មានសំខាន់ៗសម្រាប់ទំព័រឋិតិវន្តនៃកម្មវិធីរបស់អ្នក។', 'zh' => '管理应用程序静态页面的主要文本和多媒体内容。'],
-            ['key' => 'contentBlocks.columns.index', 'en' => '#', 'km' => '#', 'zh' => '序号'],
-            ['key' => 'contentBlocks.columns.slug', 'en' => 'Slug (API Key)', 'km' => 'ស្លាក (កូនសោ API)', 'zh' => '标识符 (API键)'],
-            ['key' => 'contentBlocks.columns.title', 'en' => 'Title (EN Preview)', 'km' => 'ចំណងជើង (EN មើលជាមុន)', 'zh' => '标题 (英文预览)'],
-            ['key' => 'contentBlocks.columns.description', 'en' => 'Description', 'km' => 'អត្ថបទពិពណ៌នាខ្លី', 'zh' => '描述片段'],
-            ['key' => 'contentBlocks.columns.updatedAt', 'en' => 'Last Updated', 'km' => 'បានធ្វើបច្ចុប្បន្នភាពចុងក្រោយ', 'zh' => '上次更新'],
-            ['key' => 'contentBlocks.columns.actions', 'en' => 'Actions', 'km' => 'សកម្មភាព', 'zh' => '操作'],
-            ['key' => 'contentBlocks.toolbar.filterBySlug', 'en' => 'Filter by slug...', 'km' => 'ត្រងតាមស្លាក...', 'zh' => '按标识符筛选...'],
-            ['key' => 'contentBlocks.toolbar.new', 'en' => 'New Content Block', 'km' => 'ប្លុកមាតិកាថ្មី', 'zh' => '新建内容块'],
-            ['key' => 'contentBlocks.dialog.create.title', 'en' => 'Create New Content Block', 'km' => 'បង្កើតប្លុកមាតិកាថ្មី', 'zh' => '创建新内容块'],
-            ['key' => 'contentBlocks.dialog.create.description', 'en' => 'Define a unique API slug and enter multilingual content.', 'km' => 'កំណត់ស្លាក API ពិសេស និងបញ្ចូលមាតិកាជាច្រើនភាសា។', 'zh' => '定义唯一的API标识符并输入多语言内容。'],
-            ['key' => 'contentBlocks.dialog.create.form.slug.label', 'en' => 'API Slug', 'km' => 'ស្លាក API', 'zh' => 'API标识符'],
-            ['key' => 'contentBlocks.editDialog.title', 'en' => 'Edit Content Block', 'km' => 'កែសម្រួលប្លុកមាតិកា', 'zh' => '编辑内容块'],
-            ['key' => 'contentBlocks.editDialog.description', 'en' => 'Update translations across all locales.', 'km' => 'ធ្វើបច្ចុប្បន្នភាពការបកប្រែនៅគ្រប់ភាសា។', 'zh' => '更新所有语言区域的翻译。'],
-            ['key' => 'contentBlocks.editDialog.multilingualTitle', 'en' => 'Multilingual Content', 'km' => 'មាតិកាពហុភាសា', 'zh' => '多语言内容'],
-            ['key' => 'contentBlocks.columns.status', 'en' => 'Status', 'km' => 'ស្ថានភាព', 'zh' => '状态'],
+            // Page Header
+            ['key' => 'contentBlocks.title', 'en' => 'Content Blocks Management', 'km' => 'ការគ្រប់គ្រងប្លុកមាតិកា'],
+            ['key' => 'contentBlocks.description', 'en' => 'Manage key textual and multimedia content for your application\'s static pages.', 'km' => 'គ្រប់គ្រងអត្ថបទ និងមាតិកាពហុព័ត៌មានសំខាន់ៗសម្រាប់ទំព័រឋិតិវន្តនៃកម្មវិធីរបស់អ្នក។'],
+
+            // Columns
+            ['key' => 'contentBlocks.columns.index', 'en' => '#', 'km' => '#'],
+            ['key' => 'contentBlocks.columns.slug', 'en' => 'Slug (API Key)', 'km' => 'ស្លាក (កូនសោ API)'],
+            ['key' => 'contentBlocks.columns.title', 'en' => 'Title', 'km' => 'ចំណងជើង'],
+            ['key' => 'contentBlocks.columns.description', 'en' => 'Description', 'km' => 'អត្ថបទពិពណ៌នា'],
+            ['key' => 'contentBlocks.columns.updatedAt', 'en' => 'Last Updated', 'km' => 'បានធ្វើបច្ចុប្បន្នភាពចុងក្រោយ'],
+            ['key' => 'contentBlocks.columns.actions', 'en' => 'Actions', 'km' => 'សកម្មភាព'],
+            ['key' => 'contentBlocks.columns.status', 'en' => 'Status', 'km' => 'ស្ថានភាព'],
+
+            // Toolbar
+            ['key' => 'contentBlocks.toolbar.filterBySlug', 'en' => 'Filter by slug...', 'km' => 'ត្រងតាមស្លាក...'],
+            ['key' => 'contentBlocks.toolbar.new', 'en' => 'New Content Block', 'km' => 'ប្លុកមាតិកាថ្មី'],
+
+            // Create/Edit Dialog - Header
+            ['key' => 'contentBlocks.dialog.create.title', 'en' => 'Create New Content Block', 'km' => 'បង្កើតប្លុកមាតិកាថ្មី'],
+            ['key' => 'contentBlocks.dialog.create.description', 'en' => 'Enter the details below to create a new content block.', 'km' => 'បញ្ចូលព័ត៌មានលម្អិតខាងក្រោមដើម្បីបង្កើតប្លុកមាតិកាថ្មី។'],
+            
+            // Create/Edit Dialog - Form Labels (Found in your Vue file)
+            ['key' => 'contentBlocks.dialog.create.form.slug.label', 'en' => 'API Slug', 'km' => 'ស្លាក API'],
+            ['key' => 'contentBlocks.dialog.create.form.image.label', 'en' => 'Image', 'km' => 'រូបភាព'],
+            ['key' => 'contentBlocks.dialog.create.form.title.label', 'en' => 'Title ({lang})', 'km' => 'ចំណងជើង ({lang})'],
+            ['key' => 'contentBlocks.dialog.create.form.description.label', 'en' => 'Description ({lang})', 'km' => 'ការពិពណ៌នា ({lang})'],
+            ['key' => 'contentBlocks.dialog.create.form.bookingBtn.label', 'en' => 'Booking Button ({lang})', 'km' => 'ប៊ូតុងកក់ ({lang})'],
+
+            // Notifications / Messages (Found in your Vue file)
+            ['key' => 'contentBlocks.dialog.create.error.titleRequired', 'en' => 'The English title is required.', 'km' => 'ត្រូវការចំណងជើងភាសាអង់គ្លេស។'],
+            ['key' => 'contentBlocks.dialog.create.error.unexpected', 'en' => 'An unexpected error occurred.', 'km' => 'មានកំហុសដែលមិនបានរំពឹងទុក។'],
+            ['key' => 'contentBlocks.dialog.create.success.title', 'en' => 'Content Block Created', 'km' => 'ប្លុកមាតិកាត្រូវបានបង្កើត'],
+            ['key' => 'contentBlocks.dialog.create.success.description', 'en' => 'Content Block "{title}" created successfully.', 'km' => 'ប្លុកមាតិកា "{title}" ត្រូវបានបង្កើតដោយជោគជ័យ។'],
+
+            // Edit Specifics
+            ['key' => 'contentBlocks.editDialog.title', 'en' => 'Edit Content Block', 'km' => 'កែសម្រួលប្លុកមាតិកា'],
+            ['key' => 'contentBlocks.editDialog.description', 'en' => 'Update translations across all locales.', 'km' => 'ធ្វើបច្ចុប្បន្នភាពការបកប្រែនៅគ្រប់ភាសា។'],
+            ['key' => 'contentBlocks.editDialog.multilingualTitle', 'en' => 'Multilingual Content', 'km' => 'មាតិកាពហុភាសា'],
         ];
     }
 
@@ -1136,6 +1160,44 @@ class TranslationSeeder extends Seeder
             //reviews
             ['key' => 'reviews.title', 'en' => 'Reviews', 'km' => 'មតិវិភាគ'],
             ['key' => 'reviews.description', 'en' => 'Here\'s a list of reviews!', 'km' => 'នេះគឺជាបញ្ជីមតិវិភាគ!'],
+        ];
+    }
+
+    private function getAboutUsTranslations(): array
+    {
+        return [
+            // Page Header
+            ['key' => 'aboutUs.title', 'en' => 'About Us', 'km' => 'អំពីយើង', 'zh' => '关于我们'],
+            ['key' => 'aboutUs.description', 'en' => 'Manage the About Us section content.', 'km' => 'គ្រប់គ្រងមាតិកាផ្នែកអំពីយើង។', 'zh' => '管理关于我们部分的内容。'],
+            
+            // Toolbar
+            ['key' => 'aboutUs.toolbar.new', 'en' => 'New Entry', 'km' => 'បញ្ចូលថ្មី', 'zh' => '新条目'],
+
+            // Columns (Specific keys, avoiding 'common')
+            ['key' => 'aboutUs.columns.index', 'en' => '#', 'km' => '#', 'zh' => '序号'],
+            ['key' => 'aboutUs.columns.image_url', 'en' => 'Image', 'km' => 'រូបភាព', 'zh' => '图片'],
+            ['key' => 'aboutUs.columns.title', 'en' => 'Title', 'km' => 'ចំណងជើង', 'zh' => '标题'],
+            ['key' => 'aboutUs.columns.description', 'en' => 'Description', 'km' => 'ការពិពណ៌នា', 'zh' => '描述'],
+            ['key' => 'aboutUs.columns.list_text', 'en' => 'List Items', 'km' => 'ធាតុបញ្ជី', 'zh' => '列表项'],
+            ['key' => 'aboutUs.columns.status', 'en' => 'Status', 'km' => 'ស្ថានភាព', 'zh' => '状态'],
+            ['key' => 'aboutUs.columns.actions', 'en' => 'Actions', 'km' => 'សកម្មភាព', 'zh' => '操作'],
+
+            // Statuses (Specific keys, avoiding 'common')
+            ['key' => 'aboutUs.status.active', 'en' => 'Active', 'km' => 'សកម្ម', 'zh' => '有效'],
+            ['key' => 'aboutUs.status.inactive', 'en' => 'Inactive', 'km' => 'អសកម្ម', 'zh' => '无效'],
+            ['key' => 'aboutUs.status.unknown', 'en' => 'Unknown', 'km' => 'មិនស្គាល់', 'zh' => '未知'],
+
+            // Create Dialog
+            ['key' => 'aboutUs.dialog.create.title', 'en' => 'Create About Us Entry', 'km' => 'បង្កើតមាតិកាអំពីយើងថ្មី', 'zh' => '创建关于我们条目'],
+            ['key' => 'aboutUs.dialog.create.description', 'en' => 'Fill in the details below to add a new entry.', 'km' => 'បំពេញព័ត៌មានលម្អិតខាងក្រោម ដើម្បីបន្ថែមធាតុថ្មី។', 'zh' => '请填写以下详细信息以添加新条目。'],
+            ['key' => 'aboutUs.dialog.create.error.titleRequired', 'en' => 'Title is required.', 'km' => 'ត្រូវការចំណងជើង។', 'zh' => '标题为必填项。'],
+            ['key' => 'aboutUs.dialog.create.success.title', 'en' => 'Created Successfully', 'km' => 'បានបង្កើតដោយជោគជ័យ', 'zh' => '创建成功'],
+            ['key' => 'aboutUs.dialog.create.success.description', 'en' => 'The About Us entry has been created.', 'km' => 'មាតិកាអំពីយើងត្រូវបានបង្កើត។', 'zh' => '关于我们条目已创建。'],
+
+            // Edit Dialog
+            ['key' => 'aboutUs.editDialog.title', 'en' => 'Edit About Us', 'km' => 'កែសម្រួលអំពីយើង', 'zh' => '编辑关于我们'],
+            ['key' => 'aboutUs.editDialog.description', 'en' => 'Update the content details here.', 'km' => 'ធ្វើបច្ចុប្បន្នភាពព័ត៌មានលម្អិតមាតិកានៅទីនេះ។', 'zh' => '在此处更新内容详情。'],
+            ['key' => 'aboutUs.editDialog.multilingualTitle', 'en' => 'Multilingual Content', 'km' => 'មាតិកាពហុភាសា', 'zh' => '多语言内容'],
         ];
     }
 }

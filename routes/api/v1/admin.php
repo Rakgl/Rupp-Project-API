@@ -22,6 +22,8 @@ use App\Http\Controllers\Api\V1\Admin\BodyTypeController;
 use App\Http\Controllers\Api\V1\Admin\CarController;
 use App\Http\Controllers\Api\V1\Admin\UserListingController;
 use App\Http\Controllers\Api\V1\Admin\ReviewController;
+use App\Http\Controllers\api\v1\admin\AboutUsController;
+
 
 // Public routes
 Route::post('/auth/login', [AuthController::class, 'login']);
@@ -127,5 +129,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
         // User Listings
         Route::apiResource('reviews', ReviewController::class);
+        // About Us
+        Route::apiResource('about-us', AboutUsController::class);
     });
 });
