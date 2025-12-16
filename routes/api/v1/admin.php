@@ -22,6 +22,8 @@ use App\Http\Controllers\Api\V1\Admin\BodyTypeController;
 use App\Http\Controllers\Api\V1\Admin\CarController;
 use App\Http\Controllers\Api\V1\Admin\UserListingController;
 use App\Http\Controllers\Api\V1\Admin\ReviewController;
+use App\Http\Controllers\Api\V1\Admin\CarSaleController;
+use App\Http\Controllers\Api\V1\Admin\PaymentController;
 use App\Http\Controllers\api\v1\admin\AboutUsController;
 
 
@@ -129,6 +131,11 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
         // User Listings
         Route::apiResource('reviews', ReviewController::class);
+
+        // Car sales & payments
+        Route::apiResource('car-sales', CarSaleController::class);
+        Route::apiResource('payments', PaymentController::class);
+
         // About Us
         Route::apiResource('about-us', AboutUsController::class);
     });

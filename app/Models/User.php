@@ -119,4 +119,9 @@ class User extends Authenticatable implements Auditable
     {
         return $this->hasMany(Review::class);
     }
+
+    public function carSales(): HasMany
+    {
+        return $this->hasMany(CarSale::class, 'buyer_id');
+    }
 }
