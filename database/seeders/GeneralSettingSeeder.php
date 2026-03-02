@@ -17,7 +17,7 @@ class GeneralSettingSeeder extends Seeder
             [
                 'key' => 'site_title',
                 'name' => 'Site Title',
-                'value' => 'Car Service Admin',
+                'value' => 'Admin',
                 'type' => 'string',
                 'group' => 'Site Information',
                 'description' => 'The title of the car service website, appearing in the browser tab and search engine results.',
@@ -57,7 +57,7 @@ class GeneralSettingSeeder extends Seeder
              [
                 'key' => 'email_from_address',
                 'name' => 'Email "From" Address',
-                'value' => 'no-reply@carservice.com',
+                'value' => 'no-reply@admin.com',
                 'type' => 'string',
                 'group' => 'Notifications',
                 'description' => 'The email address that car service system emails will be sent from.',

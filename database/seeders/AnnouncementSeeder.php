@@ -34,46 +34,6 @@ class AnnouncementSeeder extends Seeder
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now()
             ],
-            // [
-            //     'id' => (string) \Illuminate\Support\Str::uuid(),
-            //     'title' => json_encode([
-            //         'en' => 'New Promotion Alert!',
-            //         'kh' => 'ប្រូម៉ូសិនថ្មី!'
-            //     ]),
-            //     'message' => json_encode([
-            //         'en' => 'Enjoy a 20% discount on all charging stations for the next week! Don’t miss out!',
-            //         'kh' => 'រីករាយនឹងការបញ្ចុះតម្លៃ 20% សម្រាប់ស្ថានីយ៍សាកទាំងអស់ក្នុងសប្ដាហ៍នេះ! កុំខកខាន!'
-            //     ]),
-            //     'type' => 'PROMOTION',
-            //     'scheduled_at' => Carbon::now()->addMinutes(10),
-            //     'status' => 'PENDING',
-            //     'image' => 'promotion.jpg',
-            //     'created_by' => 'admin2',
-            //     'updated_by' => null,
-            //     'update_num' => 0,
-            //     'created_at' => Carbon::now(),
-            //     'updated_at' => Carbon::now()
-            // ],
-            // [
-            //     'id' => (string) \Illuminate\Support\Str::uuid(),
-            //     'title' => json_encode([
-            //         'en' => 'App Update Available',
-            //         'kh' => 'មានការធ្វើបច្ចុប្បន្នភាពកម្មវិធី'
-            //     ]),
-            //     'message' => json_encode([
-            //         'en' => 'A new version of the app is now available. Please update to enjoy the latest features and improvements.',
-            //         'kh' => 'ជំនាន់ថ្មីនៃកម្មវិធីនេះមានស្រាប់ហើយ។ សូមធ្វើបច្ចុប្បន្នភាពដើម្បីរីករាយនឹងលក្ខណៈពិសេសថ្មីៗ និងការកែលម្អ។'
-            //     ]),
-            //     'type' => 'UPDATE',
-            //     'scheduled_at' => Carbon::now()->addHours(6),
-            //     'status' => 'PENDING',
-            //     'image' => 'update.jpg',
-            //     'created_by' => 'admin3',
-            //     'updated_by' => null,
-            //     'update_num' => 0,
-            //     'created_at' => Carbon::now(),
-            //     'updated_at' => Carbon::now()
-            // ]
         ]);
     }
 }

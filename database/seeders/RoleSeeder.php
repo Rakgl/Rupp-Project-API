@@ -55,26 +55,26 @@ class RoleSeeder extends Seeder
                 'created_at' => $now,
                 'updated_at' => $now,
             ],
-
+            [
+                'id' => Str::uuid()->toString(),
+                'name' => "QA",
+                'description' => "QA control over most system features.",
+                'status' => 'ACTIVE',
+                'type' => 'qa',
+                'created_at' => $now,
+                'updated_at' => $now,
+            ],
         ];
-
-        // // Generate the remaining 97 roles
-        // for ($i = 1; $i <= 97; $i++) {
-        //     $roles[] = [
-        //         'id' => Str::uuid()->toString(),
-        //         'name' => "User Role " . $i, // Differentiating from admin roles
-        //         'description' => "Standard access for User Role " . $i,
-        //         'status' => 'ACTIVE',
-        //         'created_at' => $now,
-        //         'updated_at' => $now,
-        //     ];
-        // }
 
         // Insert in chunks to avoid potential issues with very large arrays
         foreach (array_chunk($roles, 50) as $chunk) {
-            DB::table('roles')->insert($chunk);
+            DB::table('roles')->upsert(
+                $chunk, 
+                ['name'],
+                ['description', 'status', 'type', 'updated_at']
+            );
         }
 
-        $this->command->info('100 Roles (including 3 admin roles) seeded successfully.');
+        $this->command->info('Roles seeded successfully.');
     }
 }

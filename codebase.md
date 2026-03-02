@@ -1112,160 +1112,6 @@ return new class extends Migration
 };
 ```
 
-# 2025_10_08_090121_create_table_products.php
-
-```php
-<?php
-
-use Illuminate\Database\Migrations\Migration;
-use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Support\Facades\Schema;
-
-return new class extends Migration
-{
-    public function up(): void
-    {
-        // ----- BRANDS -----
-        Schema::create('brands', function (Blueprint $table) {
-            $table->uuid('id')->primary();
-            $table->string('name')->unique();
-            $table->text('description')->nullable();
-            $table->timestamps();
-        });
-
-        // ----- CATEGORIES (e.g. EV, Gasoline, Hybrid) -----
-        Schema::create('categories', function (Blueprint $table) {
-            $table->uuid('id')->primary(); 
-            $table->string('name')->unique();
-            $table->text('description')->nullable();
-            $table->timestamps();
-        });
-
-        // ----- LISTING TYPES (e.g. Car, Bike, Boat) -----
-        Schema::create('listing_types', function (Blueprint $table) {
-            $table->uuid('id')->primary(); 
-            $table->string('name')->unique();
-            $table->string('description')->nullable();
-            $table->timestamps();
-        });
-
-        // ----- VEHICLE LISTINGS -----
-        Schema::create('listings', function (Blueprint $table) {
-            $table->uuid('id')->primary(); 
-            
-            // All foreign keys referencing a UUID primary key must use foreignUuid()
-            $table->foreignUuid('seller_id')->constrained('users')->cascadeOnDelete();
-            
-            // Foreign keys referencing UUIDs in new tables
-            $table->foreignUuid('brand_id')->nullable()->constrained('brands')->nullOnDelete();
-            $table->foreignUuid('category_id')->nullable()->constrained('categories')->nullOnDelete();
-            $table->foreignUuid('listing_type_id')->nullable()->constrained('listing_types')->nullOnDelete();
-
-            $table->string('title');
-            $table->text('description')->nullable();
-            $table->decimal('price', 12, 2)->nullable();
-            $table->string('location')->nullable();
-            $table->enum('condition', ['new', 'used'])->default('used');
-            $table->enum('status', ['pending', 'approved', 'rejected', 'sold'])->default('pending');
-
-            $table->timestamps();
-        });
-
-        // ----- SHOP PRODUCT TYPES (e.g. Car Parts, Accessories) -----
-        Schema::create('shop_product_types', function (Blueprint $table) {
-            $table->uuid('id')->primary(); 
-            $table->string('name')->unique();
-            $table->string('description')->nullable();
-            $table->timestamps();
-        });
-
-        // ----- SHOP PRODUCTS (orderable small items) -----
-        Schema::create('shop_products', function (Blueprint $table) {
-            $table->uuid('id')->primary(); 
-            $table->string('name');
-            $table->text('description')->nullable();
-            $table->decimal('price', 12, 2);
-            $table->integer('stock')->default(0);
-            
-            // Foreign keys referencing UUIDs
-            $table->foreignUuid('seller_id')->nullable()->constrained('users')->nullOnDelete();
-            $table->foreignUuid('brand_id')->nullable()->constrained('brands')->nullOnDelete();
-            $table->foreignUuid('category_id')->nullable()->constrained('categories')->nullOnDelete();
-            $table->foreignUuid('type_id')->nullable()->constrained('shop_product_types')->nullOnDelete();
-            
-            $table->string('image_url')->nullable();
-            $table->enum('status', ['active', 'inactive'])->default('active');
-            $table->timestamps();
-        });
-
-        // ----- ADDRESSES -----
-        Schema::create('addresses', function (Blueprint $table) {
-            $table->uuid('id')->primary(); 
-            $table->foreignUuid('user_id')->constrained('users')->cascadeOnDelete(); // CHANGED to foreignUuid
-            $table->string('address_line_1');
-            $table->string('address_line_2')->nullable();
-            $table->string('city');
-            $table->string('state')->nullable();
-            $table->string('zip_code')->nullable();
-            $table->string('country');
-            $table->string('phone_number');
-            $table->boolean('is_primary')->default(false);
-            $table->timestamps();
-        });
-
-        // ----- ORDERS -----
-        Schema::create('orders', function (Blueprint $table) {
-            $table->uuid('id')->primary(); 
-            $table->foreignUuid('buyer_id')->constrained('users')->cascadeOnDelete(); 
-            $table->decimal('total_price', 12, 2);
-            $table->foreignUuid('shipping_address_id')->nullable()->constrained('addresses')->nullOnDelete();
-            
-            $table->string('shipping_phone')->nullable(); 
-            $table->enum('status', ['pending', 'paid', 'shipped', 'completed', 'cancelled'])->default('pending');
-            $table->timestamps();
-        });
-
-        // ----- ORDER ITEMS -----
-        Schema::create('order_items', function (Blueprint $table) {
-            $table->uuid('id')->primary(); 
-            $table->foreignUuid('order_id')->constrained('orders')->cascadeOnDelete();
-            $table->foreignUuid('shop_product_id')->constrained('shop_products')->cascadeOnDelete();
-            
-            $table->integer('quantity');
-            $table->decimal('price', 12, 2);
-            $table->timestamps();
-        });
-
-        // ----- PAYMENTS -----
-        Schema::create('payments', function (Blueprint $table) {
-            $table->uuid('id')->primary(); 
-            $table->foreignUuid('order_id')->nullable()->constrained('orders')->nullOnDelete();
-            $table->foreignUuid('user_id')->constrained('users')->cascadeOnDelete(); 
-            
-            $table->decimal('amount', 12, 2);
-            $table->string('method')->nullable();
-            $table->enum('purpose', ['order', 'listing_fee', 'feature_fee'])->default('order');
-            $table->enum('status', ['pending', 'success', 'failed'])->default('pending');
-            $table->timestamps();
-        });
-    }
-
-    public function down(): void
-    {
-        Schema::dropIfExists('payments');
-        Schema::dropIfExists('order_items');
-        Schema::dropIfExists('orders');
-        Schema::dropIfExists('addresses');
-        Schema::dropIfExists('shop_products');
-        Schema::dropIfExists('shop_product_types');
-        Schema::dropIfExists('listings');
-        Schema::dropIfExists('listing_types');
-        Schema::dropIfExists('categories');
-        Schema::dropIfExists('brands');
-    }
-};
-```
-
 # 2025_10_15_121029_create_stores_table.php
 
 ```php
@@ -1405,8 +1251,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('content_blocks', function (Blueprint $table) {
-            $table->id();
-            $table->string('slug')->unique(); 
+            $table->uuid('id')->primary();
             $table->json('title')->nullable();
             $table->json('description')->nullable();
             $table->json('booking_btn')->nullable();
@@ -1443,11 +1288,11 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('service_cards', function (Blueprint $table) {
-            $table->id();
+            $table->uuid('id')->primary();
             $table->json('title');
             $table->json('description');
             $table->json('button_text');
-            $table->string('image_url');
+            $table->string('image_url')->nullable();
             $table->string('status', 10)->comment('ACTIVE, INACTIVE , DELETED')->default('ACTIVE');
             $table->timestamps();
         });
@@ -1482,13 +1327,7 @@ return new class extends Migration
         Schema::create('conversations', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->timestamp('last_message_at')->nullable()->index();
-            $table->foreignUuid('pharmacy_id')
-                  ->nullable()
-                  ->constrained('pharmacies')
-                  ->onDelete('cascade');
-				  
-			$table->enum('type', ['DOCTOR_PATIENT', 'PHARMACIST_PATIENT'])->default('DOCTOR_PATIENT')->after('id');
-
+            $table->string('type', 20)->default('PRIVATE')->comment('PRIVATE, STORE');
             $table->timestamps();
             $table->softDeletes();
             $table->uuid('created_by')->nullable();
@@ -1703,5 +1542,388 @@ return new class extends Migration
         });
     }
 };
+```
+
+# 2025_11_26_093516_create_about_us.php
+
+```php
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    /**
+     * Run the migrations.
+     */
+    public function up(): void
+    {
+        Schema::create('about_us', function (Blueprint $table) {
+            $table->uuid('id')->primary();
+            $table->json('title');
+            $table->json('description');
+            $table->json('list_text');
+            $table->string('image_url')->nullable();
+            $table->string('status', 10)->comment('ACTIVE, INACTIVE , DELETED')->default('ACTIVE');
+            $table->softDeletes();
+            $table->string('created_by')->nullable();
+            $table->string('updated_by')->nullable();
+            $table->string('deleted_by')->nullable();
+            $table->timestamps();
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     */
+    public function down(): void
+    {
+        Schema::dropIfExists('about_us');
+    }
+};
+```
+
+# 2025_11_26_163948_create_brands_table.php
+
+```php
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    public function up(): void
+    {
+        Schema::create('brands', function (Blueprint $table) {
+            $table->uuid('id')->primary();
+            $table->string('name')->unique();
+            $table->string('image_url')->nullable();
+            $table->timestamps();
+        });
+    }
+
+    public function down(): void
+    {
+        Schema::table('brands', function (Blueprint $table) {
+            $table->dropColumn('image_url'); 
+        });
+    }
+};
+
+```
+
+# 2025_11_26_163949_create_body_types_table.php
+
+```php
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    public function up(): void
+    {
+        Schema::create('body_types', function (Blueprint $table) {
+            $table->uuid('id')->primary();
+            $table->string('name')->unique(); // SUV, Sedan, Coupe, etc.
+            $table->string('image_url')->nullable();
+            $table->timestamps();
+        });
+    }
+
+    public function down(): void
+    {
+        Schema::table('body_types', function (Blueprint $table) {
+            $table->dropColumn('image_url');
+        });
+    }
+};
+
+```
+
+# 2025_11_26_163949_create_models_table.php
+
+```php
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    public function up(): void
+    {
+        Schema::create('models', function (Blueprint $table) {
+            $table->uuid('id')->primary();
+            $table->foreignUuid('brand_id')->constrained('brands')->cascadeOnDelete();
+            $table->string('name'); // e.g., RS7, 911 Turbo S
+            $table->timestamps();
+        });
+    }
+
+    public function down(): void
+    {
+        Schema::dropIfExists('models');
+    }
+};
+
+```
+
+# 2025_11_26_163950_create_cars_table.php
+
+```php
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    public function up(): void
+    {
+        Schema::create('cars', function (Blueprint $table) {
+            $table->uuid('id')->primary();
+            $table->foreignUuid('model_id')->constrained('models')->cascadeOnDelete();
+            $table->foreignUuid('body_type_id')->nullable()->constrained('body_types')->nullOnDelete();
+
+            // --- INVENTORY MANAGEMENT ---
+            $table->unsignedInteger('stock_quantity')->default(1)->comment('Number of identical units.');
+            $table->string('status')->default('available')->comment('Indicates if active for listing.');
+
+            // Basic car info
+            $table->year('year');
+            $table->decimal('price', 12, 2)->nullable()->comment('Base selling price.');
+            $table->integer('seat')->nullable();
+            $table->string('engine')->nullable();
+            $table->integer('door')->nullable();
+
+            $table->string('fuel_type')->comment('EV, Gasoline, Hybrid, Diesel');
+            $table->string('condition')->comment('New or Used');
+            $table->string('transmission')->comment('Manual or Automatic');
+
+            // Leasing options
+            $table->decimal('lease_price_per_month', 10, 2)->nullable();
+
+            $table->timestamps();
+        });
+    }
+
+    public function down(): void
+    {
+        Schema::dropIfExists('cars');
+    }
+};
+
+```
+
+# 2025_11_26_163950_create_user_listings_table.php
+
+```php
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    public function up(): void
+    {
+        Schema::create('user_listings', function (Blueprint $table) {
+            $table->uuid('id')->primary();
+            // Assumes standard Laravel 'users' table exists
+            $table->foreignUuid('user_id')->constrained('users')->cascadeOnDelete();
+            $table->foreignUuid('model_id')->constrained('models')->cascadeOnDelete();
+
+            $table->year('year');
+            $table->string('condition')->comment('New, Used, etc.');
+            $table->decimal('price', 12, 2);
+            $table->text('description')->nullable();
+            $table->string('status')->default('pending')->comment('pending, approved, rejected, sold');
+
+            $table->timestamps();
+        });
+    }
+
+    public function down(): void
+    {
+        Schema::dropIfExists('user_listings');
+    }
+};
+
+```
+
+# 2025_11_26_163951_create_car_images_table.php
+
+```php
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    public function up(): void
+    {
+        Schema::create('car_images', function (Blueprint $table) {
+            $table->uuid('id')->primary();
+            $table->foreignUuid('car_id')->constrained('cars')->cascadeOnDelete();
+            $table->string('image_path');
+            $table->boolean('is_primary')->default(false);
+            $table->timestamps();
+        });
+    }
+
+    public function down(): void
+    {
+        Schema::dropIfExists('car_images');
+    }
+};
+
+```
+
+# 2025_11_26_163951_create_car_leasings_table.php
+
+```php
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    public function up(): void
+    {
+        Schema::create('car_leasings', function (Blueprint $table) {
+            $table->uuid('id')->primary();
+            $table->foreignUuid('car_id')->constrained('cars')->cascadeOnDelete();
+            $table->foreignUuid('user_id')->nullable()->constrained('users')->nullOnDelete();
+
+            $table->date('start_date');
+            $table->date('end_date');
+            
+            // Snapshot of pricing
+            $table->decimal('monthly_price', 10, 2); 
+            $table->decimal('total_price', 12, 2)->nullable();
+
+            $table->string('status')->default('pending');
+            $table->timestamps();
+        });
+    }
+
+    public function down(): void
+    {
+        Schema::dropIfExists('car_leasings');
+    }
+};
+
+```
+
+# 2025_11_26_163951_create_reviews_table.php
+
+```php
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    public function up(): void
+    {
+        Schema::create('reviews', function (Blueprint $table) {
+            $table->uuid('id')->primary();
+            $table->foreignUuid('model_id')->constrained('models')->cascadeOnDelete();
+            $table->foreignUuid('user_id')->nullable()->constrained('users')->nullOnDelete(); 
+            $table->unsignedTinyInteger('rating')->comment('1–5 star rating');
+            $table->text('comment')->nullable();
+            $table->timestamps();
+        });
+    }
+
+    public function down(): void
+    {
+        Schema::dropIfExists('reviews');
+    }
+};
+
+```
+
+# 2025_11_26_163952_create_user_listing_images_table.php
+
+```php
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    public function up(): void
+    {
+        Schema::create('user_listing_images', function (Blueprint $table) {
+            $table->uuid('id')->primary();
+            $table->foreignUuid('user_listing_id')->constrained('user_listings')->cascadeOnDelete();
+            $table->string('image_path');
+            $table->boolean('is_primary')->default(false);
+            $table->timestamps();
+        });
+    }
+
+    public function down(): void
+    {
+        Schema::dropIfExists('user_listing_images');
+    }
+};
+
+```
+
+# 2025_11_28_105741_create_news_table.php
+
+```php
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    /**
+     * Run the migrations.
+     */
+    public function up(): void
+    {
+        Schema::create('news', function (Blueprint $table) {
+            $table->uuid('id')->primary();
+            $table->json('name');
+            $table->json('description');
+            $table->string('image_url')->nullable();
+            $table->string('status', 10)->comment('ACTIVE, INACTIVE , DELETED')->default('ACTIVE');
+            $table->timestamps();
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     */
+    public function down(): void
+    {
+        Schema::dropIfExists('news');
+    }
+};
+
 ```
 
