@@ -27,17 +27,17 @@ class ServiceCardSeeder extends Seeder
             [
                 'title' => [
                     'en' => 'Leasing you can trust, now with Autorayider',
-                    'km' => 'សេវាកម្មជួលដែលអ្នកអាចទុកចិត្តបាន ជាមួយ Autorayider',
+                    'kh' => 'សេវាកម្មជួលដែលអ្នកអាចទុកចិត្តបាន ជាមួយ Autorayider',
                     'zh' => '您可以信賴的租賃服務，現在有 Autorayider'
                 ],
                 'description' => [
                     'en' => 'the price you see is the price you get',
-                    'km' => 'តម្លៃដែលអ្នកឃើញ គឺជាតម្លៃដែលអ្នកទទួលបាន',
+                    'kh' => 'តម្លៃដែលអ្នកឃើញ គឺជាតម្លៃដែលអ្នកទទួលបាន',
                     'zh' => '所見即所得'
                 ],
                 'button_text' => [
                     'en' => 'Button',
-                    'km' => 'ប៊ូតុង',
+                    'kh' => 'ប៊ូតុង',
                     'zh' => '按鈕'
                 ],
                 'image_url' => '/images/card-image-1.png',
@@ -46,17 +46,17 @@ class ServiceCardSeeder extends Seeder
             [
                 'title' => [
                     'en' => 'Leasing you can trust, now with Autorayider',
-                    'km' => 'សេវាកម្មជួលដែលអ្នកអាចទុកចិត្តបាន ជាមួយ Autorayider',
+                    'kh' => 'សេវាកម្មជួលដែលអ្នកអាចទុកចិត្តបាន ជាមួយ Autorayider',
                     'zh' => '您可以信賴的租賃服務，現在有 Autorayider'
                 ],
                 'description' => [
                     'en' => 'the price you see is the price you get',
-                    'km' => 'តម្លៃដែលអ្នកឃើញ គឺជាតម្លៃដែលអ្នកទទួលបាន',
+                    'kh' => 'តម្លៃដែលអ្នកឃើញ គឺជាតម្លៃដែលអ្នកទទួលបាន',
                     'zh' => '所見即所得'
                 ],
                 'button_text' => [
                     'en' => 'Button',
-                    'km' => 'ប៊ូតុង',
+                    'kh' => 'ប៊ូតុង',
                     'zh' => '按鈕'
                 ],
                 'image_url' => '/images/card-image-2.png',
@@ -65,17 +65,17 @@ class ServiceCardSeeder extends Seeder
             [
                 'title' => [
                     'en' => 'Leasing you can trust, now with Autorayider',
-                    'km' => 'សេវាកម្មជួលដែលអ្នកអាចទុកចិត្តបាន ជាមួយ Autorayider',
+                    'kh' => 'សេវាកម្មជួលដែលអ្នកអាចទុកចិត្តបាន ជាមួយ Autorayider',
                     'zh' => '您可以信賴的租賃服務，現在有 Autorayider'
                 ],
                 'description' => [
                     'en' => 'the price you see is the price you get',
-                    'km' => 'តម្លៃដែលអ្នកឃើញ គឺជាតម្លៃដែលអ្នកទទួលបាន',
+                    'kh' => 'តម្លៃដែលអ្នកឃើញ គឺជាតម្លៃដែលអ្នកទទួលបាន',
                     'zh' => '所見即所得'
                 ],
                 'button_text' => [
                     'en' => 'Button',
-                    'km' => 'ប៊ូតុង',
+                    'kh' => 'ប៊ូតុង',
                     'zh' => '按鈕'
                 ],
                 'image_url' => '/images/card-image-3.png',

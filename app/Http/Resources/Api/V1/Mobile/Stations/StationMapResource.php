@@ -16,7 +16,7 @@ class StationMapResource extends JsonResource
     {
         return [
 			'id' => $this->id,
-			'distance' => number_format($this->distance, 2, '.', '' ) . ' km',
+			'distance' => number_format($this->distance, 2, '.', '' ) . ' kh',
 			'lat' => $this->latitude,
 			'lng' => $this->longitude,
 		];

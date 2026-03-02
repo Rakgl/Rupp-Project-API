@@ -14,17 +14,17 @@ class ContentBlockSeeder extends Seeder
                 'image_path' => '/storage/images/porsche-911-hero.png', 
                 'title' => [
                     'en' => 'UNLOCK YOUR TRAVEL EXPERIENCE',
-                    'km' => 'ដោះសោបទពិសោធន៍ធ្វើដំណើររបស់អ្នក',
+                    'kh' => 'ដោះសោបទពិសោធន៍ធ្វើដំណើររបស់អ្នក',
                     'zh' => '解锁您的旅行体验',
                 ],
                 'description' => [
                     'en' => 'Pellentesque nibh. Aenean quam. In scelerisque sem at dolor. Maecenas mattis. Sed convallis tristique sem. Proin ut ligula non nisi commodo vehicula. Aliquam ut velit in est tincidunt egestas.',
-                    'km' => 'អត្ថបទគំរូជាភាសាខ្មែរ។ នេះគឺជាការពិពណ៌នាអំពីបទពិសោធន៍ធ្វើដំណើរ។',
+                    'kh' => 'អត្ថបទគំរូជាភាសាខ្មែរ។ នេះគឺជាការពិពណ៌នាអំពីបទពិសោធន៍ធ្វើដំណើរ។',
                     'zh' => '这是关于我们公司的完整描述。Pellentesque nibh. Aenean quam.',
                 ],
                 'booking_btn' => [
                     'en' => 'Booking Now',
-                    'km' => 'កក់ឥឡូវនេះ',
+                    'kh' => 'កក់ឥឡូវនេះ',
                     'zh' => '现在预订',
                 ],
             ],

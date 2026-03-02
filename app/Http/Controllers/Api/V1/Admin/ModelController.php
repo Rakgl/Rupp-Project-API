@@ -90,7 +90,8 @@ class ModelController extends Controller
                         return $query->where('brand_id', $request->brand_id);
                     })->ignore($model->id)
                 ]
-            ], [
+            ], 
+            [
                 'name.unique' => 'This model already exists for the selected brand.'
             ]);
 

@@ -17,12 +17,12 @@ class StoreNewsRequest extends FormRequest
             // Validate Name (JSON)
             'name' => 'required|array',
             'name.en' => 'required|string|max:255',
-            'name.km' => 'nullable|string|max:255',
+            'name.kh' => 'nullable|string|max:255',
 
             // Validate Description (JSON)
             'description' => 'required|array',
             'description.en' => 'required|string',
-            'description.km' => 'nullable|string',
+            'description.kh' => 'nullable|string',
 
             // Validate Image (Input name: 'image')
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',

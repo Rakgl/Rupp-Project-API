@@ -35,7 +35,7 @@ class SavedStationResource extends JsonResource
 			'image' => Helper::imageUrl($stationImage?->image),
 			'address' => $this->address,
 			'phone' => $this->phone,
-			'distance' => number_format($this->distance, 2, '.', '' ) . ' km',
+			'distance' => number_format($this->distance, 2, '.', '' ) . ' kh',
 			'lat' => $this->latitude,
 			'lng' => $this->longitude,
 			'dc_connector' => $this->available_dc_connectors . '/' . $this->all_dc_connectors,

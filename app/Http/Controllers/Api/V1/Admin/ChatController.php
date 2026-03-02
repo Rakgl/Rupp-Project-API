@@ -93,7 +93,7 @@ class ChatController extends Controller
             return $this->pollMessages($request, $conversation);
         }
 
-		$this->markMessagesAsRead($conversation, $user);
+		$this->markhessagesAsRead($conversation, $user);
 
         $messages = $conversation->messages()
             ->with(['sender', 'replyToMessage.sender', 'reactions', 'readReceipts.user'])
@@ -311,7 +311,7 @@ class ChatController extends Controller
     }
 
 
-	private function markMessagesAsRead(Conversation $conversation, User $user)
+	private function markhessagesAsRead(Conversation $conversation, User $user)
     {
         $unreadMessageIds = $conversation->messages()
             ->where('sender_id', '!=', $user->id)

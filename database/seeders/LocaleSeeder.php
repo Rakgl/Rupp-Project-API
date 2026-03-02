@@ -26,7 +26,7 @@ class LocaleSeeder extends Seeder
                 'id' => Str::uuid(),
                 'name' => "Khmer",
                 'code' => 'kh',
-                'iso' => "km",
+                'iso' => "kh",
                 'default' => false
             ],
         ]);
