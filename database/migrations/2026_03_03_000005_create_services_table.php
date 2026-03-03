@@ -6,26 +6,22 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up(): void
     {
-        Schema::create('news', function (Blueprint $table) {
+        Schema::create('services', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->json('name');
-            $table->json('description');
+            $table->json('description')->nullable();
+            $table->decimal('price', 12, 2);
+            $table->integer('duration_minutes')->comment('Time needed for booking slots');
             $table->string('image_url')->nullable();
-            $table->string('status', 10)->comment('ACTIVE, INACTIVE , DELETED')->default('ACTIVE');
-            $table->timestamps();
+            $table->string('status', 10)->default('ACTIVE');
+            $table->timestampsTz();
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
-        Schema::dropIfExists('news');
+        Schema::dropIfExists('services');
     }
 };

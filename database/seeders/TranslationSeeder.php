@@ -25,13 +25,12 @@ class TranslationSeeder extends Seeder
                     'platform' => $translation['platform'] ?? 'ADMIN', // Default to 'ADMIN' if not specified
                 ],
                 [
-                    // The values to insert or update
                     'value' => json_encode([
                         'en' => $translation['en'],
                         'kh' => $translation['kh'],
-                        'zh' => $translation['zh'] ?? $translation['en'], // Optional Chinese translation
+                        'zh' => $translation['zh'] ?? $translation['en'],
                     ]),
-                    'status' => $translation['status'] ?? 'ACTIVE', // Default to 'ACTIVE' if not specified
+                    'status' => $translation['status'] ?? 'ACTIVE',
                 ]
             );
         }
@@ -56,10 +55,8 @@ class TranslationSeeder extends Seeder
             $this->getCommonTranslations(),
             $this->getPaymentMethod(),
             $this->getStoreTranslations(),
-            $this->getContentBlockTranslations(),
-            $this->getServiceCardTranslations(),
-            $this->getHengTranslations(),
-            $this->getAboutUsTranslations(),
+            $this->getAppDownloadLinksTranslations(),
+            $this->getAppVersionTranslations(),
 
             // for web
             // $this->getHome(),
@@ -204,19 +201,10 @@ class TranslationSeeder extends Seeder
             ['key' => 'nav.items.conversations', 'en' => 'Conversations', 'kh' => 'ការសន្ទនា', 'zh' => '会话'],
             ['key' => 'nav.items.ai_assitant', 'en' => 'AI Assistant', 'kh' => 'ជំនួយការ AI', 'zh' => 'AI助手'],
             ['key' => 'nav.items.ocr', 'en' => 'OCR', 'kh' => 'OCR', 'zh' => 'OCR'],
-            ['key' => 'nav.content_blocks', 'en' => 'Content Blocks', 'kh' => 'ប្លុកមាតិកា', 'zh' => '内容块'],
-            ['key' => 'nav.home_page', 'en' => 'Home Page', 'kh' => 'ទំព័រដើម', 'zh' => '首页'],
-            ['key' => 'nav.service_cards', 'en' => 'Service Cards', 'kh' => 'ប័ណ្ណសេវាកម្ម', 'zh' => '服务卡'],
-            ['key' => 'nav.content_management', 'en' => 'Content Management', 'kh' => 'ការគ្រប់គ្រងមាតិកា'],
-            ['key' => 'nav.news', 'en' => 'News', 'kh' => 'ព័ត៍មាន'],
-            ['key' => 'nav.models', 'en' => 'Models', 'kh' => 'ម៉ូដែល'],
             ['key' => 'nav.body_types', 'en' => 'Body Types', 'kh' => 'ប្រភេទរាងកាយ'],
-            ['key' => 'nav.cars', 'en' => 'Cars', 'kh' => 'រថយន្ត'],
             ['key' => 'nav.user_listings', 'en' => 'User Listing', 'kh' => 'បញ្ជីអ្នកប្រើប្រាស់'],
             ['key' => 'nav.accessory', 'en' => 'Accessory', 'kh' => 'សារពើភ័ណ្ឌគ្រឿងបន្លាស់'],
-            ['key' => 'nav.reviews', 'en' => 'Reviews', 'kh' => 'មតិវិភាគ'],
-            ['key' => 'nav.content_management', 'en' => 'Content Management', 'kh' => 'ការគ្រប់គ្រងមាតិកា', 'zh' => '内容管理'],
-            ['key' => 'nav.aboutUs', 'en' => 'About Us', 'kh' => 'អំពីយើង', 'zh' => '关于我们'],
+            ['key' => 'nav.app_versions', 'en' => 'App Versions', 'kh' => 'កំណែកម្មវិធី', 'zh' => '应用版本'],
         ];
     }
 
@@ -1059,50 +1047,6 @@ class TranslationSeeder extends Seeder
         ];
     }
 
-    private function getContentBlockTranslations(): array
-    {
-        return [
-            // Page Header
-            ['key' => 'contentBlocks.title', 'en' => 'Content Blocks Management', 'kh' => 'ការគ្រប់គ្រងប្លុកមាតិកា'],
-            ['key' => 'contentBlocks.description', 'en' => 'Manage key textual and multimedia content for your application\'s static pages.', 'kh' => 'គ្រប់គ្រងអត្ថបទ និងមាតិកាពហុព័ត៌មានសំខាន់ៗសម្រាប់ទំព័រឋិតិវន្តនៃកម្មវិធីរបស់អ្នក។'],
-
-            // Columns
-            ['key' => 'contentBlocks.columns.index', 'en' => '#', 'kh' => '#'],
-            ['key' => 'contentBlocks.columns.slug', 'en' => 'Slug (API Key)', 'kh' => 'ស្លាក (កូនសោ API)'],
-            ['key' => 'contentBlocks.columns.title', 'en' => 'Title', 'kh' => 'ចំណងជើង'],
-            ['key' => 'contentBlocks.columns.description', 'en' => 'Description', 'kh' => 'អត្ថបទពិពណ៌នា'],
-            ['key' => 'contentBlocks.columns.updatedAt', 'en' => 'Last Updated', 'kh' => 'បានធ្វើបច្ចុប្បន្នភាពចុងក្រោយ'],
-            ['key' => 'contentBlocks.columns.actions', 'en' => 'Actions', 'kh' => 'សកម្មភាព'],
-            ['key' => 'contentBlocks.columns.status', 'en' => 'Status', 'kh' => 'ស្ថានភាព'],
-
-            // Toolbar
-            ['key' => 'contentBlocks.toolbar.filterBySlug', 'en' => 'Filter by slug...', 'kh' => 'ត្រងតាមស្លាក...'],
-            ['key' => 'contentBlocks.toolbar.new', 'en' => 'New Content Block', 'kh' => 'ប្លុកមាតិកាថ្មី'],
-
-            // Create/Edit Dialog - Header
-            ['key' => 'contentBlocks.dialog.create.title', 'en' => 'Create New Content Block', 'kh' => 'បង្កើតប្លុកមាតិកាថ្មី'],
-            ['key' => 'contentBlocks.dialog.create.description', 'en' => 'Enter the details below to create a new content block.', 'kh' => 'បញ្ចូលព័ត៌មានលម្អិតខាងក្រោមដើម្បីបង្កើតប្លុកមាតិកាថ្មី។'],
-            
-            // Create/Edit Dialog - Form Labels (Found in your Vue file)
-            ['key' => 'contentBlocks.dialog.create.form.slug.label', 'en' => 'API Slug', 'kh' => 'ស្លាក API'],
-            ['key' => 'contentBlocks.dialog.create.form.image.label', 'en' => 'Image', 'kh' => 'រូបភាព'],
-            ['key' => 'contentBlocks.dialog.create.form.title.label', 'en' => 'Title ({lang})', 'kh' => 'ចំណងជើង ({lang})'],
-            ['key' => 'contentBlocks.dialog.create.form.description.label', 'en' => 'Description ({lang})', 'kh' => 'ការពិពណ៌នា ({lang})'],
-            ['key' => 'contentBlocks.dialog.create.form.bookingBtn.label', 'en' => 'Booking Button ({lang})', 'kh' => 'ប៊ូតុងកក់ ({lang})'],
-
-            // Notifications / Messages (Found in your Vue file)
-            ['key' => 'contentBlocks.dialog.create.error.titleRequired', 'en' => 'The English title is required.', 'kh' => 'ត្រូវការចំណងជើងភាសាអង់គ្លេស។'],
-            ['key' => 'contentBlocks.dialog.create.error.unexpected', 'en' => 'An unexpected error occurred.', 'kh' => 'មានកំហុសដែលមិនបានរំពឹងទុក។'],
-            ['key' => 'contentBlocks.dialog.create.success.title', 'en' => 'Content Block Created', 'kh' => 'ប្លុកមាតិកាត្រូវបានបង្កើត'],
-            ['key' => 'contentBlocks.dialog.create.success.description', 'en' => 'Content Block "{title}" created successfully.', 'kh' => 'ប្លុកមាតិកា "{title}" ត្រូវបានបង្កើតដោយជោគជ័យ។'],
-
-            // Edit Specifics
-            ['key' => 'contentBlocks.editDialog.title', 'en' => 'Edit Content Block', 'kh' => 'កែសម្រួលប្លុកមាតិកា'],
-            ['key' => 'contentBlocks.editDialog.description', 'en' => 'Update translations across all locales.', 'kh' => 'ធ្វើបច្ចុប្បន្នភាពការបកប្រែនៅគ្រប់ភាសា។'],
-            ['key' => 'contentBlocks.editDialog.multilingualTitle', 'en' => 'Multilingual Content', 'kh' => 'មាតិកាពហុភាសា'],
-        ];
-    }
-
     private function getServiceCardTranslations(): array
     {
         return [
@@ -1131,73 +1075,48 @@ class TranslationSeeder extends Seeder
         ];
     }
 
-    private function getHengTranslations(): array
+    private function getAppDownloadLinksTranslations(): array
     {
         return [
-            ['key' => 'image', 'en' => 'Image', 'kh' => 'រូបភាព'],
-            ['key' => 'status', 'en' => 'Status', 'kh' => 'ស្ថានភាព'],
-            //news
-            ['key' => 'news.title', 'en' => 'News', 'kh' => 'ព័ត៍មាន'],
-            ['key' => 'news.description', 'en' => 'Here\'s a list of news!', 'kh' => 'នេះគឺជាបញ្ជីព័ត៌មាន!'],
-            ['key' => 'news.create.title', 'en' => 'New News', 'kh' => 'បង្កើតព័ត៌មានថ្មី'],
-            //brand
-            ['key' => 'brand.title', 'en' => 'Brand', 'kh' => 'ម៉ាក'],
-            ['key' => 'brand.description', 'en' => 'Here\'s a list of brands!', 'kh' => 'នេះគឺជាបញ្ជីម៉ាក!'],
-            //model
-            ['key' => 'model.title', 'en' => 'Model', 'kh' => 'ម៉ូដែល'],
-            ['key' => 'model.description', 'en' => 'Here\'s a list of models!', 'kh' => 'នេះគឺជាបញ្ជីម៉ូដែល!'],
-            //body-type
-            ['key' => 'body-type.title', 'en' => 'Body Type', 'kh' => 'ប្រភេទរាងកាយ'],
-            ['key' => 'body-type.description', 'en' => 'Here\'s a list of body types!', 'kh' => 'នេះគឺជាបញ្ជីប្រភេទរាងកាយ!'],
-            //cars
-            ['key' => 'cars.title', 'en' => 'Cars', 'kh' => 'រថយន្ត'],
-            ['key' => 'cars.description', 'en' => 'Here\'s a list of cars!', 'kh' => 'នេះគឺជាបញ្ជីរថយន្ត!'],
-
-            //cars
-            ['key' => 'listing.title', 'en' => 'User Listing', 'kh' => 'បញ្ជីអ្នកប្រើប្រាស់'],
-            ['key' => 'listing.description', 'en' => 'Here\'s a list of user listings!', 'kh' => 'នេះគឺជាបញ្ជីបញ្ជីអ្នកប្រើប្រាស់!'],
-
-            //reviews
-            ['key' => 'reviews.title', 'en' => 'Reviews', 'kh' => 'មតិវិភាគ'],
-            ['key' => 'reviews.description', 'en' => 'Here\'s a list of reviews!', 'kh' => 'នេះគឺជាបញ្ជីមតិវិភាគ!'],
+            ['key' => 'download_links.title', 'en' => 'App Download Links', 'kh' => 'តំណទាញយកកម្មវិធី', 'zh' => '应用下载链接'],
+            ['key' => 'download_links.description', 'en' => 'Manage QR codes and links for the App Store and Play Store.', 'kh' => 'គ្រប់គ្រងលេខកូដ QR និងតំណសម្រាប់ App Store និង Play Store ។', 'zh' => '管理 App Store 和 Play Store 的二维码和链接。'],
+            ['key' => 'download_links.error.title', 'en' => 'Failed to load data', 'kh' => 'ការផ្ទុកទិន្នន័យបានបរាជ័យ', 'zh' => '数据加载失败'],
+            ['key' => 'download_links.card.description', 'en' => 'Update the URL to regenerate the QR code.', 'kh' => 'ធ្វើបច្ចុប្បន្នភាព URL ដើម្បីបង្កើតកូដ QR ឡើងវិញ។', 'zh' => '更新 URL 以重新生成二维码。'],
+            ['key' => 'download_links.form.url_label', 'en' => 'Download URL', 'kh' => 'URL ទាញយក', 'zh' => '下载链接'],
+            ['key' => 'download_links.form.url_placeholder', 'en' => 'https://...', 'kh' => 'https://...', 'zh' => 'https://...'],
+            ['key' => 'download_links.form.qr_preview_label', 'en' => 'QR Code Preview', 'kh' => 'មើលកូដ QR ជាមុន', 'zh' => '二维码预览'],
+            ['key' => 'download_links.buttons.print_download', 'en' => 'Print / Download', 'kh' => 'បោះពុម្ព / ទាញយក', 'zh' => '打印/下载'],
+            ['key' => 'download_links.buttons.save', 'en' => 'Save', 'kh' => 'រក្សាទុក', 'zh' => '保存'],
+            ['key' => 'download_links.buttons.saving', 'en' => 'Saving...', 'kh' => 'កំពុងរក្សាទុក...', 'zh' => '保存中...'],
+            ['key' => 'download_links.toast.success.title', 'en' => 'Success', 'kh' => 'ជោគជ័យ', 'zh' => '成功'],
+            ['key' => 'download_links.toast.success.description', 'en' => 'Download link updated successfully.', 'kh' => 'តំណទាញយកបានធ្វើបច្ចុប្បន្នភាពដោយជោគជ័យ។', 'zh' => '下载链接更新成功。'],
+            ['key' => 'download_links.toast.error.title', 'en' => 'Error', 'kh' => 'កំហុស', 'zh' => '错误'],
+            ['key' => 'download_links.toast.error.description', 'en' => 'Failed to update download link.', 'kh' => 'បរាជ័យក្នុងការធ្វើបច្ចុប្បន្នភាពតំណទាញយក។', 'zh' => '更新下载链接失败。'],
         ];
     }
 
-    private function getAboutUsTranslations(): array
+    private function getAppVersionTranslations(): array
     {
         return [
-            // Page Header
-            ['key' => 'aboutUs.title', 'en' => 'About Us', 'kh' => 'អំពីយើង', 'zh' => '关于我们'],
-            ['key' => 'aboutUs.description', 'en' => 'Manage the About Us section content.', 'kh' => 'គ្រប់គ្រងមាតិកាផ្នែកអំពីយើង។', 'zh' => '管理关于我们部分的内容。'],
-            
-            // Toolbar
-            ['key' => 'aboutUs.toolbar.new', 'en' => 'New Entry', 'kh' => 'បញ្ចូលថ្មី', 'zh' => '新条目'],
-
-            // Columns (Specific keys, avoiding 'common')
-            ['key' => 'aboutUs.columns.index', 'en' => '#', 'kh' => '#', 'zh' => '序号'],
-            ['key' => 'aboutUs.columns.image_url', 'en' => 'Image', 'kh' => 'រូបភាព', 'zh' => '图片'],
-            ['key' => 'aboutUs.columns.title', 'en' => 'Title', 'kh' => 'ចំណងជើង', 'zh' => '标题'],
-            ['key' => 'aboutUs.columns.description', 'en' => 'Description', 'kh' => 'ការពិពណ៌នា', 'zh' => '描述'],
-            ['key' => 'aboutUs.columns.list_text', 'en' => 'List Items', 'kh' => 'ធាតុបញ្ជី', 'zh' => '列表项'],
-            ['key' => 'aboutUs.columns.status', 'en' => 'Status', 'kh' => 'ស្ថានភាព', 'zh' => '状态'],
-            ['key' => 'aboutUs.columns.actions', 'en' => 'Actions', 'kh' => 'សកម្មភាព', 'zh' => '操作'],
-
-            // Statuses (Specific keys, avoiding 'common')
-            ['key' => 'aboutUs.status.active', 'en' => 'Active', 'kh' => 'សកម្ម', 'zh' => '有效'],
-            ['key' => 'aboutUs.status.inactive', 'en' => 'Inactive', 'kh' => 'អសកម្ម', 'zh' => '无效'],
-            ['key' => 'aboutUs.status.unknown', 'en' => 'Unknown', 'kh' => 'មិនស្គាល់', 'zh' => '未知'],
-
-            // Create Dialog
-            ['key' => 'aboutUs.dialog.create.title', 'en' => 'Create About Us Entry', 'kh' => 'បង្កើតមាតិកាអំពីយើងថ្មី', 'zh' => '创建关于我们条目'],
-            ['key' => 'aboutUs.dialog.create.description', 'en' => 'Fill in the details below to add a new entry.', 'kh' => 'បំពេញព័ត៌មានលម្អិតខាងក្រោម ដើម្បីបន្ថែមធាតុថ្មី។', 'zh' => '请填写以下详细信息以添加新条目。'],
-            ['key' => 'aboutUs.dialog.create.error.titleRequired', 'en' => 'Title is required.', 'kh' => 'ត្រូវការចំណងជើង។', 'zh' => '标题为必填项。'],
-            ['key' => 'aboutUs.dialog.create.success.title', 'en' => 'Created Successfully', 'kh' => 'បានបង្កើតដោយជោគជ័យ', 'zh' => '创建成功'],
-            ['key' => 'aboutUs.dialog.create.success.description', 'en' => 'The About Us entry has been created.', 'kh' => 'មាតិកាអំពីយើងត្រូវបានបង្កើត។', 'zh' => '关于我们条目已创建。'],
-
-            // Edit Dialog
-            ['key' => 'aboutUs.editDialog.title', 'en' => 'Edit About Us', 'kh' => 'កែសម្រួលអំពីយើង', 'zh' => '编辑关于我们'],
-            ['key' => 'aboutUs.editDialog.description', 'en' => 'Update the content details here.', 'kh' => 'ធ្វើបច្ចុប្បន្នភាពព័ត៌មានលម្អិតមាតិកានៅទីនេះ។', 'zh' => '在此处更新内容详情。'],
-            ['key' => 'aboutUs.editDialog.multilingualTitle', 'en' => 'Multilingual Content', 'kh' => 'មាតិកាពហុភាសា', 'zh' => '多语言内容'],
+            ['key' => 'app_versions.title', 'en' => 'App Versions', 'kh' => 'កំណែកម្មវិធី', 'zh' => '应用版本'],
+            ['key' => 'app_versions.description', 'en' => 'Manage latest versions and forced updates for all mobile applications.', 'kh' => 'គ្រប់គ្រងកំណែចុងក្រោយ និងការទាមទារឱ្យធ្វើបច្ចុប្បន្នភាពសម្រាប់កម្មវិធីទូរស័ព្ទទាំងអស់។', 'zh' => '管理所有移动应用程序的最新版本和强制更新。'],
+            ['key' => 'app_versions.error.title', 'en' => 'Failed to load data', 'kh' => 'ការផ្ទុកទិន្នន័យបានបរាជ័យ', 'zh' => '数据加载失败'],
+            ['key' => 'app_versions.card.description', 'en' => 'Update the latest version and forced update settings for each app and platform.', 'kh' => 'ធ្វើបច្ចុប្បន្នភាពកំណែចុងក្រោយ និងការកំណត់ការទាមទារឱ្យធ្វើបច្ចុប្បន្នភាពសម្រាប់កម្មវិធី និងវេទិកានីមួយៗ។', 'zh' => '更新每个应用和平台的最新版本和强制更新设置。'],
+            ['key' => 'app_versions.form.latest_version_label', 'en' => 'Latest Version', 'kh' => 'កំណែចុងក្រោយ', 'zh' => '最新版本'],
+            ['key' => 'app_versions.form.latest_version_placeholder', 'en' => 'e.g., 1.0.0', 'kh' => 'ឧទាហរណ៍៖ 1.0.0', 'zh' => '例如：1.0.0'],
+            ['key' => 'app_versions.form.min_supported_version_label', 'en' => 'Minimum Supported Version', 'kh' => 'កំណែអប្បបរមាដែលគាំទ្រ', 'zh' => '最低支持版本'],
+            ['key' => 'app_versions.form.min_supported_version_placeholder', 'en' => 'e.g., 1.0.0', 'kh' => 'ឧទាហរណ៍៖ 1.0.0', 'zh' => '例如：1.0.0'],
+            ['key' => 'app_versions.form.update_url_label', 'en' => 'Update URL', 'kh' => 'URL ទាញយក', 'zh' => '更新链接'],
+            ['key' => 'app_versions.form.update_url_placeholder', 'en' => 'https://...', 'kh' => 'https://...', 'zh' => 'https://...'],
+            ['key' => 'app_versions.form.force_update_label', 'en' => 'Force Update', 'kh' => 'ទាមទារឱ្យធ្វើបច្ចុប្បន្នភាព', 'zh' => '强制更新'],
+            ['key' => 'app_versions.form.title_label', 'en' => 'Title', 'kh' => 'ចំណងជើង', 'zh' => '标题'],
+            ['key' => 'app_versions.form.message_label', 'en' => 'Message', 'kh' => 'សារ', 'zh' => '消息'],
+            ['key' => 'app_versions.buttons.save', 'en' => 'Save', 'kh' => 'រក្សាទុក', 'zh' => '保存'],
+            ['key' => 'app_versions.buttons.saving', 'en' => 'Saving...', 'kh' => 'កំពុងរក្សាទុក...', 'zh' => '保存中...'],
+            ['key' => 'app_versions.toast.success.title', 'en' => 'Success', 'kh' => 'ជោគជ័យ', 'zh' => '成功'],
+            ['key' => 'app_versions.toast.success.description', 'en' => 'App version configuration updated successfully.', 'kh' => 'ការកំណត់កំណែកម្មវិធីបានធ្វើបច្ចុប្បន្នភាពដោយជោគជ័យ។', 'zh' => '应用版本配置更新成功。'],
+            ['key' => 'app_versions.toast.error.title', 'en' => 'Error', 'kh' => 'កំហុស', 'zh' => '错误'],
+            ['key' => 'app_versions.toast.error.description', 'en' => 'Failed to update app version configuration.', 'kh' => 'បរាជ័យក្នុងការធ្វើបច្ចុប្បន្នភាពការកំណត់កំណែកម្មវិធី។', 'zh' => '更新应用版本配置失败。'],
         ];
     }
 }

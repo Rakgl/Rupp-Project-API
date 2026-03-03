@@ -13,8 +13,6 @@ class UserSeeder extends Seeder
     public function run()
     {
         $now = now();
-
-        // Fetch roles
         $adminRole = Role::where('name', 'Admin')->first();
         $developerRole = Role::where('name', 'Developer')->first();
         $userRole = Role::where('name', 'User')->first();
@@ -30,7 +28,6 @@ class UserSeeder extends Seeder
             return;
         }
 
-        // Define system users
         $systemUsers = [
             [
                 'username' => 'admin',
@@ -63,14 +60,13 @@ class UserSeeder extends Seeder
 
         ];
 
-        // Insert or update system users
         foreach ($systemUsers as $userData) {
             $user = User::updateOrCreate(
                 ['username' => $userData['username']],
                 [
                     'id' => (string) Str::uuid(),
                     'name' => $userData['name'],
-                    'email' => '', // Add appropriate email if needed
+                    'email' => '',
                     'password' => $userData['password'],
                     'role_id' => $userData['role_id'],
                     'status' => 'ACTIVE',

@@ -13,12 +13,8 @@ use App\Http\Controllers\Api\V1\Admin\GeneralSettingController;
 use App\Http\Controllers\Api\V1\Admin\StoreController;
 use App\Http\Controllers\Api\V1\Admin\PaymentMethodController;
 use App\Http\Controllers\Api\V1\Admin\StoreNotificationSettingController;
-use App\Http\Controllers\Api\V1\Admin\ContentBlockController;
-use App\Http\Controllers\Api\V1\Admin\ServiceCardController;
-use App\Http\Controllers\Api\V1\Admin\NewsController;
-
-use App\Http\Controllers\api\v1\admin\AboutUsController;
-
+use App\Http\Controllers\Api\V1\Admin\AppDownloadLinkController;
+use App\Http\Controllers\Api\V1\Admin\AppVersionController;
 
 // Public routes
 Route::post('/auth/login', [AuthController::class, 'login']);
@@ -93,17 +89,13 @@ Route::middleware(['auth:sanctum'])->group(function () {
         // Payment Methods
         Route::apiResource('payment-methods', PaymentMethodController::class);
 
-        // For website home page content blocks
-        Route::apiResource('content-blocks', ContentBlockController::class);
+        // App Download Links
+        Route::get('app-download-links', [AppDownloadLinkController::class, 'index']);
+        Route::put('app-download-links/{id}', [AppDownloadLinkController::class, 'update']);
 
-        // Service Cards
-        Route::apiResource('service-cards', ServiceCardController::class);
+        // App Versions
+        Route::get('app-versions', [AppVersionController::class, 'index']);
+	    Route::post('app-versions', [AppVersionController::class, 'updateConfig']);
 
-        // News
-        Route::apiResource('news', NewsController::class);
-
-
-        // About Us
-        Route::apiResource('about-us', AboutUsController::class);
     });
 });

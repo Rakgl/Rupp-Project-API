@@ -20,15 +20,12 @@ class DatabaseSeeder extends Seeder
             RolePermissionSeeder::class,
             FAQSeeder::class,
             AnnouncementSeeder::class,
-            StaticContentSeeder::class,
             NotificationSeeder::class,
             AppVersionSeeder::class,
             TranslationSeeder::class,
             GeneralSettingSeeder::class,
-            ServiceCardSeeder::class,
-            ContentBlockSeeder::class,
             StoreSeeder::class,
-            AboutUsSeeder::class,
+            AppDownloadLinkSeeder::class,
         ]);
     }
 }

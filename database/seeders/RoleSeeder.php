@@ -66,15 +66,10 @@ class RoleSeeder extends Seeder
             ],
         ];
 
-        // Insert in chunks to avoid potential issues with very large arrays
         foreach (array_chunk($roles, 50) as $chunk) {
-            DB::table('roles')->upsert(
-                $chunk, 
-                ['name'],
-                ['description', 'status', 'type', 'updated_at']
-            );
+            DB::table('roles')->insert($chunk);
         }
 
-        $this->command->info('Roles seeded successfully.');
+        $this->command->info('100 Roles (including 3 admin roles) seeded successfully.');
     }
 }

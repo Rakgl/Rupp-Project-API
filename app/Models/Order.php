@@ -2,43 +2,47 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 
 class Order extends Model
 {
     use HasFactory, HasUuids;
 
     protected $fillable = [
-        'buyer_id',
-        'total_price',
-        'shipping_address_id',
-        'shipping_phone',
+        'user_id',
+        'store_id',
+        'payment_method_id',
+        'order_number',
+        'total_amount',
+        'fulfillment_type',
         'status',
+        'payment_status',
+        'delivery_address'
     ];
 
     protected $casts = [
-        'total_price' => 'decimal:2',
+        'total_amount' => 'decimal:2',
     ];
 
-    public function buyer()
+    public function user()
     {
-        return $this->belongsTo(User::class, 'buyer_id');
+        return $this->belongsTo(User::class);
     }
 
-    public function address()
+    public function store()
     {
-        return $this->belongsTo(Address::class, 'shipping_address_id');
+        return $this->belongsTo(Store::class);
     }
 
-    public function items()
+    public function paymentMethod()
+    {
+        return $this->belongsTo(PaymentMethod::class);
+    }
+
+    public function orderItems()
     {
         return $this->hasMany(OrderItem::class);
-    }
-
-    public function payment()
-    {
-        return $this->hasOne(Payment::class);
     }
 }

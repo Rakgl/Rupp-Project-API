@@ -6,7 +6,6 @@ use App\Http\Controllers\Api\V1\Mobile\RegisterController;
 use App\Http\Controllers\Api\V1\Mobile\ForgetPasswordController;
 use App\Http\Controllers\Api\V1\Mobile\TranslationController;
 use App\Http\Controllers\Api\V1\Mobile\AppVersionController;
-use App\Http\Controllers\Api\V1\Mobile\StaticContentController;
 use App\Http\Controllers\Api\V1\Mobile\FcmTokenController;
 use App\Http\Controllers\Api\V1\Mobile\NotificationController;
 use App\Http\Controllers\Api\V1\Mobile\SettingController;
@@ -31,10 +30,6 @@ Route::get('/get-translations', [TranslationController::class, 'getTranslations'
 Route::get('/version', [AppVersionController::class, 'version']);
 
 Route::post('/auth/refresh-token', [AuthController::class, 'refreshToken']);
-
-// Static contents
-Route::get('/static-contents/privacy-policies', [StaticContentController::class, 'privacyPolicies']);
-Route::get('/static-contents/about-us', [StaticContentController::class, 'aboutUs']);
 
 // Authenticated customer routes
 Route::middleware(['auth:sanctum', 'ability:customer'])->group(function () {

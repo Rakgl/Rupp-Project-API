@@ -6,26 +6,21 @@ use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class OrderItem extends Model
+class StoreInventory extends Model
 {
     use HasFactory, HasUuids;
 
+    protected $table = 'store_inventory';
+
     protected $fillable = [
-        'order_id',
+        'store_id',
         'product_id',
-        'quantity',
-        'unit_price',
-        'subtotal'
+        'stock_quantity'
     ];
 
-    protected $casts = [
-        'unit_price' => 'decimal:2',
-        'subtotal' => 'decimal:2',
-    ];
-
-    public function order()
+    public function store()
     {
-        return $this->belongsTo(Order::class);
+        return $this->belongsTo(Store::class);
     }
 
     public function product()
