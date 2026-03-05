@@ -33,7 +33,6 @@ class StoreController extends Controller
             
             // Handle the verification filter
             if ($request->has('is_verified')) {
-                // Securely filter boolean values
                 $query->where('is_verified', filter_var($request->input('is_verified'), FILTER_VALIDATE_BOOLEAN));
             }
 

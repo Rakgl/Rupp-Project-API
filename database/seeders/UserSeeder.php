@@ -57,7 +57,6 @@ class UserSeeder extends Seeder
 				'role_id' => $userRole->id,
 				'type' => 'User',
 			]
-
         ];
 
         foreach ($systemUsers as $userData) {
@@ -74,8 +73,6 @@ class UserSeeder extends Seeder
                     'updated_at' => $now,
                 ]
             );
-
-
         }
 
         $this->command->info('System users and their ID tags seeded successfully.');

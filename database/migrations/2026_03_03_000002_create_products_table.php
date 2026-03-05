@@ -16,6 +16,7 @@ return new class extends Migration
             $table->json('description')->nullable();
             $table->decimal('price', 12, 2);
             $table->string('image_url')->nullable();
+            $table->string('sku', 50)->unique()->nullable()->comment('Barcode or Stock Keeping Unit');
             $table->string('status', 10)->default('ACTIVE')->comment('ACTIVE, INACTIVE');
             $table->timestampsTz();
         });

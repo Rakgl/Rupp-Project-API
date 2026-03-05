@@ -12,13 +12,15 @@ class Category extends Model
 
     protected $fillable = [
         'name',
+        'description',
         'slug',
         'image_url',
         'status'
     ];
 
     protected $casts = [
-        'name' => 'array', // JSON for multi-language
+        'name' => 'json',
+        'description' => 'json',
     ];
 
     public function products()

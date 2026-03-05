@@ -57,9 +57,10 @@ class TranslationSeeder extends Seeder
             $this->getStoreTranslations(),
             $this->getAppDownloadLinksTranslations(),
             $this->getAppVersionTranslations(),
-
-            // for web
-            // $this->getHome(),
+            $this->getDashboardTranslations(),
+            $this->getCategoriesTranslations(),
+            $this->getProductsTranslations(),
+            $this->getStoreInventoryTranslations(),
         );
     }
 
@@ -158,7 +159,6 @@ class TranslationSeeder extends Seeder
         ];
     }
 
-
     private function getNavMenuTranslations(): array
     {
         return [
@@ -205,6 +205,11 @@ class TranslationSeeder extends Seeder
             ['key' => 'nav.user_listings', 'en' => 'User Listing', 'kh' => 'បញ្ជីអ្នកប្រើប្រាស់'],
             ['key' => 'nav.accessory', 'en' => 'Accessory', 'kh' => 'សារពើភ័ណ្ឌគ្រឿងបន្លាស់'],
             ['key' => 'nav.app_versions', 'en' => 'App Versions', 'kh' => 'កំណែកម្មវិធី', 'zh' => '应用版本'],
+            ['key' => 'nav.overview', 'en' => 'Overview', 'kh' => 'ទិដ្ឋភាពទូទៅ', 'zh' => '概览'],
+            ['key' => 'nav.dashboard', 'en' => 'Dashboard', 'kh' => 'ផ្ទាំងគ្រប់គ្រង', 'zh' => '仪表板'],
+            ['key' => 'nav.categories', 'en' => 'Categories', 'kh' => 'ប្រភេទ', 'zh' => '分类'],
+            ['key' => 'nav.products', 'en' => 'Products', 'kh' => 'ផលិតផល', 'zh' => '产品'],
+            ['key' => 'nav.store_inventory', 'en' => 'Store Inventory', 'kh' => 'សារពើភ័ណ្ឌហាង', 'zh' => '店铺库存'],
         ];
     }
 
@@ -1117,6 +1122,356 @@ class TranslationSeeder extends Seeder
             ['key' => 'app_versions.toast.success.description', 'en' => 'App version configuration updated successfully.', 'kh' => 'ការកំណត់កំណែកម្មវិធីបានធ្វើបច្ចុប្បន្នភាពដោយជោគជ័យ។', 'zh' => '应用版本配置更新成功。'],
             ['key' => 'app_versions.toast.error.title', 'en' => 'Error', 'kh' => 'កំហុស', 'zh' => '错误'],
             ['key' => 'app_versions.toast.error.description', 'en' => 'Failed to update app version configuration.', 'kh' => 'បរាជ័យក្នុងការធ្វើបច្ចុប្បន្នភាពការកំណត់កំណែកម្មវិធី។', 'zh' => '更新应用版本配置失败。'],
+        ];
+    }
+
+    private function getDashboardTranslations(): array
+    {
+        return [
+            ['key' => 'dashboard.header.title', 'en' => 'Dashboard Overview', 'kh' => 'ទិដ្ឋភាពទូទៅនៃផ្ទាំងគ្រប់គ្រង', 'zh' => '仪表板概览'],
+            ['key' => 'dashboard.header.export_report', 'en' => 'Export Report', 'kh' => 'នាំចេញរបាយការណ៍', 'zh' => '导出报告'],
+            
+            ['key' => 'dashboard.kpi.today_revenue', 'en' => 'Today\'s Revenue', 'kh' => 'ចំណូលថ្ងៃនេះ', 'zh' => '今日收入'],
+            ['key' => 'dashboard.kpi.collected_today', 'en' => 'Collected today', 'kh' => 'ប្រមូលបានថ្ងៃនេះ', 'zh' => '今日已收'],
+            ['key' => 'dashboard.kpi.pending_orders', 'en' => 'Pending Orders', 'kh' => 'ការបញ្ជាទិញរង់ចាំ', 'zh' => '待处理订单'],
+            ['key' => 'dashboard.kpi.require_action', 'en' => 'Require immediate action', 'kh' => 'ទាមទារចំណាត់ការភ្លាមៗ', 'zh' => '需要立即处理'],
+            ['key' => 'dashboard.kpi.today_appointments', 'en' => 'Today\'s Appointments', 'kh' => 'ការណាត់ជួបថ្ងៃនេះ', 'zh' => '今日预约'],
+            ['key' => 'dashboard.kpi.scheduled_today', 'en' => 'Scheduled for today', 'kh' => 'បានកំណត់ពេលសម្រាប់ថ្ងៃនេះ', 'zh' => '安排在今天'],
+            ['key' => 'dashboard.kpi.new_users', 'en' => 'New Users', 'kh' => 'អ្នកប្រើប្រាស់ថ្មី', 'zh' => '新用户'],
+            ['key' => 'dashboard.kpi.signups_today', 'en' => 'Signups today', 'kh' => 'ការចុះឈ្មោះថ្ងៃនេះ', 'zh' => '今日注册'],
+            
+            ['key' => 'dashboard.appointments.title', 'en' => 'Upcoming Appointments', 'kh' => 'ការណាត់ជួបនាពេលខាងមុខ', 'zh' => '即将到来的预约'],
+            ['key' => 'dashboard.appointments.description', 'en' => 'Next 5 scheduled visits', 'kh' => '5 ការទស្សនាដែលបានកំណត់ពេលបន្ទាប់', 'zh' => '接下来的5次预定访问'],
+            ['key' => 'dashboard.appointments.view_all', 'en' => 'View All', 'kh' => 'មើលទាំងអស់', 'zh' => '查看全部'],
+            ['key' => 'dashboard.appointments.table.time', 'en' => 'Time', 'kh' => 'ម៉ោង', 'zh' => '时间'],
+            ['key' => 'dashboard.appointments.table.pet', 'en' => 'Pet', 'kh' => 'សត្វចិញ្ចឹម', 'zh' => '宠物'],
+            ['key' => 'dashboard.appointments.table.customer', 'en' => 'Customer', 'kh' => 'អតិថិជន', 'zh' => '客户'],
+            ['key' => 'dashboard.appointments.table.service', 'en' => 'Service', 'kh' => 'សេវាកម្ម', 'zh' => '服务'],
+            ['key' => 'dashboard.appointments.states.loading', 'en' => 'Loading...', 'kh' => 'កំពុងផ្ទុក...', 'zh' => '加载中...'],
+            ['key' => 'dashboard.appointments.states.empty', 'en' => 'No upcoming appointments today.', 'kh' => 'មិនមានការណាត់ជួបនាពេលខាងមុខនៅថ្ងៃនេះទេ។', 'zh' => '今天没有即将到来的预约。'],
+            ['key' => 'dashboard.appointments.fallback.unknown_pet', 'en' => 'Unknown Pet', 'kh' => 'មិនស្គាល់សត្វចិញ្ចឹម', 'zh' => '未知宠物'],
+            ['key' => 'dashboard.appointments.fallback.unknown_service', 'en' => 'Unknown Service', 'kh' => 'មិនស្គាល់សេវាកម្ម', 'zh' => '未知服务'],
+            ['key' => 'dashboard.appointments.fallback.guest', 'en' => 'Guest', 'kh' => 'ភ្ញៀវ', 'zh' => '访客'],
+
+            ['key' => 'dashboard.orders.title', 'en' => 'Recent Orders', 'kh' => 'ការបញ្ជាទិញថ្មីៗ', 'zh' => '最近订单'],
+            ['key' => 'dashboard.orders.description', 'en' => 'Latest 5 store orders', 'kh' => '5 ការបញ្ជាទិញចុងក្រោយរបស់ហាង', 'zh' => '最新的5个店铺订单'],
+            ['key' => 'dashboard.orders.view_orders', 'en' => 'View Orders', 'kh' => 'មើលការបញ្ជាទិញ', 'zh' => '查看订单'],
+            ['key' => 'dashboard.orders.table.order_number', 'en' => 'Order #', 'kh' => 'លេខបញ្ជាទិញ', 'zh' => '订单号'],
+            ['key' => 'dashboard.orders.table.type', 'en' => 'Type', 'kh' => 'ប្រភេទ', 'zh' => '类型'],
+            ['key' => 'dashboard.orders.table.status', 'en' => 'Status', 'kh' => 'ស្ថានភាព', 'zh' => '状态'],
+            ['key' => 'dashboard.orders.table.amount', 'en' => 'Amount', 'kh' => 'ចំនួនទឹកប្រាក់', 'zh' => '金额'],
+            ['key' => 'dashboard.orders.states.loading', 'en' => 'Loading...', 'kh' => 'កំពុងផ្ទុក...', 'zh' => '加载中...'],
+            ['key' => 'dashboard.orders.states.empty', 'en' => 'No recent orders found.', 'kh' => 'រកមិនឃើញការបញ្ជាទិញថ្មីៗទេ។', 'zh' => '未找到最近订单。'],
+        ];
+    }
+
+    private function getCategoriesTranslations(): array
+    {
+        return [
+            ['key' => 'categories.title', 'en' => 'Categories', 'kh' => 'ប្រភេទ', 'zh' => '分类'],
+            ['key' => 'categories.description', 'en' => 'Manage your product categories, including adding new ones or updating existing statuses.', 'kh' => 'គ្រប់គ្រងប្រភេទផលិតផលរបស់អ្នក រួមមានការបន្ថែមប្រភេទថ្មី ឬធ្វើបច្ចុប្បន្នភាពស្ថានភាពបច្ចុប្បន្ន។', 'zh' => '管理您的产品类别，包括添加新类别或更新现有状态。'],
+            
+            // Columns
+            ['key' => 'categories.table.columns.index', 'en' => 'No.', 'kh' => 'ល.រ', 'zh' => '序号'],
+            ['key' => 'categories.table.columns.name', 'en' => 'Name', 'kh' => 'ឈ្មោះ', 'zh' => '名称'],
+            ['key' => 'categories.table.columns.slug', 'en' => 'Slug', 'kh' => 'Slug', 'zh' => 'Slug'],
+            ['key' => 'categories.table.columns.description', 'en' => 'Description', 'kh' => 'ការពិពណ៌នា', 'zh' => '描述'],
+            ['key' => 'categories.table.columns.status', 'en' => 'Status', 'kh' => 'ស្ថានភាព', 'zh' => '状态'],
+            ['key' => 'categories.table.columns.created_at', 'en' => 'Created At', 'kh' => 'បានប្រកើតនៅ', 'zh' => '创建于'],
+            ['key' => 'categories.table.columns.actions', 'en' => 'Actions', 'kh' => 'សកម្មភាព', 'zh' => '操作'],
+            
+            ['key' => 'categories.table.status.active', 'en' => 'Active', 'kh' => 'សកម្ម', 'zh' => '活跃'],
+            ['key' => 'categories.table.status.inactive', 'en' => 'Inactive', 'kh' => 'អសកម្ម', 'zh' => '不活跃'],
+            ['key' => 'categories.table.status.unknown', 'en' => 'Unknown', 'kh' => 'មិនស្គាល់', 'zh' => '未知'],
+            ['key' => 'categories.table.no_results', 'en' => 'No categories found.', 'kh' => 'រកមិនឃើញប្រភេទទេ។', 'zh' => '未找到类别。'],
+
+            // Row actions
+            ['key' => 'categories.row_actions.open_menu', 'en' => 'Open menu', 'kh' => 'បើកម៉ឺនុយ', 'zh' => '打开菜单'],
+            ['key' => 'categories.row_actions.view_details', 'en' => 'View Details', 'kh' => 'មើលលម្អិត', 'zh' => '查看详情'],
+            ['key' => 'categories.row_actions.edit', 'en' => 'Edit', 'kh' => 'កែសម្រួល', 'zh' => '编辑'],
+            ['key' => 'categories.row_actions.delete', 'en' => 'Delete', 'kh' => 'លុប', 'zh' => '删除'],
+
+            // Tabs
+            ['key' => 'categories.tabs.basic', 'en' => 'Basic Info', 'kh' => 'ព័ត៌មានមូលដ្ឋាន', 'zh' => '基本信息'],
+            ['key' => 'categories.tabs.location', 'en' => 'Location', 'kh' => 'ទីតាំង', 'zh' => '位置'],
+            ['key' => 'categories.tabs.operations', 'en' => 'Operations', 'kh' => 'ប្រតិបត្តិការ', 'zh' => '操作'],
+            ['key' => 'categories.tabs.status', 'en' => 'Status', 'kh' => 'ស្ថានភាព', 'zh' => '状态'],
+
+            // Form options
+            ['key' => 'categories.form.status.option_active', 'en' => 'Active', 'kh' => 'សកម្ម', 'zh' => '活跃'],
+            ['key' => 'categories.form.status.option_inactive', 'en' => 'Inactive', 'kh' => 'អសកម្ម', 'zh' => '不活跃'],
+            ['key' => 'categories.form.location.geocoder_placeholder', 'en' => 'Search location...', 'kh' => 'ស្វែងរកទីតាំង...', 'zh' => '搜索位置...'],
+
+            // Dialog View
+            ['key' => 'categories.dialog.view.title', 'en' => 'Category Details', 'kh' => 'ព័ត៌មានលម្អិតប្រភេទ', 'zh' => '类别详情'],
+            ['key' => 'categories.dialog.view.description', 'en' => 'Viewing details for {name}', 'kh' => 'មើលព័ត៌មានលម្អិតសម្រាប់ {name}', 'zh' => '查看 {name} 的详情'],
+            ['key' => 'categories.dialog.view.loading', 'en' => 'Loading category details...', 'kh' => 'កំពុងផ្ទុកព័ត៌មានលម្អិតប្រភេទ...', 'zh' => '正在加载类别详情...'],
+            ['key' => 'categories.dialog.view.label_logo', 'en' => 'Logo', 'kh' => 'រូបភាព', 'zh' => '图片'],
+            ['key' => 'categories.dialog.view.label_store_name', 'en' => 'Category Name', 'kh' => 'ឈ្មោះ', 'zh' => '名称'],
+            ['key' => 'categories.dialog.view.label_license', 'en' => 'Slug', 'kh' => 'Slug', 'zh' => 'Slug'],
+            ['key' => 'categories.dialog.view.label_description', 'en' => 'Description', 'kh' => 'ការពិពណ៌នា', 'zh' => '描述'],
+            ['key' => 'categories.dialog.view.label_status', 'en' => 'Status', 'kh' => 'ស្ថានភាព', 'zh' => '状态'],
+            ['key' => 'categories.dialog.view.label_created_at', 'en' => 'Created At', 'kh' => 'បានប្រកើតនៅ', 'zh' => '创建于'],
+            ['key' => 'categories.dialog.view.status_active', 'en' => 'Active', 'kh' => 'សកម្ម', 'zh' => '活跃'],
+            ['key' => 'categories.dialog.view.status_inactive', 'en' => 'Inactive', 'kh' => 'អសកម្ម', 'zh' => '不活跃'],
+            ['key' => 'categories.dialog.view.delivery_yes', 'en' => 'Yes', 'kh' => 'បាទ/ចាស', 'zh' => '是'],
+            ['key' => 'categories.dialog.view.delivery_no', 'en' => 'No', 'kh' => 'ទេ', 'zh' => '否'],
+            ['key' => 'categories.dialog.view.label_email', 'en' => 'Email', 'kh' => 'អុីម៉ែល', 'zh' => '电子邮件'],
+            ['key' => 'categories.dialog.view.label_phone', 'en' => 'Phone', 'kh' => 'ទូរស័ព្ទ', 'zh' => '电话'],
+            ['key' => 'categories.dialog.view.label_address', 'en' => 'Address', 'kh' => 'អាសយដ្ឋាន', 'zh' => '地址'],
+            ['key' => 'categories.dialog.view.label_hours', 'en' => 'Business Hours', 'kh' => 'ម៉ោងធ្វើការ', 'zh' => '营业时间'],
+            ['key' => 'categories.dialog.view.label_delivery', 'en' => 'Delivery', 'kh' => 'ដឹកជញ្ជូន', 'zh' => '配送'],
+            ['key' => 'categories.dialog.view.verified_store', 'en' => 'Verified Store', 'kh' => 'ហាងបានផ្ទៀងផ្ទាត់', 'zh' => '认证店铺'],
+            ['key' => 'categories.dialog.view.is_highlighted', 'en' => 'Highlighted', 'kh' => 'បានគូសបញ្ជាក់', 'zh' => '突出显示'],
+            ['key' => 'categories.dialog.view.is_top_choice', 'en' => 'Top Choice', 'kh' => 'ជម្រើសកំពូល', 'zh' => '首选'],
+            ['key' => 'categories.dialog.view.close_button', 'en' => 'Close', 'kh' => 'បិទ', 'zh' => '关闭'],
+
+            // Dialog Edit
+            ['key' => 'categories.dialog.edit.title', 'en' => 'Edit Category', 'kh' => 'កែសម្រួលប្រភេទ', 'zh' => '编辑类别'],
+            ['key' => 'categories.dialog.edit.description', 'en' => 'Make changes to {name} here', 'kh' => 'ធ្វើការផ្លាស់ប្តូរចំពោះ {name} នៅទីនេះ', 'zh' => '在此处更改 {name}'],
+            ['key' => 'categories.dialog.edit.label_store_name', 'en' => 'Category Name', 'kh' => 'ឈ្មោះ', 'zh' => '名称'],
+            ['key' => 'categories.dialog.edit.label_license', 'en' => 'Slug', 'kh' => 'Slug', 'zh' => 'Slug'],
+            ['key' => 'categories.dialog.edit.label_status', 'en' => 'Status', 'kh' => 'ស្ថានភាព', 'zh' => '状态'],
+            ['key' => 'categories.dialog.edit.label_logo', 'en' => 'Image', 'kh' => 'រូបភាព', 'zh' => '图片'],
+            ['key' => 'categories.dialog.edit.choose_file', 'en' => 'Choose File', 'kh' => 'ជ្រើសរើសឯកសារ', 'zh' => '选择文件'],
+            ['key' => 'categories.dialog.edit.no_file', 'en' => 'No file chosen', 'kh' => 'គ្មានឯកសារបានជ្រើសរើស', 'zh' => '未选择文件'],
+            ['key' => 'categories.dialog.edit.uploading', 'en' => 'Uploading...', 'kh' => 'កំពុងផ្ទុកឡើង...', 'zh' => '上传中...'],
+            ['key' => 'categories.dialog.edit.upload_logo', 'en' => 'Upload Image', 'kh' => 'ផ្ទុកឡើងរូបភាព', 'zh' => '上传图片'],
+            ['key' => 'categories.dialog.edit.update_btn', 'en' => 'Save changes', 'kh' => 'រក្សាទុកការផ្លាស់ប្តូរ', 'zh' => '保存更改'],
+            ['key' => 'categories.dialog.edit.updating_btn', 'en' => 'Saving...', 'kh' => 'កំពុងរក្សាទុក...', 'zh' => '正在保存...'],
+            ['key' => 'categories.dialog.edit.cancel_btn', 'en' => 'Cancel', 'kh' => 'បោះបង់', 'zh' => '取消'],
+
+            // Dialog Delete
+            ['key' => 'categories.dialog.delete.title', 'en' => 'Are you absolutely sure?', 'kh' => 'តើអ្នកប្រាកដទេ?', 'zh' => '您绝对确定吗？'],
+            ['key' => 'categories.dialog.delete.description', 'en' => 'This action cannot be undone. This will permanently delete {name}.', 'kh' => 'សកម្មភាពនេះមិនអាចត្រឡប់វិញបានទេ។ វានឹងលុប {name} ជាអចិន្ត្រៃយ៍។', 'zh' => '此操作无法撤消。这将永久删除 {name}。'],
+            ['key' => 'categories.dialog.delete.cancel_btn', 'en' => 'Cancel', 'kh' => 'បោះបង់', 'zh' => '取消'],
+            ['key' => 'categories.dialog.delete.confirm_btn', 'en' => 'Delete', 'kh' => 'លុប', 'zh' => '删除'],
+
+            // Toasts & generic form
+            ['key' => 'categories.toast.error_title', 'en' => 'Error', 'kh' => 'កំហុស', 'zh' => '错误'],
+            ['key' => 'categories.toast.missing_id', 'en' => 'Category ID is missing', 'kh' => 'បាត់លេខសម្គាល់ប្រភេទ', 'zh' => '类别 ID 缺失'],
+            ['key' => 'categories.toast.load_failed', 'en' => 'Failed to load details', 'kh' => 'មិនអាចផ្ទុកព័ត៌មានលម្អិតបានទេ', 'zh' => '无法加载详情'],
+            ['key' => 'categories.toast.loading_error_title', 'en' => 'Loading Error', 'kh' => 'កំហុសក្នុងការផ្ទុក', 'zh' => '加载错误'],
+            ['key' => 'categories.toast.unexpected_error', 'en' => 'An unexpected error occurred', 'kh' => 'មានកំហុសមិនរំពឹងទុកបានកើតឡើង', 'zh' => '发生意外错误'],
+            ['key' => 'categories.toast.invalid_file_type_title', 'en' => 'Invalid file type', 'kh' => 'ប្រភេទឯកសារមិនត្រឹមត្រូវ', 'zh' => '无效的文件类型'],
+            ['key' => 'categories.toast.invalid_file_type_desc', 'en' => 'Please upload an image file (JPEG, PNG, WebP, etc.).', 'kh' => 'សូមផ្ទុកឡើងឯកសាររូបភាព (JPEG, PNG, WebP, ជាដើម)។', 'zh' => '请上传图像文件（JPEG，PNG，WebP等）。'],
+            ['key' => 'categories.toast.file_too_large_title', 'en' => 'File too large', 'kh' => 'ឯកសារធំពេក', 'zh' => '文件太大'],
+            ['key' => 'categories.toast.file_too_large_desc', 'en' => 'Image must be less than {size}MB', 'kh' => 'រូបភាពត្រូវតែតូចជាង {size}MB', 'zh' => '图像必须小于 {size}MB'],
+            ['key' => 'categories.toast.map_load_error', 'en' => 'Map failed to load', 'kh' => 'ផែនទីមិនអាចផ្ទុកបានទេ', 'zh' => '地图加载失败'],
+            ['key' => 'categories.toast.update_success_title', 'en' => 'Success', 'kh' => 'ជោគជ័យ', 'zh' => '成功'],
+            ['key' => 'categories.toast.update_success_desc', 'en' => '{name} has been updated.', 'kh' => '{name} ត្រូវបានធ្វើបច្ចុប្បន្នភាព។', 'zh' => '{name} 已更新。'],
+            ['key' => 'categories.toast.update_failed', 'en' => 'Update failed', 'kh' => 'ការធ្វើបច្ចុប្បន្នភាពបានបរាជ័យ', 'zh' => '更新失败'],
+            ['key' => 'categories.toast.update_error_title', 'en' => 'Update Error', 'kh' => 'កំហុសក្នុងការធ្វើបច្ចុប្បន្នភាព', 'zh' => '更新错误'],
+            ['key' => 'categories.toast.delete_success_title', 'en' => 'Category Deleted', 'kh' => 'ប្រភេទត្រូវបានលុប', 'zh' => '类别已删除'],
+            ['key' => 'categories.toast.delete_success_desc', 'en' => '{name} has been deleted.', 'kh' => '{name} ត្រូវបានលុប។', 'zh' => '{name} 已删除。'],
+            ['key' => 'categories.toast.delete_error_title', 'en' => 'Delete Error', 'kh' => 'កំហុសក្នុងការលុប', 'zh' => '删除错误'],
+            ['key' => 'categories.toast.delete_failed', 'en' => 'Failed to delete category', 'kh' => 'មិនអាចលុបប្រភេទបានទេ', 'zh' => '无法删除类别'],
+            ['key' => 'categories.form.image_url', 'en' => 'Image URL', 'kh' => 'URL រូបភាព', 'zh' => '图片 URL'],
+            ['key' => 'categories.form.name', 'en' => 'Name', 'kh' => 'ឈ្មោះ', 'zh' => '名称'],
+            ['key' => 'categories.form.description', 'en' => 'Description', 'kh' => 'ការពិពណ៌នា', 'zh' => '描述'],
+            ['key' => 'categories.form.status', 'en' => 'Status', 'kh' => 'ស្ថានភាព', 'zh' => '状态'],
+        ];
+    }
+
+    private function getProductsTranslations(): array
+    {
+        return [
+            ['key' => 'products.title', 'en' => 'Products', 'kh' => 'ផលិតផល', 'zh' => '产品'],
+            ['key' => 'products.description', 'en' => 'Manage all your products, inventory, and their availability.', 'kh' => 'គ្រប់គ្រងផលិតផល សារពើភ័ណ្ឌ និងភាពអាចរកបានរបស់ពួកវាទាំងអស់។', 'zh' => '管理您的所有产品、库存及其可用性。'],
+            
+            // Columns
+            ['key' => 'products.table.columns.index', 'en' => 'No.', 'kh' => 'ល.រ', 'zh' => '序号'],
+            ['key' => 'products.table.columns.image', 'en' => 'Image', 'kh' => 'រូបភាព', 'zh' => '图片'],
+            ['key' => 'products.table.columns.name', 'en' => 'Name', 'kh' => 'ឈ្មោះ', 'zh' => '名称'],
+            ['key' => 'products.table.columns.description', 'en' => 'Description', 'kh' => 'ការពិពណ៌នា', 'zh' => '描述'],
+            ['key' => 'products.table.columns.price', 'en' => 'Price', 'kh' => 'តម្លៃ', 'zh' => '价格'],
+            ['key' => 'products.table.columns.original_price', 'en' => 'Original Price', 'kh' => 'តម្លៃដើម', 'zh' => '原价'],
+            ['key' => 'products.table.columns.status', 'en' => 'Status', 'kh' => 'ស្ថានភាព', 'zh' => '状态'],
+            ['key' => 'products.table.columns.is_verified', 'en' => 'Verified', 'kh' => 'បានផ្ទៀងផ្ទាត់', 'zh' => '已验证'],
+            ['key' => 'products.table.columns.is_24_hours', 'en' => '24 Hours', 'kh' => '24 ម៉ោង', 'zh' => '24 小时'],
+            ['key' => 'products.table.columns.delivers_product', 'en' => 'Delivers', 'kh' => 'ផ្តល់ជូនការដឹកជញ្ជូន', 'zh' => '提供配送'],
+            ['key' => 'products.table.columns.preparation_time', 'en' => 'Prep Time', 'kh' => 'ពេលរៀបចំ', 'zh' => '准备时间'],
+            ['key' => 'products.table.columns.actions', 'en' => 'Actions', 'kh' => 'សកម្មភាព', 'zh' => '操作'],
+            
+            ['key' => 'products.table.status.active', 'en' => 'Active', 'kh' => 'សកម្ម', 'zh' => '活跃'],
+            ['key' => 'products.table.status.inactive', 'en' => 'Inactive', 'kh' => 'អសកម្ម', 'zh' => '不活跃'],
+            ['key' => 'products.table.status.out_of_stock', 'en' => 'Out of Stock', 'kh' => 'អស់ពីស្តុក', 'zh' => '缺货'],
+            ['key' => 'products.table.status.unknown', 'en' => 'Unknown', 'kh' => 'មិនស្គាល់', 'zh' => '未知'],
+
+            // Row Actions
+            ['key' => 'products.row_actions.open_menu', 'en' => 'Open menu', 'kh' => 'បើកម៉ឺនុយ', 'zh' => '打开菜单'],
+            ['key' => 'products.row_actions.view_details', 'en' => 'View Details', 'kh' => 'មើលលម្អិត', 'zh' => '查看详情'],
+            ['key' => 'products.row_actions.edit', 'en' => 'Edit', 'kh' => 'កែសម្រួល', 'zh' => '编辑'],
+            ['key' => 'products.row_actions.delete', 'en' => 'Delete', 'kh' => 'លុប', 'zh' => '删除'],
+
+            // Tabs
+            ['key' => 'products.tabs.basic', 'en' => 'Basic Info', 'kh' => 'ព័ត៌មានមូលដ្ឋាន', 'zh' => '基本信息'],
+            ['key' => 'products.tabs.location', 'en' => 'Location', 'kh' => 'ទីតាំង', 'zh' => '位置'],
+            ['key' => 'products.tabs.operations', 'en' => 'Operations', 'kh' => 'ប្រតិបត្តិការ', 'zh' => '操作'],
+            ['key' => 'products.tabs.status', 'en' => 'Status', 'kh' => 'ស្ថានភាព', 'zh' => '状态'],
+            ['key' => 'products.form.status.option_active', 'en' => 'Active', 'kh' => 'សកម្ម', 'zh' => '活跃'],
+            ['key' => 'products.form.status.option_inactive', 'en' => 'Inactive', 'kh' => 'អសកម្ម', 'zh' => '不活跃'],
+            ['key' => 'products.form.location.geocoder_placeholder', 'en' => 'Search location...', 'kh' => 'ស្វែងរកទីតាំង...', 'zh' => '搜索位置...'],
+
+            // Dialog View
+            ['key' => 'products.dialog.view.title', 'en' => 'Product Details', 'kh' => 'ព័ត៌មានលម្អិតផលិតផល', 'zh' => '产品详情'],
+            ['key' => 'products.dialog.view.description', 'en' => 'Viewing details for {name}', 'kh' => 'មើលលម្អិតសម្រាប់ {name}', 'zh' => '查看 {name} 的详细视图'],
+            ['key' => 'products.dialog.view.loading', 'en' => 'Loading product details...', 'kh' => 'កំពុងផ្ទុកព័ត៌មានលម្អិតផលិតផល...', 'zh' => '正在加载产品详情...'],
+            ['key' => 'products.dialog.view.label_logo', 'en' => 'Image', 'kh' => 'រូបភាព', 'zh' => '图片'],
+            ['key' => 'products.dialog.view.label_store_name', 'en' => 'Product Name', 'kh' => 'ឈ្មោះផលិតផល', 'zh' => '产品名称'],
+            ['key' => 'products.dialog.view.label_license', 'en' => 'Price', 'kh' => 'តម្លៃ', 'zh' => '价格'],
+            ['key' => 'products.dialog.view.label_description', 'en' => 'Description', 'kh' => 'ការពិពណ៌នា', 'zh' => '描述'],
+            ['key' => 'products.dialog.view.label_status', 'en' => 'Status', 'kh' => 'ស្ថានភាព', 'zh' => '状态'],
+            ['key' => 'products.dialog.view.label_preparation_time', 'en' => 'Preparation Time', 'kh' => 'ពេលរៀបចំ', 'zh' => '准备时间'],
+            ['key' => 'products.dialog.view.label_flags', 'en' => 'Flags', 'kh' => 'សូចនាករ', 'zh' => '标志'],
+            ['key' => 'products.dialog.view.status_active', 'en' => 'Active', 'kh' => 'សកម្ម', 'zh' => '活跃'],
+            ['key' => 'products.dialog.view.status_inactive', 'en' => 'Inactive', 'kh' => 'អសកម្ម', 'zh' => '不活跃'],
+            ['key' => 'products.dialog.view.delivery_yes', 'en' => 'Yes', 'kh' => 'បាទ/ចាស', 'zh' => '是'],
+
+            // Dialog Edit
+            ['key' => 'products.dialog.edit.title', 'en' => 'Edit Product', 'kh' => 'កែសម្រួលផលិតផល', 'zh' => '编辑产品'],
+            ['key' => 'products.dialog.edit.description', 'en' => 'Make changes to {name} here', 'kh' => 'ធ្វើការផ្លាស់ប្តូរចំពោះ {name} នៅទីនេះ', 'zh' => '在此处更改 {name}'],
+            ['key' => 'products.dialog.edit.label_store_name', 'en' => 'Product Name', 'kh' => 'ឈ្មោះផលិតផល', 'zh' => '产品名称'],
+            ['key' => 'products.dialog.edit.label_license', 'en' => 'Price', 'kh' => 'តម្លៃ', 'zh' => '价格'],
+            ['key' => 'products.dialog.edit.label_status', 'en' => 'Status', 'kh' => 'ស្ថានភាព', 'zh' => '状态'],
+            ['key' => 'products.dialog.edit.label_logo', 'en' => 'Image', 'kh' => 'រូបភាព', 'zh' => '图片'],
+            ['key' => 'products.dialog.edit.choose_file', 'en' => 'Choose File', 'kh' => 'ជ្រើសរើសឯកសារ', 'zh' => '选择文件'],
+            ['key' => 'products.dialog.edit.no_file', 'en' => 'No file chosen', 'kh' => 'គ្មានឯកសារបានជ្រើសរើស', 'zh' => '未选择文件'],
+            ['key' => 'products.dialog.edit.uploading', 'en' => 'Uploading...', 'kh' => 'កំពុងផ្ទុកឡើង...', 'zh' => '上传中...'],
+            ['key' => 'products.dialog.edit.upload_logo', 'en' => 'Upload Image', 'kh' => 'ផ្ទុកឡើងរូបភាព', 'zh' => '上传图片'],
+            ['key' => 'products.dialog.edit.update_btn', 'en' => 'Save changes', 'kh' => 'រក្សាទុកការផ្លាស់ប្តូរ', 'zh' => '保存更改'],
+            ['key' => 'products.dialog.edit.updating_btn', 'en' => 'Saving...', 'kh' => 'កំពុងរក្សាទុក...', 'zh' => '正在保存...'],
+            ['key' => 'products.dialog.edit.cancel_btn', 'en' => 'Cancel', 'kh' => 'បោះបង់', 'zh' => '取消'],
+
+            // Dialog Delete
+            ['key' => 'products.dialog.delete.title', 'en' => 'Are you absolutely sure?', 'kh' => 'តើអ្នកប្រាកដទេ?', 'zh' => '您绝对确定吗？'],
+            ['key' => 'products.dialog.delete.description', 'en' => 'This action cannot be undone. This will permanently delete {name}.', 'kh' => 'សកម្មភាពនេះមិនអាចត្រឡប់វិញបានទេ។ វានឹងលុប {name} ជាអចិន្ត្រៃយ៍។', 'zh' => '此操作无法撤消。这将永久删除 {name}。'],
+            ['key' => 'products.dialog.delete.cancel_btn', 'en' => 'Cancel', 'kh' => 'បោះបង់', 'zh' => '取消'],
+            ['key' => 'products.dialog.delete.confirm_btn', 'en' => 'Delete', 'kh' => 'លុប', 'zh' => '删除'],
+
+            // Toasts & generic form
+            ['key' => 'products.toast.error_title', 'en' => 'Error', 'kh' => 'កំហុស', 'zh' => '错误'],
+            ['key' => 'products.toast.missing_id', 'en' => 'Product ID is missing', 'kh' => 'បាត់លេខសម្គាល់ផលិតផល', 'zh' => '产品 ID 缺失'],
+            ['key' => 'products.toast.load_failed', 'en' => 'Failed to load details', 'kh' => 'មិនអាចផ្ទុកព័ត៌មានលម្អិតបានទេ', 'zh' => '无法加载详情'],
+            ['key' => 'products.toast.loading_error_title', 'en' => 'Loading Error', 'kh' => 'កំហុសក្នុងការផ្ទុក', 'zh' => '加载错误'],
+            ['key' => 'products.toast.unexpected_error', 'en' => 'An unexpected error occurred', 'kh' => 'មានកំហុសមិនរំពឹងទុកបានកើតឡើង', 'zh' => '发生意外错误'],
+            ['key' => 'products.toast.invalid_file_type_title', 'en' => 'Invalid file type', 'kh' => 'ប្រភេទឯកសារមិនត្រឹមត្រូវ', 'zh' => '无效的文件类型'],
+            ['key' => 'products.toast.invalid_file_type_desc', 'en' => 'Please upload an image file (JPEG, PNG, WebP, etc.).', 'kh' => 'សូមផ្ទុកឡើងឯកសាររូបភាព (JPEG, PNG, WebP, ជាដើម)។', 'zh' => '请上传图像文件（JPEG，PNG，WebP等）。'],
+            ['key' => 'products.toast.file_too_large_title', 'en' => 'File too large', 'kh' => 'ឯកសារធំពេក', 'zh' => '文件太大'],
+            ['key' => 'products.toast.file_too_large_desc', 'en' => 'Image must be less than {size}MB', 'kh' => 'រូបភាពត្រូវតែតូចជាង {size}MB', 'zh' => '图像必须小于 {size}MB'],
+            ['key' => 'products.toast.map_load_error', 'en' => 'Map failed to load', 'kh' => 'ផែនទីមិនអាចផ្ទុកបានទេ', 'zh' => '地图加载失败'],
+            ['key' => 'products.toast.update_success_title', 'en' => 'Success', 'kh' => 'ជោគជ័យ', 'zh' => '成功'],
+            ['key' => 'products.toast.update_success_desc', 'en' => '{name} has been updated.', 'kh' => '{name} ត្រូវបានធ្វើបច្ចុប្បន្នភាព។', 'zh' => '{name} 已更新。'],
+            ['key' => 'products.toast.update_failed', 'en' => 'Update failed', 'kh' => 'ការធ្វើបច្ចុប្បន្នភាពបានបរាជ័យ', 'zh' => '更新失败'],
+            ['key' => 'products.toast.update_error_title', 'en' => 'Update Error', 'kh' => 'កំហុសក្នុងការធ្វើបច្ចុប្បន្នភាព', 'zh' => '更新错误'],
+            ['key' => 'products.toast.delete_success_title', 'en' => 'Product Deleted', 'kh' => 'ផលិតផលត្រូវបានលុប', 'zh' => '产品已删除'],
+            ['key' => 'products.toast.delete_success_desc', 'en' => '{name} has been deleted.', 'kh' => '{name} ត្រូវបានលុប។', 'zh' => '{name} 已删除。'],
+            ['key' => 'products.toast.delete_error_title', 'en' => 'Delete Error', 'kh' => 'កំហុសក្នុងការលុប', 'zh' => '删除错误'],
+            ['key' => 'products.toast.delete_failed', 'en' => 'Failed to delete product', 'kh' => 'មិនអាចលុបផលិតផលបានទេ', 'zh' => '无法删除产品'],
+            ['key' => 'products.form.thumbnail_url', 'en' => 'Thumbnail URL', 'kh' => 'URL រូបភាពតូច', 'zh' => '缩略图 URL'],
+            ['key' => 'products.form.base_price', 'en' => 'Price', 'kh' => 'តម្លៃ', 'zh' => '价格'],
+            ['key' => 'products.form.original_price', 'en' => 'Original Price', 'kh' => 'តម្លៃដើម', 'zh' => '原价'],
+            ['key' => 'products.form.is_verified', 'en' => 'Verified', 'kh' => 'បានផ្ទៀងផ្ទាត់', 'zh' => '已验证'],
+            ['key' => 'products.form.is_24_hours', 'en' => 'Available 24 Hours', 'kh' => 'អាចរកបាន 24 ម៉ោង', 'zh' => '24 小时可用'],
+            ['key' => 'products.form.delivers_product', 'en' => 'Offers Delivery', 'kh' => 'ផ្តល់ជូនការដឹកជញ្ជូន', 'zh' => '提供送货'],
+            ['key' => 'products.form.preparation_time', 'en' => 'Preparation Time (minutes)', 'kh' => 'ពេលរៀបចំ (នាទី)', 'zh' => '准备时间（分钟）'],
+            ['key' => 'products.table.no_results', 'en' => 'No products found.', 'kh' => 'រកមិនឃើញផលិតផលទេ។', 'zh' => '未找到产品。'],
+        ];
+    }
+
+    private function getStoreInventoryTranslations(): array
+    {
+        return [
+            ['key' => 'store-inventory.title', 'en' => 'Store Inventory', 'kh' => 'សារពើភ័ណ្ឌហាង', 'zh' => '店铺库存'],
+            ['key' => 'store-inventory.description', 'en' => 'Track the stock across all partnered stores.', 'kh' => 'តាមដានស្តុកនៅទូទាំងហាងដៃគូទាំងអស់។', 'zh' => '跟踪所有合作店铺的库存。'],
+            
+            // Columns
+            ['key' => 'store_inventory.table.columns.index', 'en' => 'No.', 'kh' => 'ល.រ', 'zh' => '序号'],
+            ['key' => 'store_inventory.table.columns.store_name', 'en' => 'Store', 'kh' => 'ហាង', 'zh' => '店铺'],
+            ['key' => 'store_inventory.table.columns.product_name', 'en' => 'Product', 'kh' => 'ផលិតផល', 'zh' => '产品'],
+            ['key' => 'store_inventory.table.columns.quantity', 'en' => 'Quantity', 'kh' => 'បរិមាណ', 'zh' => '数量'],
+            ['key' => 'store_inventory.table.columns.price', 'en' => 'Price', 'kh' => 'តម្លៃ', 'zh' => '价格'],
+            ['key' => 'store_inventory.table.columns.status', 'en' => 'Status', 'kh' => 'ស្ថានភាព', 'zh' => '状态'],
+            ['key' => 'store_inventory.table.columns.created_at', 'en' => 'Added On', 'kh' => 'បានបន្ថែមនៅ', 'zh' => '添加于'],
+            ['key' => 'store_inventory.table.columns.actions', 'en' => 'Actions', 'kh' => 'សកម្មភាព', 'zh' => '操作'],
+            
+            ['key' => 'store_inventory.table.status.in_stock', 'en' => 'In Stock', 'kh' => 'មាននៅស្តុក', 'zh' => '有货'],
+            ['key' => 'store_inventory.table.status.low_stock', 'en' => 'Low Stock', 'kh' => 'ស្តុកជិតអស់', 'zh' => '库存不足'],
+            ['key' => 'store_inventory.table.status.out_of_stock', 'en' => 'Out of Stock', 'kh' => 'អស់ពីស្តុក', 'zh' => '缺货'],
+            ['key' => 'store_inventory.table.status.unknown', 'en' => 'Unknown', 'kh' => 'មិនស្គាល់', 'zh' => '未知'],
+
+            // Row actions
+            ['key' => 'store-inventory.row_actions.open_menu', 'en' => 'Open menu', 'kh' => 'បើកម៉ឺនុយ', 'zh' => '打开菜单'],
+            ['key' => 'store-inventory.row_actions.view_details', 'en' => 'View Details', 'kh' => 'មើលលម្អិត', 'zh' => '查看详情'],
+            ['key' => 'store-inventory.row_actions.edit', 'en' => 'Edit', 'kh' => 'កែសម្រួល', 'zh' => '编辑'],
+            ['key' => 'store-inventory.row_actions.delete', 'en' => 'Delete', 'kh' => 'លុប', 'zh' => '删除'],
+
+            // Tabs
+            ['key' => 'store-inventory.tabs.basic', 'en' => 'Basic Info', 'kh' => 'ព័ត៌មានមូលដ្ឋាន', 'zh' => '基本信息'],
+            ['key' => 'store-inventory.tabs.location', 'en' => 'Location', 'kh' => 'ទីតាំង', 'zh' => '位置'],
+            ['key' => 'store-inventory.tabs.operations', 'en' => 'Operations', 'kh' => 'ប្រតិបត្តិការ', 'zh' => '操作'],
+            ['key' => 'store-inventory.tabs.status', 'en' => 'Status', 'kh' => 'ស្ថានភាព', 'zh' => '状态'],
+            ['key' => 'store-inventory.form.status.option_active', 'en' => 'In Stock', 'kh' => 'មាននៅស្តុក', 'zh' => '有货'],
+            ['key' => 'store-inventory.form.status.option_inactive', 'en' => 'Out of Stock', 'kh' => 'អស់ពីស្តុក', 'zh' => '缺货'],
+            ['key' => 'store-inventory.form.location.geocoder_placeholder', 'en' => 'Search location...', 'kh' => 'ស្វែងរកទីតាំង...', 'zh' => '搜索位置...'],
+
+            // Dialog View
+            ['key' => 'store-inventory.dialog.view.title', 'en' => 'Store Inventory Details', 'kh' => 'ព័ត៌មានលម្អិតសារពើភ័ណ្ឌ', 'zh' => '库存详情'],
+            ['key' => 'store-inventory.dialog.view.description', 'en' => 'Viewing inventory details for {name}', 'kh' => 'មើលលម្អិតសម្រាប់ {name}', 'zh' => '{name} 的库存信息'],
+            ['key' => 'store-inventory.dialog.view.loading', 'en' => 'Loading inventory details...', 'kh' => 'កំពុងផ្ទុកព័ត៌មានលម្អិតសារពើភ័ណ្ឌ...', 'zh' => '正在加载库存详情...'],
+            ['key' => 'store-inventory.dialog.view.label_logo', 'en' => 'Image', 'kh' => 'រូបភាព', 'zh' => '图片'],
+            ['key' => 'store-inventory.dialog.view.label_store_name', 'en' => 'Store Name', 'kh' => 'ឈ្មោះហាង', 'zh' => '店铺名称'],
+            ['key' => 'store-inventory.dialog.view.label_license', 'en' => 'Product', 'kh' => 'ផលិតផល', 'zh' => '产品'],
+            ['key' => 'store-inventory.dialog.view.label_contact', 'en' => 'Contact', 'kh' => 'ទំនាក់ទំនង', 'zh' => '联系方式'],
+            ['key' => 'store-inventory.dialog.view.label_status', 'en' => 'Status', 'kh' => 'ស្ថានភាព', 'zh' => '状态'],
+            ['key' => 'store-inventory.dialog.view.status_active', 'en' => 'In Stock', 'kh' => 'មាននៅស្តុក', 'zh' => '有货'],
+            ['key' => 'store-inventory.dialog.view.status_inactive', 'en' => 'Out Of Stock', 'kh' => 'អស់ពីស្តុក', 'zh' => '缺货'],
+            ['key' => 'store-inventory.dialog.view.delivery_yes', 'en' => 'Yes', 'kh' => 'បាទ/ចាស', 'zh' => '是'],
+
+            // Dialog Edit
+            ['key' => 'store-inventory.dialog.edit.title', 'en' => 'Edit Inventory', 'kh' => 'កែសម្រួលសារពើភ័ណ្ឌ', 'zh' => '编辑库存'],
+            ['key' => 'store-inventory.dialog.edit.description', 'en' => 'Make changes to {name} here', 'kh' => 'កែតម្រូវកម្រិតស្តុកសម្រាប់ធាតុនេះ។', 'zh' => '调整此商品的库存水平。'],
+            ['key' => 'store-inventory.dialog.edit.label_store_name', 'en' => 'Quantity', 'kh' => 'បរិមាណ', 'zh' => '数量'],
+            ['key' => 'store-inventory.dialog.edit.label_license', 'en' => 'Minimum Quantity', 'kh' => 'បរិមាណអប្បបរមា', 'zh' => '最小数量'],
+            ['key' => 'store-inventory.dialog.edit.label_status', 'en' => 'Status', 'kh' => 'ស្ថានភាព', 'zh' => '状态'],
+            ['key' => 'store-inventory.dialog.edit.label_logo', 'en' => 'Image', 'kh' => 'រូបភាព', 'zh' => '图片'],
+            ['key' => 'store-inventory.dialog.edit.choose_file', 'en' => 'Choose File', 'kh' => 'ជ្រើសរើសឯកសារ', 'zh' => '选择文件'],
+            ['key' => 'store-inventory.dialog.edit.no_file', 'en' => 'No file chosen', 'kh' => 'គ្មានឯកសារបានជ្រើសរើស', 'zh' => '未选择文件'],
+            ['key' => 'store-inventory.dialog.edit.uploading', 'en' => 'Uploading...', 'kh' => 'កំពុងផ្ទុកឡើង...', 'zh' => '上传中...'],
+            ['key' => 'store-inventory.dialog.edit.upload_logo', 'en' => 'Upload Image', 'kh' => 'ផ្ទុកឡើងរូបភាព', 'zh' => '上传图片'],
+            ['key' => 'store-inventory.dialog.edit.update_btn', 'en' => 'Save changes', 'kh' => 'ធ្វើបច្ចុប្បន្នភាពស្តុក', 'zh' => '更新库存'],
+            ['key' => 'store-inventory.dialog.edit.updating_btn', 'en' => 'Saving...', 'kh' => 'កំពុងធ្វើបច្ចុប្បន្នភាព...', 'zh' => '正在更新...'],
+            ['key' => 'store-inventory.dialog.edit.cancel_btn', 'en' => 'Cancel', 'kh' => 'បោះបង់', 'zh' => '取消'],
+
+            // Dialog Delete
+            ['key' => 'store-inventory.dialog.delete.title', 'en' => 'Are you absolutely sure?', 'kh' => 'តើអ្នកប្រាកដទេ?', 'zh' => '您绝对确定吗？'],
+            ['key' => 'store-inventory.dialog.delete.description', 'en' => 'This action cannot be undone. This will permanently delete {name}.', 'kh' => 'សកម្មភាពនេះមិនអាចត្រឡប់វិញបានទេ។ វានឹងលុប {name} ជាអចិន្ត្រៃយ៍។', 'zh' => '此操作无法撤消。这将永久删除 {name}。'],
+            ['key' => 'store-inventory.dialog.delete.cancel_btn', 'en' => 'Cancel', 'kh' => 'បោះបង់', 'zh' => '取消'],
+            ['key' => 'store-inventory.dialog.delete.confirm_btn', 'en' => 'Delete', 'kh' => 'លុប', 'zh' => '删除'],
+
+            // Toast Notifications & generic forms
+            ['key' => 'store-inventory.toast.error_title', 'en' => 'Error', 'kh' => 'កំហុស', 'zh' => '错误'],
+            ['key' => 'store-inventory.toast.missing_id', 'en' => 'Inventory ID is missing', 'kh' => 'បាត់លេខសម្គាល់សារពើភ័ណ្ឌ', 'zh' => '库存 ID 缺失'],
+            ['key' => 'store-inventory.toast.load_failed', 'en' => 'Failed to load details', 'kh' => 'មិនអាចផ្ទុកព័ត៌មានលម្អិតបានទេ', 'zh' => '无法加载详情'],
+            ['key' => 'store-inventory.toast.loading_error_title', 'en' => 'Loading Error', 'kh' => 'កំហុសក្នុងការផ្ទុក', 'zh' => '加载错误'],
+            ['key' => 'store-inventory.toast.unexpected_error', 'en' => 'An unexpected error occurred', 'kh' => 'មានកំហុសមិនរំពឹងទុកបានកើតឡើង', 'zh' => '发生意外错误'],
+            ['key' => 'store-inventory.toast.invalid_file_type_title', 'en' => 'Invalid file type', 'kh' => 'ប្រភេទឯកសារមិនត្រឹមត្រូវ', 'zh' => '无效的文件类型'],
+            ['key' => 'store-inventory.toast.invalid_file_type_desc', 'en' => 'Please upload an image file (JPEG, PNG, WebP, etc.).', 'kh' => 'សូមផ្ទុកឡើងឯកសាររូបភាព (JPEG, PNG, WebP, ជាដើម)។', 'zh' => '请上传图像文件（JPEG，PNG，WebP等）。'],
+            ['key' => 'store-inventory.toast.file_too_large_title', 'en' => 'File too large', 'kh' => 'ឯកសារធំពេក', 'zh' => '文件太大'],
+            ['key' => 'store-inventory.toast.file_too_large_desc', 'en' => 'Image must be less than {size}MB', 'kh' => 'រូបភាពត្រូវតែតូចជាង {size}MB', 'zh' => '图像必须小于 {size}MB'],
+            ['key' => 'store-inventory.toast.map_load_error', 'en' => 'Map failed to load', 'kh' => 'ផែនទីមិនអាចផ្ទុកបានទេ', 'zh' => '地图加载失败'],
+            ['key' => 'store-inventory.toast.update_success_title', 'en' => 'Success', 'kh' => 'ជោគជ័យ', 'zh' => '成功'],
+            ['key' => 'store-inventory.toast.update_success_desc', 'en' => '{name} has been updated.', 'kh' => '{name} ត្រូវបានធ្វើបច្ចុប្បន្នភាព។', 'zh' => '{name} 已更新。'],
+            ['key' => 'store-inventory.toast.update_failed', 'en' => 'Update failed', 'kh' => 'ការធ្វើបច្ចុប្បន្នភាពបានបរាជ័យ', 'zh' => '更新失败'],
+            ['key' => 'store-inventory.toast.update_error_title', 'en' => 'Update Error', 'kh' => 'កំហុសក្នុងការធ្វើបច្ចុប្បន្នភាព', 'zh' => '更新错误'],
+            ['key' => 'store-inventory.toast.delete_success_title', 'en' => 'Inventory Deleted', 'kh' => 'សារពើភ័ណ្ឌត្រូវបានលុប', 'zh' => '库存项已移除'],
+            ['key' => 'store-inventory.toast.delete_success_desc', 'en' => '{name} has been deleted.', 'kh' => '{name} ត្រូវបានលុប។', 'zh' => '{name} 已删除。'],
+            ['key' => 'store-inventory.toast.delete_error_title', 'en' => 'Delete Error', 'kh' => 'កំហុសក្នុងការលុប', 'zh' => '删除错误'],
+            ['key' => 'store-inventory.toast.delete_failed', 'en' => 'Failed to delete inventory item', 'kh' => 'មិនអាចលុបធាតុសារពើភ័ណ្ឌបានទេ', 'zh' => '移除库存项失败'],
+            ['key' => 'store-inventory.form.quantity', 'en' => 'Available Stock Quantity', 'kh' => 'បរិមាណស្តុកដែលមាន', 'zh' => '可用库存数量'],
+            ['key' => 'store-inventory.form.price', 'en' => 'Custom Price Overlay (optional)', 'kh' => 'តម្លៃប្ដូរតាមបំណង (ស្រេចចិត្ត)', 'zh' => '自定义价格覆盖（可选）'],
+            ['key' => 'store-inventory.form.status', 'en' => 'Inventory Status', 'kh' => 'ស្ថានភាពសារពើភ័ណ្ឌ', 'zh' => '库存状态'],
+            ['key' => 'store-inventory.table.no_results', 'en' => 'No store inventory found.', 'kh' => 'រកមិនឃើញសារពើភ័ណ្ឌហាងទេ។', 'zh' => '未找到店铺库存。'],
         ];
     }
 }

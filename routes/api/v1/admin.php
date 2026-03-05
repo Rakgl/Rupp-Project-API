@@ -15,6 +15,10 @@ use App\Http\Controllers\Api\V1\Admin\PaymentMethodController;
 use App\Http\Controllers\Api\V1\Admin\StoreNotificationSettingController;
 use App\Http\Controllers\Api\V1\Admin\AppDownloadLinkController;
 use App\Http\Controllers\Api\V1\Admin\AppVersionController;
+use App\Http\Controllers\Api\V1\Admin\DashboardController;
+use App\Http\Controllers\Api\V1\Admin\CategoryController;
+use App\Http\Controllers\Api\V1\Admin\ProductController;
+use App\Http\Controllers\Api\V1\Admin\StoreInventoryController;
 
 // Public routes
 Route::post('/auth/login', [AuthController::class, 'login']);
@@ -68,17 +72,13 @@ Route::middleware(['auth:sanctum'])->group(function () {
         Route::get('/role-permissions', [RolePermissionController::class, 'index']);
         Route::post('/role-permissions/update', [RolePermissionController::class, 'updateRolePermission']);
 
-        // Settings
-        // Route::get('/general-settings', [SettingController::class, 'show']);
-        // Route::post('/general-settings/update', [SettingController::class, 'update']);
-
         // General setting
         Route::get('general-settings', [GeneralSettingController::class, 'index']);
         Route::post('general-settings', [GeneralSettingController::class, 'storeOrUpdate']);
 
         Route::apiResource('translations',TranslationController::class);
 
-         Route::apiResource('/stores/fetch', StoreController::class);
+        Route::apiResource('/stores/fetch', StoreController::class);
         Route::apiResource('/stores', StoreController::class);
         Route::apiResource('stores.notification-settings', StoreNotificationSettingController::class)->shallow();
         Route::post('notification-settings/{notification_setting}/test', [StoreNotificationSettingController::class, 'test'])
@@ -97,5 +97,28 @@ Route::middleware(['auth:sanctum'])->group(function () {
         Route::get('app-versions', [AppVersionController::class, 'index']);
 	    Route::post('app-versions', [AppVersionController::class, 'updateConfig']);
 
+        // Main Dashboard Overview
+        Route::get('dashboard', [DashboardController::class, 'index']);
+
+        // Category
+        Route::get('categories', [CategoryController::class, 'index']);
+        Route::get('categories/{id}', [CategoryController::class, 'show']);
+	    Route::post('categories', [CategoryController::class, 'store']);
+	    Route::put('categories/{id}', [CategoryController::class, 'update']);
+	    Route::delete('categories/{id}', [CategoryController::class, 'destroy']);
+
+        // Product
+        Route::get('products', [ProductController::class, 'index']);
+        Route::get('products/{id}', [ProductController::class, 'show']);
+        Route::post('products', [ProductController::class, 'store']);
+        Route::put('products/{id}', [ProductController::class, 'update']);
+        Route::delete('products/{id}', [ProductController::class, 'destroy']);
+
+        // Store Inventory
+        Route::get('store-inventory', [StoreInventoryController::class, 'index']);
+        Route::get('store-inventory/{id}', [StoreInventoryController::class, 'show']);
+        Route::post('store-inventory', [StoreInventoryController::class, 'store']);
+        Route::put('store-inventory/{id}', [StoreInventoryController::class, 'update']);
+        Route::delete('store-inventory/{id}', [StoreInventoryController::class, 'destroy']);
     });
 });

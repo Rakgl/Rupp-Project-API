@@ -41,18 +41,6 @@ class AppVersionSeeder extends Seeder
             ],
             [
                 'id' => Str::uuid(),
-                'app' => 'STORE',
-                'announcement_id' => null,
-                'platform' => 'IOS',
-                'latest_version' => '1.0.2',
-                'update_url' => null,
-                'force_update' => false,
-                'message' => 'New version available for iOS! Update now to get the latest features.',
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
-            [
-                'id' => Str::uuid(),
                 'app' => 'CUSTOMER',
                 'announcement_id' => null,
                 'platform' => 'IOS',

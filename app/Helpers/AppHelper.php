@@ -61,7 +61,7 @@ class AppHelper
 		if ($requestFile) {
 			$format = $requestFile->getClientOriginalExtension();
 			$imgPath = uniqid() . '.' . $format;
-			$fullPath = $requestFile->storeAs($path, $imgPath);
+			$fullPath = $requestFile->storeAs($path, $imgPath, 'public');
 		} else {
 			$format = "";
 			$imgPath = null;

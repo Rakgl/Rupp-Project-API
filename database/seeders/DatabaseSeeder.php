@@ -26,6 +26,11 @@ class DatabaseSeeder extends Seeder
             GeneralSettingSeeder::class,
             StoreSeeder::class,
             AppDownloadLinkSeeder::class,
+            CategorySeeder::class,
+            ProductSeeder::class,
+            StoreInventorySeeder::class,
+            OrderSeeder::class,
+            AppointmentSeeder::class,
         ]);
     }
 }
