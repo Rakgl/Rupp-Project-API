@@ -119,4 +119,9 @@ class User extends Authenticatable implements Auditable
     {
         return $this->hasMany(Review::class);
     }
+
+    public function favorites(): HasMany
+    {
+        return $this->hasMany(Favorite::class);
+    }
 }

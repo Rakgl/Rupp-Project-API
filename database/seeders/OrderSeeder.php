@@ -44,55 +44,57 @@ class OrderSeeder extends Seeder
             $isToday = ($i == 0);
 
             Order::create([
-                'id' => (string) Str::uuid(),
-                'user_id' => $users->random()->id,
-                'store_id' => $stores->random()->id,
+                'id'                => (string) Str::uuid(),
+                'user_id'           => $users->random()->id,
+                'store_id'          => $stores->random()->id,
                 'payment_method_id' => $paymentMethods->random()->id,
-                'order_number' => 'ORD-' . strtoupper(Str::random(8)),
-                'total_amount' => rand(15, 200) + (rand(0, 99) / 100),
-                'fulfillment_type' => collect(['PICKUP', 'DELIVERY'])->random(),
-                // If it is today, we make sure to have at least a couple PENDING and COMPLETED
-                'status' => $isToday ? collect(['PENDING', 'COMPLETED', 'PROCESSING'])->random() : 'COMPLETED',
-                'payment_status' => collect(['PAID', 'UNPAID'])->random(),
-                'delivery_address' => 'Sample Address',
-                'created_at' => $orderTime,
-                'updated_at' => $orderTime,
+                'order_number'      => 'ORD-' . strtoupper(Str::random(8)),
+                'subtotal'          => round(rand(15, 200) + (rand(0, 99) / 100), 2),
+                'total_amount'      => round(rand(15, 200) + (rand(0, 99) / 100), 2),
+                'fulfillment_type'  => collect(['PICKUP', 'DELIVERY'])->random(),
+                'status'            => $isToday ? collect(['PENDING', 'COMPLETED', 'PROCESSING'])->random() : 'COMPLETED',
+                'payment_status'    => collect(['PAID', 'UNPAID'])->random(),
+                'delivery_address'  => 'Sample Address',
+                'created_at'        => $orderTime,
+                'updated_at'        => $orderTime,
             ]);
         }
 
         // Force exactly two COMPLETED today for revenue KPI
         for ($i = 0; $i < 2; $i++) {
             Order::create([
-                'id' => (string) Str::uuid(),
-                'user_id' => $users->random()->id,
-                'store_id' => $stores->random()->id,
+                'id'                => (string) Str::uuid(),
+                'user_id'           => $users->random()->id,
+                'store_id'          => $stores->random()->id,
                 'payment_method_id' => $paymentMethods->random()->id,
-                'order_number' => 'ORD-' . strtoupper(Str::random(8)),
-                'total_amount' => 50.00,
-                'fulfillment_type' => 'DELIVERY',
-                'status' => 'COMPLETED',
-                'payment_status' => 'PAID',
-                'delivery_address' => 'Forced address',
-                'created_at' => Carbon::today()->addHours(10),
-                'updated_at' => Carbon::now(),
+                'order_number'      => 'ORD-' . strtoupper(Str::random(8)),
+                'subtotal'          => 50.00,
+                'total_amount'      => 50.00,
+                'fulfillment_type'  => 'DELIVERY',
+                'status'            => 'COMPLETED',
+                'payment_status'    => 'PAID',
+                'delivery_address'  => 'Forced address',
+                'created_at'        => Carbon::today()->addHours(10),
+                'updated_at'        => Carbon::now(),
             ]);
         }
 
         // Force two PENDING orders
         for ($i = 0; $i < 2; $i++) {
             Order::create([
-                'id' => (string) Str::uuid(),
-                'user_id' => $users->random()->id,
-                'store_id' => $stores->random()->id,
+                'id'                => (string) Str::uuid(),
+                'user_id'           => $users->random()->id,
+                'store_id'          => $stores->random()->id,
                 'payment_method_id' => $paymentMethods->random()->id,
-                'order_number' => 'ORD-' . strtoupper(Str::random(8)),
-                'total_amount' => 30.00,
-                'fulfillment_type' => 'PICKUP',
-                'status' => 'PENDING',
-                'payment_status' => 'UNPAID',
-                'delivery_address' => null,
-                'created_at' => Carbon::now()->subMinutes(15),
-                'updated_at' => Carbon::now(),
+                'order_number'      => 'ORD-' . strtoupper(Str::random(8)),
+                'subtotal'          => 30.00,
+                'total_amount'      => 30.00,
+                'fulfillment_type'  => 'PICKUP',
+                'status'            => 'PENDING',
+                'payment_status'    => 'UNPAID',
+                'delivery_address'  => null,
+                'created_at'        => Carbon::now()->subMinutes(15),
+                'updated_at'        => Carbon::now(),
             ]);
         }
     }

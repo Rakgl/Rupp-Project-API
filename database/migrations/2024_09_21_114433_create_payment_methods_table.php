@@ -17,13 +17,12 @@ return new class extends Migration
             $table->string('image')->nullable();
             $table->text('description')->nullable();
             $table->string('type', 50)->comment('online,cash,card_on_delivery');
-
             $table->string('status', 10)->default('ACTIVE')->comment('ACTIVE, INACTIVE');
             $table->string('created_by')->nullable();
             $table->string('updated_by')->nullable();
             $table->integer('update_num')->default(0);
             $table->timestampsTz();
-            $table->softDeletesTz(); // Adds a nullable `deleted_at` timestamp with timezone
+            $table->softDeletesTz();
         });
     }
 

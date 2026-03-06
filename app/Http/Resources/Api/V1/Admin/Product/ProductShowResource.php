@@ -22,6 +22,7 @@ class ProductShowResource extends JsonResource
             'name' => is_array($this->name) ? ($this->name['en'] ?? null) : $this->name,
             'slug' => $this->slug,
             'description' => is_array($this->description) ? ($this->description['en'] ?? null) : $this->description,
+            'attributes' => $this->attributes,
             'price' => (float) $this->price,
             'image_url' => $this->image_url,
             'sku' => $this->sku,

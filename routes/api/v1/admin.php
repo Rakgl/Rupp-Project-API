@@ -19,6 +19,7 @@ use App\Http\Controllers\Api\V1\Admin\DashboardController;
 use App\Http\Controllers\Api\V1\Admin\CategoryController;
 use App\Http\Controllers\Api\V1\Admin\ProductController;
 use App\Http\Controllers\Api\V1\Admin\StoreInventoryController;
+use App\Http\Controllers\Api\V1\Admin\OrderController;
 
 // Public routes
 Route::post('/auth/login', [AuthController::class, 'login']);
@@ -76,6 +77,9 @@ Route::middleware(['auth:sanctum'])->group(function () {
         Route::get('general-settings', [GeneralSettingController::class, 'index']);
         Route::post('general-settings', [GeneralSettingController::class, 'storeOrUpdate']);
 
+        // Mobile Setting Updates
+        Route::post('settings', [SettingController::class, 'update']);
+
         Route::apiResource('translations',TranslationController::class);
 
         Route::apiResource('/stores/fetch', StoreController::class);
@@ -120,5 +124,10 @@ Route::middleware(['auth:sanctum'])->group(function () {
         Route::post('store-inventory', [StoreInventoryController::class, 'store']);
         Route::put('store-inventory/{id}', [StoreInventoryController::class, 'update']);
         Route::delete('store-inventory/{id}', [StoreInventoryController::class, 'destroy']);
+
+        // Orders
+        Route::apiResource('orders', OrderController::class)->except(['store', 'destroy']);
+        Route::put('orders/{id}/status', [OrderController::class, 'updateStatus']);
+        Route::get('orders/{id}/items', [OrderController::class, 'getItems']);
     });
 });

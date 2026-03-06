@@ -60,6 +60,10 @@ class ProductController extends Controller
             'name.en' => 'required|string',
             'slug' => 'required|string|unique:products,slug',
             'description' => 'nullable|array',
+            'attributes' => 'nullable|array',
+            'attributes.gender' => 'nullable|string',
+            'attributes.age' => 'nullable|string',
+            'attributes.color' => 'nullable|string',
             'price' => 'required|numeric|min:0',
             'image_url' => 'nullable|string',
             'status' => 'nullable|string|in:ACTIVE,INACTIVE'
@@ -111,6 +115,10 @@ class ProductController extends Controller
             'name.en' => 'nullable|string',
             'slug' => 'nullable|string|unique:products,slug,' . $id,
             'description' => 'nullable|array',
+            'attributes' => 'nullable|array',
+            'attributes.gender' => 'nullable|string',
+            'attributes.age' => 'nullable|string',
+            'attributes.color' => 'nullable|string',
             'price' => 'nullable|numeric|min:0',
             'image_url' => 'nullable|string',
             'status' => 'nullable|string|in:ACTIVE,INACTIVE'

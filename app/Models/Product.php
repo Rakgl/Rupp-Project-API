@@ -15,7 +15,9 @@ class Product extends Model
         'name',
         'slug',
         'description',
+        'attributes',
         'price',
+        'sku',
         'image_url',
         'status'
     ];
@@ -23,6 +25,7 @@ class Product extends Model
     protected $casts = [
         'name' => 'array',
         'description' => 'array',
+        'attributes' => 'array',
         'price' => 'decimal:2',
     ];
 
@@ -34,5 +37,10 @@ class Product extends Model
     public function storeInventories()
     {
         return $this->hasMany(StoreInventory::class);
+    }
+
+    public function favorites()
+    {
+        return $this->hasMany(Favorite::class);
     }
 }

@@ -20,9 +20,17 @@ class SettingController extends Controller
 		return response()->json([
 			'success' => true,
 			'data' => [
-				'app_name' => $generalSettings['app_name'],
-				'color' => $generalSettings['color'],
-				'logo' => $generalSettings['app_logo'],
+				'app_name' => $generalSettings['app_name'] ?? null,
+				'color' => $generalSettings['color'] ?? null,
+				'logo' => $generalSettings['app_logo'] ?? null,
+                'about_us' => [
+                    'description' => $generalSettings['about_us_description'] ?? null,
+                    'location' => [
+                        'latitude' => $generalSettings['latitude'] ?? null,
+                        'longitude' => $generalSettings['longitude'] ?? null,
+                    ],
+                    'footer_note' => $generalSettings['footer_note'] ?? null,
+                ]
 			],
 		]);
 	}

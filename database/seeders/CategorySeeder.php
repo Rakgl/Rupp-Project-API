@@ -16,64 +16,49 @@ class CategorySeeder extends Seeder
         $categories = [
             [
                 'name' => [
-                    'en' => 'Food',
-                    'kh' => 'អាហារ',
-                    'zh' => '食物'
+                    'en' => 'Dogs',
+                    'kh' => 'ឆ្កែ',
+                    'zh' => '狗'
                 ],
                 'description' => [
-                    'en' => 'Food',
-                    'kh' => 'អាហារ',
-                    'zh' => '食物'
+                    'en' => 'Dogs',
+                    'kh' => 'ឆ្កែ',
+                    'zh' => '狗'
                 ],
-                'slug' => Str::slug('Food'),
-                'image_url' => 'https://example.com/images/category-food.png',
+                'slug' => Str::slug('Dogs'),
+                'image_url' => 'https://example.com/images/category-dogs.png',
                 'status' => 'ACTIVE'
             ],
             [
                 'name' => [
-                    'en' => 'Toys',
-                    'kh' => 'ប្រដាប់ក្មេងលេង',
-                    'zh' => '玩具'
+                    'en' => 'Cats',
+                    'kh' => 'ឆ្មា',
+                    'zh' => '猫'
                 ],
                 'description' => [
-                    'en' => 'Toys',
-                    'kh' => 'ប្រដាប់ក្មេងលេង',
-                    'zh' => '玩具'
+                    'en' => 'Cats',
+                    'kh' => 'ឆ្មា',
+                    'zh' => '猫'
                 ],
-                'slug' => Str::slug('Toys'),
-                'image_url' => 'https://example.com/images/category-toys.png',
+                'slug' => Str::slug('Cats'),
+                'image_url' => 'https://example.com/images/category-cats.png',
                 'status' => 'ACTIVE'
             ],
             [
                 'name' => [
-                    'en' => 'Accessories',
-                    'kh' => 'គ្រឿងបន្លាស់',
-                    'zh' => '配件'
+                    'en' => 'Fish',
+                    'kh' => 'ត្រី',
+                    'zh' => '鱼'
                 ],
                 'description' => [
-                    'en' => 'Accessories',
-                    'kh' => 'គ្រឿងបន្លាស់',
-                    'zh' => '配件'
+                    'en' => 'Fish',
+                    'kh' => 'ត្រី',
+                    'zh' => '鱼'
                 ],
-                'slug' => Str::slug('Accessories'),
-                'image_url' => 'https://example.com/images/category-accessories.png',
+                'slug' => Str::slug('Fish'),
+                'image_url' => 'https://example.com/images/category-fish.png',
                 'status' => 'ACTIVE'
-            ],
-            [
-                'name' => [
-                    'en' => 'Health & Wellness',
-                    'kh' => 'សុខភាព និង ភាពរីករាយ',
-                    'zh' => '健康与保健'
-                ],
-                'description' => [
-                    'en' => 'Health & Wellness',
-                    'kh' => 'សុខភាព និង ភាពរីករាយ',
-                    'zh' => '健康与保健'
-                ],
-                'slug' => Str::slug('Health and Wellness'),
-                'image_url' => 'https://example.com/images/category-health.png',
-                'status' => 'ACTIVE'
-            ],
+            ]
         ];
 
         foreach ($categories as $cat) {

@@ -15,6 +15,9 @@ class Order extends Model
         'store_id',
         'payment_method_id',
         'order_number',
+        'subtotal',
+        'tax_amount',
+        'delivery_fee',
         'total_amount',
         'fulfillment_type',
         'status',
@@ -23,7 +26,10 @@ class Order extends Model
     ];
 
     protected $casts = [
-        'total_amount' => 'decimal:2',
+        'subtotal'      => 'decimal:2',
+        'tax_amount'    => 'decimal:2',
+        'delivery_fee'  => 'decimal:2',
+        'total_amount'  => 'decimal:2',
     ];
 
     public function user()

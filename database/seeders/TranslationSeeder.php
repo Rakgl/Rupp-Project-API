@@ -61,6 +61,7 @@ class TranslationSeeder extends Seeder
             $this->getCategoriesTranslations(),
             $this->getProductsTranslations(),
             $this->getStoreInventoryTranslations(),
+            $this->getOrdersTranslations(),
         );
     }
 
@@ -1472,6 +1473,59 @@ class TranslationSeeder extends Seeder
             ['key' => 'store-inventory.form.price', 'en' => 'Custom Price Overlay (optional)', 'kh' => 'តម្លៃប្ដូរតាមបំណង (ស្រេចចិត្ត)', 'zh' => '自定义价格覆盖（可选）'],
             ['key' => 'store-inventory.form.status', 'en' => 'Inventory Status', 'kh' => 'ស្ថានភាពសារពើភ័ណ្ឌ', 'zh' => '库存状态'],
             ['key' => 'store-inventory.table.no_results', 'en' => 'No store inventory found.', 'kh' => 'រកមិនឃើញសារពើភ័ណ្ឌហាងទេ។', 'zh' => '未找到店铺库存。'],
+        ];
+    }
+
+    private function getOrdersTranslations(): array
+    {
+        return [
+            ['key' => 'orders.title', 'en' => 'Orders', 'kh' => 'ការបញ្ជាទិញ', 'zh' => '订单'],
+            ['key' => 'orders.description', 'en' => 'Manage and track all customer orders.', 'kh' => 'គ្រប់គ្រង និងតាមដានរាល់ការបញ្ជាទិញរបស់អតិថិជន។', 'zh' => '管理和跟踪所有客户订单。'],
+            
+            // Table Columns
+            ['key' => 'orders.table.columns.index', 'en' => 'No.', 'kh' => 'ល.រ', 'zh' => '序号'],
+            ['key' => 'orders.table.columns.order_number', 'en' => 'Order No.', 'kh' => 'លេខបញ្ជាទិញ', 'zh' => '订单号'],
+            ['key' => 'orders.table.columns.customer', 'en' => 'Customer', 'kh' => 'អតិថិជន', 'zh' => '客户'],
+            ['key' => 'orders.table.columns.total_amount', 'en' => 'Total Amount', 'kh' => 'ចំនួនសរុប', 'zh' => '总金额'],
+            ['key' => 'orders.table.columns.status', 'en' => 'Status', 'kh' => 'ស្ថានភាព', 'zh' => '状态'],
+            ['key' => 'orders.table.columns.created_at', 'en' => 'Date', 'kh' => 'កាលបរិច្ឆេទ', 'zh' => '日期'],
+            ['key' => 'orders.table.columns.actions', 'en' => 'Actions', 'kh' => 'សកម្មភាព', 'zh' => '操作'],
+            
+            // Status Options
+            ['key' => 'orders.table.status.pending', 'en' => 'Pending', 'kh' => 'កំពុងរង់ចាំ', 'zh' => '待处理'],
+            ['key' => 'orders.table.status.processing', 'en' => 'Processing', 'kh' => 'កំពុងដំណើរការ', 'zh' => '处理中'],
+            ['key' => 'orders.table.status.shipped', 'en' => 'Shipped', 'kh' => 'បានដឹកជញ្ជូន', 'zh' => '已发货'],
+            ['key' => 'orders.table.status.delivered', 'en' => 'Delivered', 'kh' => 'បានប្រគល់', 'zh' => '已送达'],
+            ['key' => 'orders.table.status.cancelled', 'en' => 'Cancelled', 'kh' => 'បានលុបចោល', 'zh' => '已取消'],
+
+            // Form
+            ['key' => 'orders.form.status.label', 'en' => 'Status', 'kh' => 'ស្ថានភាព', 'zh' => '状态'],
+            ['key' => 'orders.form.status.placeholder', 'en' => 'Select Status', 'kh' => 'ជ្រើសរើសស្ថានភាព', 'zh' => '选择状态'],
+
+            // Dialog View
+            ['key' => 'orders.dialog.view.title', 'en' => 'Order Details', 'kh' => 'ព័ត៌មានលម្អិតការបញ្ជាទិញ', 'zh' => '订单详情'],
+            ['key' => 'orders.dialog.view.description', 'en' => 'Viewing details for order', 'kh' => 'មើលព័ត៌មានលម្អិតសម្រាប់ការបញ្ជាទិញ', 'zh' => '查看订单详情'],
+
+            // Dialog Edit
+            ['key' => 'orders.dialog.edit.title', 'en' => 'Edit Order Status', 'kh' => 'កែសម្រួលស្ថានភាពការបញ្ជាទិញ', 'zh' => '编辑订单状态'],
+            ['key' => 'orders.dialog.edit.description', 'en' => 'Update the status for order', 'kh' => 'ធ្វើបច្ចុប្បន្នភាពស្ថានភាពសម្រាប់ការបញ្ជាទិញ', 'zh' => '更新订单状态'],
+            ['key' => 'orders.dialog.edit.cancel_btn', 'en' => 'Cancel', 'kh' => 'បោះបង់', 'zh' => '取消'],
+            ['key' => 'orders.dialog.edit.update_btn', 'en' => 'Update Status', 'kh' => 'ធ្វើបច្ចុប្បន្នភាពស្ថានភាព', 'zh' => '更新状态'],
+            ['key' => 'orders.dialog.edit.updating_btn', 'en' => 'Updating...', 'kh' => 'កំពុងធ្វើបច្ចុប្បន្នភាព...', 'zh' => '更新中...'],
+
+            // Row Actions
+            ['key' => 'orders.row_actions.open_menu', 'en' => 'Open menu', 'kh' => 'បើកម៉ឺនុយ', 'zh' => '打开菜单'],
+            ['key' => 'orders.row_actions.view_details', 'en' => 'View Details', 'kh' => 'មើលលម្អិត', 'zh' => '查看详情'],
+            ['key' => 'orders.row_actions.edit_status', 'en' => 'Update Status', 'kh' => 'ធ្វើបច្ចុប្បន្នភាពស្ថានភាព', 'zh' => '更新状态'],
+
+            // Toasts
+            ['key' => 'orders.toast.error_title', 'en' => 'Error', 'kh' => 'កំហុស', 'zh' => '错误'],
+            ['key' => 'orders.toast.missing_id', 'en' => 'Order ID is missing', 'kh' => 'បាត់លេខសម្គាល់បញ្ជាទិញ', 'zh' => '订单 ID 缺失'],
+            ['key' => 'orders.toast.update_success_title', 'en' => 'Success', 'kh' => 'ជោគជ័យ', 'zh' => '成功'],
+            ['key' => 'orders.toast.update_success_desc', 'en' => 'Order status updated successfully.', 'kh' => 'ស្ថានភាពនៃការបញ្ជាទិញត្រូវបានធ្វើបច្ចុប្បន្នភាពដោយជោគជ័យ។', 'zh' => '订单状态已成功更新。'],
+            ['key' => 'orders.toast.update_failed', 'en' => 'Failed to update order status.', 'kh' => 'មិនអាចធ្វើបច្ចុប្បន្នភាពស្ថានភាពការបញ្ជាទិញបានទេ។', 'zh' => '更新订单状态失败。'],
+            ['key' => 'orders.toast.update_error_title', 'en' => 'Update Error', 'kh' => 'កំហុសក្នុងការធ្វើបច្ចុប្បន្នភាព', 'zh' => '更新错误'],
+            ['key' => 'orders.toast.unexpected_error', 'en' => 'An unexpected error occurred.', 'kh' => 'មានកំហុសមិនរំពឹងទុកបានកើតឡើង។', 'zh' => '发生意外错误。'],
         ];
     }
 }

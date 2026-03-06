@@ -9,8 +9,10 @@ use App\Http\Controllers\Api\V1\Mobile\AppVersionController;
 use App\Http\Controllers\Api\V1\Mobile\FcmTokenController;
 use App\Http\Controllers\Api\V1\Mobile\NotificationController;
 use App\Http\Controllers\Api\V1\Mobile\SettingController;
+use App\Http\Controllers\Api\V1\Mobile\ProductController;
 
 // Public routes
+
 Route::post('/auth/login', [AuthController::class, 'login']);
 
 // Register
@@ -45,3 +47,7 @@ Route::middleware(['auth:sanctum', 'ability:customer'])->group(function () {
 
     Route::get('/settings', [SettingController::class, 'index']);
 });
+
+// Product like pet or sth..etc.
+Route::get('/products', [ProductController::class, 'index']);
+Route::get('/products/{product}', [ProductController::class, 'show']);

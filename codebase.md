@@ -611,13 +611,12 @@ return new class extends Migration
             $table->string('image')->nullable();
             $table->text('description')->nullable();
             $table->string('type', 50)->comment('online,cash,card_on_delivery');
-
             $table->string('status', 10)->default('ACTIVE')->comment('ACTIVE, INACTIVE');
             $table->string('created_by')->nullable();
             $table->string('updated_by')->nullable();
             $table->integer('update_num')->default(0);
             $table->timestampsTz();
-            $table->softDeletesTz(); // Adds a nullable `deleted_at` timestamp with timezone
+            $table->softDeletesTz();
         });
     }
 
@@ -1451,7 +1450,8 @@ return new class extends Migration
     {
         Schema::create('categories', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->json('name'); 
+            $table->json('name');
+            $table->json('description')->nullable();
             $table->string('slug')->unique();
             $table->string('image_url')->nullable();
             $table->string('status', 10)->default('ACTIVE')->comment('ACTIVE, INACTIVE');
@@ -1488,6 +1488,7 @@ return new class extends Migration
             $table->json('description')->nullable();
             $table->decimal('price', 12, 2);
             $table->string('image_url')->nullable();
+            $table->string('sku', 50)->unique()->nullable()->comment('Barcode or Stock Keeping Unit');
             $table->string('status', 10)->default('ACTIVE')->comment('ACTIVE, INACTIVE');
             $table->timestampsTz();
         });
@@ -1777,6 +1778,227 @@ return new class extends Migration
     public function down(): void
     {
         Schema::dropIfExists('app_download_links');
+    }
+};
+
+```
+
+# 2026_03_05_135214_create_carts_table.php
+
+```php
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    /**
+     * Run the migrations.
+     */
+    public function up(): void
+    {
+        Schema::create('carts', function (Blueprint $table) {
+            $table->uuid('id')->primary();
+            $table->foreignUuid('user_id')->nullable()->constrained('users')->cascadeOnDelete();
+            $table->string('session_id')->nullable()->comment('For guest carts');
+            $table->foreignUuid('store_id')->nullable()->constrained('stores')->cascadeOnDelete();
+            $table->string('status', 20)->default('ACTIVE')->comment('ACTIVE, ABANDONED, CONVERTED');
+            $table->timestampsTz();
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     */
+    public function down(): void
+    {
+        Schema::dropIfExists('carts');
+    }
+};
+
+```
+
+# 2026_03_05_135215_create_cart_items_table.php
+
+```php
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    /**
+     * Run the migrations.
+     */
+    public function up(): void
+    {
+        Schema::create('cart_items', function (Blueprint $table) {
+            $table->uuid('id')->primary();
+            $table->foreignUuid('cart_id')->constrained('carts')->cascadeOnDelete();
+            $table->foreignUuid('product_id')->constrained('products')->cascadeOnDelete();
+            $table->integer('quantity')->default(1);
+            $table->timestampsTz();
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     */
+    public function down(): void
+    {
+        Schema::dropIfExists('cart_items');
+    }
+};
+
+```
+
+# 2026_03_05_135215_create_product_reviews_table.php
+
+```php
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    /**
+     * Run the migrations.
+     */
+    public function up(): void
+    {
+        Schema::create('product_reviews', function (Blueprint $table) {
+            $table->uuid('id')->primary();
+            $table->foreignUuid('user_id')->constrained('users')->cascadeOnDelete();
+            $table->foreignUuid('product_id')->constrained('products')->cascadeOnDelete();
+            $table->integer('rating')->default(5)->comment('1 to 5 stars');
+            $table->text('review_text')->nullable();
+            $table->timestampsTz();
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     */
+    public function down(): void
+    {
+        Schema::dropIfExists('product_reviews');
+    }
+};
+
+```
+
+# 2026_03_05_135215_create_user_favorites_table.php
+
+```php
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    /**
+     * Run the migrations.
+     */
+    public function up(): void
+    {
+        Schema::create('user_favorites', function (Blueprint $table) {
+            $table->uuid('id')->primary();
+            $table->foreignUuid('user_id')->constrained('users')->cascadeOnDelete();
+            $table->foreignUuid('product_id')->constrained('products')->cascadeOnDelete();
+            $table->timestampsTz();
+            
+            $table->unique(['user_id', 'product_id']);
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     */
+    public function down(): void
+    {
+        Schema::dropIfExists('user_favorites');
+    }
+};
+
+```
+
+# 2026_03_05_135215_create_wallets_table.php
+
+```php
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    /**
+     * Run the migrations.
+     */
+    public function up(): void
+    {
+        Schema::create('wallets', function (Blueprint $table) {
+            $table->uuid('id')->primary();
+            $table->foreignUuid('user_id')->constrained('users')->cascadeOnDelete();
+            $table->decimal('balance', 12, 2)->default(0);
+            $table->string('status', 10)->default('ACTIVE')->comment('ACTIVE, INACTIVE');
+            $table->timestampsTz();
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     */
+    public function down(): void
+    {
+        Schema::dropIfExists('wallets');
+    }
+};
+
+```
+
+# 2026_03_05_135216_create_wallet_transactions_table.php
+
+```php
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    /**
+     * Run the migrations.
+     */
+    public function up(): void
+    {
+        Schema::create('wallet_transactions', function (Blueprint $table) {
+            $table->uuid('id')->primary();
+            $table->foreignUuid('wallet_id')->constrained('wallets')->cascadeOnDelete();
+            $table->string('type', 20)->comment('DEPOSIT, WITHDRAWAL, PAYMENT, REFUND');
+            $table->decimal('amount', 12, 2);
+            $table->string('reference_id')->nullable()->comment('Can link to order_id or appointment_id');
+            $table->string('description')->nullable();
+            $table->timestampsTz();
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     */
+    public function down(): void
+    {
+        Schema::dropIfExists('wallet_transactions');
     }
 };
 

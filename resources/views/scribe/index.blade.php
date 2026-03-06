@@ -459,7 +459,7 @@ access-control-allow-origin: *
 <code class="language-json" style="max-height: 300px;">{
     &quot;success&quot;: true,
     &quot;data&quot;: {
-        &quot;app_name&quot;: &quot;Telemedicine&quot;,
+        &quot;app_name&quot;: &quot;Methgo&quot;,
         &quot;app_logo&quot;: null,
         &quot;color&quot;: &quot;#84b542&quot;
     }

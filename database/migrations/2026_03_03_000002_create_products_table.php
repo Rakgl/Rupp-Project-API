@@ -14,6 +14,7 @@ return new class extends Migration
             $table->json('name');
             $table->string('slug')->unique();
             $table->json('description')->nullable();
+            $table->json('attributes')->nullable()->comment('Stores Gender, Age, Brand, Color, etc.');
             $table->decimal('price', 12, 2);
             $table->string('image_url')->nullable();
             $table->string('sku', 50)->unique()->nullable()->comment('Barcode or Stock Keeping Unit');

@@ -18,7 +18,7 @@ class StoreIndexResource extends JsonResource
         return [
             'id' => $this->id,
             'name' => $this->name,
-            'logo_url' => $this->logo_url ? Storage::url($this->logo_url) : null, // Assumes logo is in Laravel Storage
+            'logo_url' => $this->logo_url ? Storage::url($this->logo_url) : null,
             'full_address' => $this->buildFullAddress(),
             'phone_number' => $this->phone_number,
             'telegram' => $this->telegram,
@@ -65,12 +65,11 @@ class StoreIndexResource extends JsonResource
         }
 
         if ($this->opening_time && $this->closing_time) {
-            // Assumes times are stored as 'HH:MM:SS'. Converts to 'g:i A' (e.g., "9:00 AM")
             $opening = \Carbon\Carbon::parse($this->opening_time)->format('g:i A');
             $closing = \Carbon\Carbon::parse($this->closing_time)->format('g:i A');
             return "{$opening} - {$closing}";
         }
 
-        return 'N/A'; // Not available
+        return 'N/A';
     }
 }

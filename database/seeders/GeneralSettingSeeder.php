@@ -25,7 +25,7 @@ class GeneralSettingSeeder extends Seeder
             [
                 'key' => 'admin_email',
                 'name' => 'Administrator Email',
-                'value' => 'admin@carservice.com',
+                'value' => 'admin@dashboard.com',
                 'type' => 'string',
                 'group' => 'Site Information',
                 'description' => 'The email address for the primary car service system administrator.',

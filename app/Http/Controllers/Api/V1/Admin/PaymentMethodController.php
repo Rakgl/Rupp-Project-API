@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Api\V1\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Resources\Api\V1\Admin\PaymentMethod\PaymentMethodIndexResource;
 use App\Http\Requests\Api\V1\Admin\Mobile\PaymentMethodRequest;
 use App\Models\PaymentMethod;
 use Illuminate\Http\Request;

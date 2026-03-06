@@ -68,24 +68,6 @@ class AppHelper
 		}
 		return $fullPath;
 	}
-
-    
-
-    // public static function createPath($path)
-    // {
-    //     $paths = explode('/', $path);
-    //     if (count($paths) > 0) {
-    //         $newPath = '';
-    //         foreach ($paths as $_path) {
-    //             $newPath .= $_path . '/';
-    //             if (!File::exists($newPath)) {
-    //                 File::makeDirectory($newPath);
-    //             }
-    //         }
-    //         return $newPath;
-    //     }
-    //     return $path;
-    // }
     
     public static function deletePath($path)
     {
@@ -95,26 +77,10 @@ class AppHelper
         return null;
     }
     
-    // public static function uploadImage($requestFile, $path)
-    // {
-    //     if ($requestFile) {
-    //         $format = $requestFile->getClientOriginalExtension();
-    //         // ->resize(1280, 1280)
-    //         $img = Image::make($requestFile);
-    //         $imgPath = $path . uniqid() . '.' . $format;
-    //         $img->save($imgPath, 50);
-    //     } else {
-    //         $format = "";
-    //         $imgPath = null;
-    //     }
-    //     return $imgPath;
-    // }
-    
     public static function uploadTextEditorImage($requestFile, $path){
         if ($requestFile) {
             $uuid = uniqid();
             $format = $requestFile->getClientOriginalExtension();
-            // ->resize(1280, 1280)
             $img = Image::make($requestFile);
             $imgPath = $path . $uuid . '.' . $format;
             $imgName = $uuid . '.' . $format;
@@ -125,19 +91,10 @@ class AppHelper
         return $imgName;
     }
         
-    // public static function uploadImage($requestFile, $path)
-    // {
-    //     if (!$requestFile) {
-    //         return null;
-    //     } 
-
-    //     return $requestFile->store($path);
-    // }
     public static function cleanText($text){
         $specialCharacters = ['+', '&', '&&', '||', '!', '(', ')', '{', '}', '[', ']', '^', '"', '~', '?', ':', '\\', '/'];
         return str_replace($specialCharacters, '', $text);
     }
-    
 }
 
 

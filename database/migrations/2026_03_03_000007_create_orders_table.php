@@ -13,13 +13,14 @@ return new class extends Migration
             $table->foreignUuid('user_id')->constrained('users')->cascadeOnDelete();
             $table->foreignUuid('store_id')->constrained('stores')->cascadeOnDelete();
             $table->foreignUuid('payment_method_id')->nullable()->constrained('payment_methods')->nullOnDelete();
-            
             $table->string('order_number')->unique();
+            $table->decimal('subtotal', 12, 2);
+            $table->decimal('tax_amount', 12, 2)->default(0);
+            $table->decimal('delivery_fee', 12, 2)->default(0);
             $table->decimal('total_amount', 12, 2);
             $table->string('fulfillment_type', 20)->default('PICKUP')->comment('PICKUP, DELIVERY');
             $table->string('status', 20)->default('PENDING')->comment('PENDING, PROCESSING, READY, COMPLETED, CANCELLED');
-            $table->string('payment_status', 20)->default('UNPAID')->comment('UNPAID, PAID, FAILED');
-            
+            $table->string('payment_status', 20)->default('UNPAID')->comment('UNPAID, PAID, FAILED');   
             $table->text('delivery_address')->nullable();
             $table->timestampsTz();
         });
