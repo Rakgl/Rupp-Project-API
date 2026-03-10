@@ -1,12 +1,11 @@
 <?php
 
-namespace App\Http\Resources\Api\V1\Admin\ContentBlock;
+namespace App\Http\Resources\Api\V1\Admin\Service;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
-use Illuminate\Support\Facades\Storage;
 
-class ContentBlockShowResource extends JsonResource
+class ServiceShowResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -17,10 +16,11 @@ class ContentBlockShowResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'title' => $this->title,
-            'description' => $this->description,
-            'booking_btn' => $this->booking_btn,
-            'image_url' => $this->image_path ? Storage::url($this->image_path) : null,
+            'name' => $this->name['en'] ?? null,
+            'description' => $this->description['en'] ?? null,
+            'price' => $this->price,
+            'duration_minutes' => $this->duration_minutes,
+            'image_url' => $this->image_url,
             'status' => $this->status,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,

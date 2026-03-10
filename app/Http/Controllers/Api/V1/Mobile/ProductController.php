@@ -28,7 +28,7 @@ class ProductController extends Controller
             $query->where(function ($q) use ($searchTerm) {
                 // Search in JSON column for product name
                 $q->where('name->en', 'LIKE', '%' . $searchTerm . '%')
-                  ->orWhere('name->km', 'LIKE', '%' . $searchTerm . '%')
+                  ->orWhere('name->kh', 'LIKE', '%' . $searchTerm . '%')
                   ->orWhere('sku', 'LIKE', '%' . $searchTerm . '%');
             });
         }

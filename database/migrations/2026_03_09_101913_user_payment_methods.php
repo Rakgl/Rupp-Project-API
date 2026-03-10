@@ -11,13 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('user_favorites', function (Blueprint $table) {
+        Schema::create('user_payment_methods', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->foreignUuid('user_id')->constrained('users')->cascadeOnDelete();
-            $table->foreignUuid('product_id')->constrained('products')->cascadeOnDelete();
+            $table->foreignUuid('payment_method_id')->constrained('payment_methods');
+            $table->string('card_token');
+            $table->string('last_four', 4)->nullable();
             $table->timestampsTz();
-            
-            $table->unique(['user_id', 'product_id']);
         });
     }
 
@@ -26,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('user_favorites');
+        Schema::dropIfExists('user_payment_methods');
     }
 };

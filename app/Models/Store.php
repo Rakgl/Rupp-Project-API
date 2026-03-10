@@ -101,4 +101,9 @@ class Store extends Model
     {
         return $this->hasMany(StoreNotificationSetting::class);
     }
+
+    public function pets(): HasMany
+    {
+        return $this->hasMany(Pet::class);
+    }
 }

@@ -11,7 +11,7 @@ class PetListing extends Model
     use HasFactory, HasUuids;
 
     protected $fillable = [
-        'user_id',
+        'store_id',
         'pet_id',
         'listing_type',
         'price',
@@ -23,9 +23,9 @@ class PetListing extends Model
         'price' => 'decimal:2',
     ];
 
-    public function seller()
+    public function store()
     {
-        return $this->belongsTo(User::class, 'user_id');
+        return $this->belongsTo(Store::class);
     }
 
     public function pet()

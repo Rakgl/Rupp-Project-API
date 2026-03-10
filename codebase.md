@@ -18,6 +18,8 @@ return new class extends Migration
             $table->uuid('id')->primary();
             $table->string('name', 50);
             $table->string('email', 100)->nullable();
+            $table->string('phone', 50)->nullable()->unique();
+            $table->text('delivery_address')->nullable();
             $table->string('image', 100)->nullable();
             $table->string('username', 50)->unique();
             $table->string('password');
@@ -1486,6 +1488,7 @@ return new class extends Migration
             $table->json('name');
             $table->string('slug')->unique();
             $table->json('description')->nullable();
+            $table->json('attributes')->nullable()->comment('Stores Gender, Age, Brand, Color, etc.');
             $table->decimal('price', 12, 2);
             $table->string('image_url')->nullable();
             $table->string('sku', 50)->unique()->nullable()->comment('Barcode or Stock Keeping Unit');
@@ -1657,13 +1660,14 @@ return new class extends Migration
             $table->foreignUuid('user_id')->constrained('users')->cascadeOnDelete();
             $table->foreignUuid('store_id')->constrained('stores')->cascadeOnDelete();
             $table->foreignUuid('payment_method_id')->nullable()->constrained('payment_methods')->nullOnDelete();
-            
             $table->string('order_number')->unique();
+            $table->decimal('subtotal', 12, 2);
+            $table->decimal('tax_amount', 12, 2)->default(0);
+            $table->decimal('delivery_fee', 12, 2)->default(0);
             $table->decimal('total_amount', 12, 2);
             $table->string('fulfillment_type', 20)->default('PICKUP')->comment('PICKUP, DELIVERY');
             $table->string('status', 20)->default('PENDING')->comment('PENDING, PROCESSING, READY, COMPLETED, CANCELLED');
-            $table->string('payment_status', 20)->default('UNPAID')->comment('UNPAID, PAID, FAILED');
-            
+            $table->string('payment_status', 20)->default('UNPAID')->comment('UNPAID, PAID, FAILED');   
             $table->text('delivery_address')->nullable();
             $table->timestampsTz();
         });
@@ -1893,43 +1897,6 @@ return new class extends Migration
 
 ```
 
-# 2026_03_05_135215_create_user_favorites_table.php
-
-```php
-<?php
-
-use Illuminate\Database\Migrations\Migration;
-use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Support\Facades\Schema;
-
-return new class extends Migration
-{
-    /**
-     * Run the migrations.
-     */
-    public function up(): void
-    {
-        Schema::create('user_favorites', function (Blueprint $table) {
-            $table->uuid('id')->primary();
-            $table->foreignUuid('user_id')->constrained('users')->cascadeOnDelete();
-            $table->foreignUuid('product_id')->constrained('products')->cascadeOnDelete();
-            $table->timestampsTz();
-            
-            $table->unique(['user_id', 'product_id']);
-        });
-    }
-
-    /**
-     * Reverse the migrations.
-     */
-    public function down(): void
-    {
-        Schema::dropIfExists('user_favorites');
-    }
-};
-
-```
-
 # 2026_03_05_135215_create_wallets_table.php
 
 ```php
@@ -1999,6 +1966,80 @@ return new class extends Migration
     public function down(): void
     {
         Schema::dropIfExists('wallet_transactions');
+    }
+};
+
+```
+
+# 2026_03_06_091820_create_favorites_table.php
+
+```php
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    /**
+     * Run the migrations.
+     */
+    public function up(): void
+    {
+        Schema::create('favorites', function (Blueprint $table) {
+            $table->uuid('id')->primary();
+            $table->foreignUuid('user_id')->constrained()->cascadeOnDelete();
+            $table->foreignUuid('product_id')->constrained()->cascadeOnDelete();
+            $table->timestamps();
+            
+            $table->unique(['user_id', 'product_id']);
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     */
+    public function down(): void
+    {
+        Schema::dropIfExists('favorites');
+    }
+};
+
+```
+
+# 2026_03_09_101913_user_payment_methods.php
+
+```php
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    /**
+     * Run the migrations.
+     */
+    public function up(): void
+    {
+        Schema::create('user_payment_methods', function (Blueprint $table) {
+            $table->uuid('id')->primary();
+            $table->foreignUuid('user_id')->constrained('users')->cascadeOnDelete();
+            $table->foreignUuid('payment_method_id')->constrained('payment_methods');
+            $table->string('card_token');
+            $table->string('last_four', 4)->nullable();
+            $table->timestampsTz();
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     */
+    public function down(): void
+    {
+        Schema::dropIfExists('user_payment_methods');
     }
 };
 

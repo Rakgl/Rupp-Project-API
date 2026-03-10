@@ -17,9 +17,14 @@ use App\Http\Controllers\Api\V1\Admin\AppDownloadLinkController;
 use App\Http\Controllers\Api\V1\Admin\AppVersionController;
 use App\Http\Controllers\Api\V1\Admin\DashboardController;
 use App\Http\Controllers\Api\V1\Admin\CategoryController;
+use App\Http\Controllers\Api\V1\Admin\ServiceController;
 use App\Http\Controllers\Api\V1\Admin\ProductController;
 use App\Http\Controllers\Api\V1\Admin\StoreInventoryController;
 use App\Http\Controllers\Api\V1\Admin\OrderController;
+use App\Http\Controllers\Api\V1\Admin\FavoriteController;
+use App\Http\Controllers\Api\V1\Admin\CartController;
+use App\Http\Controllers\Api\V1\Admin\AppointmentController;
+use App\Http\Controllers\Api\V1\Admin\StorePetController;
 
 // Public routes
 Route::post('/auth/login', [AuthController::class, 'login']);
@@ -90,6 +95,9 @@ Route::middleware(['auth:sanctum'])->group(function () {
         Route::post('notification-settings/get-chat-id', [StoreNotificationSettingController::class, 'getChatId'])
             ->name('notification-settings.get-chat-id');
 
+        // Store Pets
+        Route::apiResource('stores.pets', StorePetController::class)->shallow();
+
         // Payment Methods
         Route::apiResource('payment-methods', PaymentMethodController::class);
 
@@ -111,6 +119,13 @@ Route::middleware(['auth:sanctum'])->group(function () {
 	    Route::put('categories/{id}', [CategoryController::class, 'update']);
 	    Route::delete('categories/{id}', [CategoryController::class, 'destroy']);
 
+        // Services
+        Route::get('services', [ServiceController::class, 'index']);
+        Route::get('services/{id}', [ServiceController::class, 'show']);
+        Route::post('services', [ServiceController::class, 'store']);
+        Route::put('services/{id}', [ServiceController::class, 'update']);
+        Route::delete('services/{id}', [ServiceController::class, 'destroy']);
+
         // Product
         Route::get('products', [ProductController::class, 'index']);
         Route::get('products/{id}', [ProductController::class, 'show']);
@@ -126,8 +141,25 @@ Route::middleware(['auth:sanctum'])->group(function () {
         Route::delete('store-inventory/{id}', [StoreInventoryController::class, 'destroy']);
 
         // Orders
-        Route::apiResource('orders', OrderController::class)->except(['store', 'destroy']);
+        Route::get('orders', [OrderController::class, 'index']);
+        Route::get('orders/{id}', [OrderController::class, 'show']);
         Route::put('orders/{id}/status', [OrderController::class, 'updateStatus']);
         Route::get('orders/{id}/items', [OrderController::class, 'getItems']);
+
+        // Favorites
+        Route::get('favorites', [FavoriteController::class, 'index']);
+        Route::delete('favorites/{favorite}', [FavoriteController::class, 'destroy'])->whereUuid('favorite');
+
+        // Carts
+        Route::get('carts', [CartController::class, 'index']);
+        Route::get('carts/{cart}', [CartController::class, 'show'])->whereUuid('cart');
+        Route::delete('carts/{cart}', [CartController::class, 'destroy'])->whereUuid('cart');
+
+        // Appointments
+        Route::get('appointments', [AppointmentController::class, 'index']);
+        Route::post('appointments', [AppointmentController::class, 'store']);
+        Route::get('appointments/{appointment}', [AppointmentController::class, 'show'])->whereUuid('appointment');
+        Route::put('appointments/{appointment}', [AppointmentController::class, 'update'])->whereUuid('appointment');
+        Route::delete('appointments/{appointment}', [AppointmentController::class, 'destroy'])->whereUuid('appointment');
     });
 });

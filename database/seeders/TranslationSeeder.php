@@ -62,6 +62,11 @@ class TranslationSeeder extends Seeder
             $this->getProductsTranslations(),
             $this->getStoreInventoryTranslations(),
             $this->getOrdersTranslations(),
+            $this->getCartsTranslations(),
+            $this->getFavoritesTranslations(),
+            $this->getServicesTranslations(),
+            $this->getAppointmentTranslations(),
+            $this->getStorePetsTranslations(),
         );
     }
 
@@ -211,6 +216,10 @@ class TranslationSeeder extends Seeder
             ['key' => 'nav.categories', 'en' => 'Categories', 'kh' => 'ប្រភេទ', 'zh' => '分类'],
             ['key' => 'nav.products', 'en' => 'Products', 'kh' => 'ផលិតផល', 'zh' => '产品'],
             ['key' => 'nav.store_inventory', 'en' => 'Store Inventory', 'kh' => 'សារពើភ័ណ្ឌហាង', 'zh' => '店铺库存'],
+            ['key' => 'nav.carts', 'en' => 'Carts', 'kh' => 'រទេះ', 'zh' => '购物车'],
+            ['key' => 'nav.favorites', 'en' => 'Favorites', 'kh' => 'ចំណូលចិត្ត', 'zh' => '收藏夹'],
+            ['key' => 'nav.services', 'en' => 'Services', 'kh' => 'សេវាកម្ម', 'zh' => '服务'],
+            ['key' => 'nav.appointments', 'en' => 'Appointments', 'kh' => 'ការណាត់ជួប', 'zh' => '预约'],
         ];
     }
 
@@ -964,6 +973,7 @@ class TranslationSeeder extends Seeder
             ['key' => 'stores.row_actions.view_details', 'en' => 'View Detail', 'kh' => 'មើលព័ត៌មានលម្អិត', 'zh' => '查看详情'],
             ['key' => 'stores.row_actions.edit', 'en' => 'Edit', 'kh' => 'កែសម្រួល', 'zh' => '编辑'],
             ['key' => 'stores.row_actions.delete', 'en' => 'Delete', 'kh' => 'លុប', 'zh' => '删除'],
+            ['key' => 'stores.row_actions.manage_pets', 'en' => 'Manage Pets', 'kh' => '(kh) Manage Pets', 'zh' => '(zh) Manage Pets'],
 
             // View Dialog
             ['key' => 'stores.dialog.view.title', 'en' => 'Store Details', 'kh' => 'ព័ត៌មានលម្អិតអំពីហាង', 'zh' => '店铺详情'],
@@ -1526,6 +1536,207 @@ class TranslationSeeder extends Seeder
             ['key' => 'orders.toast.update_failed', 'en' => 'Failed to update order status.', 'kh' => 'មិនអាចធ្វើបច្ចុប្បន្នភាពស្ថានភាពការបញ្ជាទិញបានទេ។', 'zh' => '更新订单状态失败。'],
             ['key' => 'orders.toast.update_error_title', 'en' => 'Update Error', 'kh' => 'កំហុសក្នុងការធ្វើបច្ចុប្បន្នភាព', 'zh' => '更新错误'],
             ['key' => 'orders.toast.unexpected_error', 'en' => 'An unexpected error occurred.', 'kh' => 'មានកំហុសមិនរំពឹងទុកបានកើតឡើង។', 'zh' => '发生意外错误。'],
+        ];
+    }
+
+    private function getCartsTranslations(): array
+    {
+        return [
+            ['key' => 'carts.title', 'en' => 'Carts', 'kh' => 'រទេះ', 'zh' => '购物车'],
+            ['key' => 'carts.description', 'en' => 'View all current customer carts.', 'kh' => 'មើលរទេះអតិថិជនបច្ចុប្បន្នទាំងអស់។', 'zh' => '查看所有当前客户购物车。'],
+            ['key' => 'carts.columns.no', 'en' => '#', 'kh' => 'ល.រ', 'zh' => '序号'],
+            ['key' => 'carts.columns.id', 'en' => 'ID', 'kh' => 'លេខសម្គាល់', 'zh' => 'ID'],
+            ['key' => 'carts.columns.user', 'en' => 'User / Session', 'kh' => 'អ្នកប្រើប្រាស់ / វគ្គ', 'zh' => '用户 / 会话'],
+            ['key' => 'carts.columns.items_count', 'en' => 'Items Count', 'kh' => 'ចំនួនធាតុ', 'zh' => '物品数量'],
+            ['key' => 'carts.columns.status', 'en' => 'Status', 'kh' => 'ស្ថានភាព', 'zh' => '状态'],
+            ['key' => 'carts.columns.date', 'en' => 'Date Created', 'kh' => 'កាលបរិច្ឆេទបង្កើត', 'zh' => '创建日期'],
+        ];
+    }
+
+    private function getFavoritesTranslations(): array
+    {
+        return [
+            ['key' => 'favorites.title', 'en' => 'Favorites', 'kh' => 'ចំណូលចិត្ត', 'zh' => '收藏夹'],
+            ['key' => 'favorites.description', 'en' => 'View all user favorited products.', 'kh' => 'មើលផលិតផលចំណូលចិត្តរបស់អ្នកប្រើប្រាស់ទាំងអស់។', 'zh' => '查看所有用户收藏的产品。'],
+            ['key' => 'favorites.columns.no', 'en' => '#', 'kh' => 'ល.រ', 'zh' => '序号'],
+            ['key' => 'favorites.columns.id', 'en' => 'ID', 'kh' => 'លេខសម្គាល់', 'zh' => 'ID'],
+            ['key' => 'favorites.columns.user', 'en' => 'User', 'kh' => 'អ្នកប្រើប្រាស់', 'zh' => '用户'],
+            ['key' => 'favorites.columns.product', 'en' => 'Product', 'kh' => 'ផលិតផល', 'zh' => '产品'],
+            ['key' => 'favorites.columns.price', 'en' => 'Price', 'kh' => 'តម្លៃ', 'zh' => '价格'],
+            ['key' => 'favorites.columns.date', 'en' => 'Date Added', 'kh' => 'កាលបរិច្ឆេតបញ្ចូល', 'zh' => '添加日期'],
+        ];
+    }
+
+    private function getServicesTranslations(): array
+    {
+        return [
+            ['key' => 'services.title', 'en' => 'Services', 'kh' => 'សេវាកម្ម', 'zh' => '服务'],
+            ['key' => 'services.description', 'en' => 'Services Description', 'kh' => 'ការពិពណ៌នាសេវាកម្ម', 'zh' => '服务描述'],
+            ['key' => 'services.table.new', 'en' => 'New Service', 'kh' => 'បន្ថែមសេវាកម្មថ្មី', 'zh' => '新增服务'],
+            ['key' => 'services.table.noResults', 'en' => 'No Results', 'kh' => 'មិនមានលទ្ធផល', 'zh' => '没有结果'],
+
+            ['key' => 'services.columns.index', 'en' => '#', 'kh' => '#', 'zh' => '#'],
+            ['key' => 'services.columns.image', 'en' => 'Image', 'kh' => 'រូបភាព', 'zh' => '图片'],
+            ['key' => 'services.columns.name', 'en' => 'Name', 'kh' => 'ឈ្មោះ', 'zh' => '名称'],
+            ['key' => 'services.columns.description', 'en' => 'Description', 'kh' => 'ការពិពណ៌នា', 'zh' => '描述'],
+            ['key' => 'services.columns.price', 'en' => 'Price', 'kh' => 'តម្លៃ', 'zh' => '价格'],
+            ['key' => 'services.columns.duration', 'en' => 'Duration', 'kh' => 'រយៈពេល', 'zh' => '时长'],
+
+            ['key' => 'services.columns.status.title', 'en' => 'Status', 'kh' => 'ស្ថានភាព', 'zh' => '状态'],
+            ['key' => 'services.columns.status.active', 'en' => 'Active', 'kh' => 'សកម្ម', 'zh' => '启用'],
+            ['key' => 'services.columns.status.inactive', 'en' => 'Inactive', 'kh' => 'មិនសកម្ម', 'zh' => '停用'],
+            ['key' => 'services.columns.status.unknown', 'en' => 'Unknown', 'kh' => 'មិនស្គាល់', 'zh' => '未知'],
+
+            ['key' => 'services.columns.actions', 'en' => 'Actions', 'kh' => 'សកម្មភាព', 'zh' => '操作'],
+
+            ['key' => 'services.dialog.create.title', 'en' => 'Create Service', 'kh' => 'បង្កើតសេវាកម្ម', 'zh' => '创建服务'],
+            ['key' => 'services.dialog.create.description', 'en' => 'Create a new service.', 'kh' => 'បង្កើតសេវាកម្មថ្មី។', 'zh' => '创建新的服务。'],
+            ['key' => 'services.dialog.create.buttons.cancel', 'en' => 'Cancel', 'kh' => 'បោះបង់', 'zh' => '取消'],
+            ['key' => 'services.dialog.create.buttons.save', 'en' => 'Save', 'kh' => 'រក្សាទុក', 'zh' => '保存'],
+
+            ['key' => 'services.dialog.create.form.name.label', 'en' => 'Name', 'kh' => 'ឈ្មោះ', 'zh' => '名称'],
+            ['key' => 'services.dialog.create.form.name.placeholder', 'en' => 'Enter service name', 'kh' => 'បញ្ចូលឈ្មោះសេវាកម្ម', 'zh' => '输入服务名称'],
+            ['key' => 'services.dialog.create.form.description.label', 'en' => 'Description', 'kh' => 'ការពិពណ៌នា', 'zh' => '描述'],
+            ['key' => 'services.dialog.create.form.description.placeholder', 'en' => 'Enter service description', 'kh' => 'បញ្ចូលការពិពណ៌នាសេវាកម្ម', 'zh' => '输入服务描述'],
+            ['key' => 'services.dialog.create.form.price.label', 'en' => 'Price', 'kh' => 'តម្លៃ', 'zh' => '价格'],
+            ['key' => 'services.dialog.create.form.price.placeholder', 'en' => 'Enter price', 'kh' => 'បញ្ចូលតម្លៃ', 'zh' => '输入价格'],
+            ['key' => 'services.dialog.create.form.duration.label', 'en' => 'Duration (minutes)', 'kh' => 'រយៈពេល (នាទី)', 'zh' => '时长（分钟）'],
+            ['key' => 'services.dialog.create.form.duration.placeholder', 'en' => 'Enter duration in minutes', 'kh' => 'បញ្ចូលរយៈពេលជានាទី', 'zh' => '输入分钟数'],
+            ['key' => 'services.dialog.create.form.status.label', 'en' => 'Status', 'kh' => 'ស្ថានភាព', 'zh' => '状态'],
+            ['key' => 'services.dialog.create.form.image', 'en' => 'Image', 'kh' => 'រូបភាព', 'zh' => '图片'],
+
+            ['key' => 'services.dialog.create.toast.success.title', 'en' => 'Service Created', 'kh' => 'បានបង្កើតសេវាកម្ម', 'zh' => '服务已创建'],
+            ['key' => 'services.dialog.create.toast.success.description', 'en' => 'The service has been created successfully.', 'kh' => 'សេវាកម្មត្រូវបានបង្កើតដោយជោគជ័យ។', 'zh' => '服务创建成功。'],
+            ['key' => 'services.dialog.create.toast.error.failed', 'en' => 'Failed to create service.', 'kh' => 'បង្កើតសេវាកម្មបរាជ័យ។', 'zh' => '创建服务失败。'],
+            ['key' => 'services.dialog.create.toast.error.unexpected', 'en' => 'An unexpected error occurred.', 'kh' => 'មានកំហុសមិនបានរំពឹងទុក។', 'zh' => '发生未知错误。'],
+
+            ['key' => 'services.dialog.edit.title', 'en' => 'Edit Service', 'kh' => 'កែសម្រួលសេវាកម្ម', 'zh' => '编辑服务'],
+            ['key' => 'services.dialog.edit.description', 'en' => 'Edit the service details.', 'kh' => 'កែសម្រួលព័ត៌មានសេវាកម្ម។', 'zh' => '编辑服务详情。'],
+            ['key' => 'services.dialog.edit.buttons.cancel', 'en' => 'Cancel', 'kh' => 'បោះបង់', 'zh' => '取消'],
+            ['key' => 'services.dialog.edit.buttons.save', 'en' => 'Save Changes', 'kh' => 'រក្សាទុកការផ្លាស់ប្តូរ', 'zh' => '保存更改'],
+
+            ['key' => 'services.dialog.edit.toast.success.title', 'en' => 'Service Updated', 'kh' => 'បានធ្វើបច្ចុប្បន្នភាពសេវាកម្ម', 'zh' => '服务已更新'],
+            ['key' => 'services.dialog.edit.toast.success.description', 'en' => 'The service has been updated successfully.', 'kh' => 'សេវាកម្មត្រូវបានធ្វើបច្ចុប្បន្នភាពដោយជោគជ័យ។', 'zh' => '服务更新成功。'],
+            ['key' => 'services.dialog.edit.toast.error.failed', 'en' => 'Failed to update service.', 'kh' => 'ធ្វើបច្ចុប្បន្នភាពសេវាកម្មបរាជ័យ។', 'zh' => '更新服务失败。'],
+            ['key' => 'services.dialog.edit.toast.error.unexpected', 'en' => 'An unexpected error occurred.', 'kh' => 'មានកំហុសមិនបានរំពឹងទុក។', 'zh' => '发生未知错误。'],
+
+            ['key' => 'services.dialog.delete.title', 'en' => 'Delete Service', 'kh' => 'លុបសេវាកម្ម', 'zh' => '删除服务'],
+            ['key' => 'services.dialog.delete.description', 'en' => 'Are you sure you want to delete this service?', 'kh' => 'តើអ្នកប្រាកដថាចង់លុបសេវាកម្មនេះទេ?', 'zh' => '确定要删除此服务吗？'],
+            ['key' => 'services.dialog.delete.buttons.cancel', 'en' => 'Cancel', 'kh' => 'បោះបង់', 'zh' => '取消'],
+            ['key' => 'services.dialog.delete.buttons.delete', 'en' => 'Delete', 'kh' => 'លុប', 'zh' => '删除'],
+
+            ['key' => 'services.dialog.delete.toast.success.title', 'en' => 'Service Deleted', 'kh' => 'សេវាកម្មត្រូវបានលុប', 'zh' => '服务已删除'],
+            ['key' => 'services.dialog.delete.toast.success.description', 'en' => 'The service has been deleted successfully.', 'kh' => 'សេវាកម្មត្រូវបានលុបដោយជោគជ័យ។', 'zh' => '服务删除成功。'],
+            ['key' => 'services.dialog.delete.toast.error.title', 'en' => 'Error', 'kh' => 'កំហុស', 'zh' => '错误'],
+            ['key' => 'services.dialog.delete.toast.error.failed', 'en' => 'Failed to delete service.', 'kh' => 'លុបសេវាកម្មបរាជ័យ។', 'zh' => '删除服务失败。'],
+            ['key' => 'services.dialog.delete.toast.error.unexpected', 'en' => 'An unexpected error occurred.', 'kh' => 'មានកំហុសមិនបានរំពឹងទុក។', 'zh' => '发生未知错误。'],
+
+            ['key' => 'services.rowActions.openMenu', 'en' => 'Open Menu', 'kh' => 'បើកម៉ឺនុយ', 'zh' => '打开菜单'],
+            ['key' => 'services.rowActions.edit', 'en' => 'Edit', 'kh' => 'កែសម្រួល', 'zh' => '编辑'],
+            ['key' => 'services.rowActions.delete', 'en' => 'Delete', 'kh' => 'លុប', 'zh' => '删除'],
+            ['key' => 'services.rowActions.view', 'en' => 'View Details', 'kh' => 'មើលលម្អិត', 'zh' => '查看详情'],
+            ['key' => 'services.dialog.view.title', 'en' => 'Service Details', 'kh' => 'ព័ត៌មានលម្អិតសេវាកម្ម', 'zh' => '服务详情'],
+            ['key' => 'services.dialog.view.description', 'en' => 'Viewing details for service.', 'kh' => 'កំពុងមើលព័ត៌មានលម្អិតនៃសេវាកម្ម', 'zh' => '正在查看服务详情'],
+            ['key' => 'services.dialog.view.buttons.close', 'en' => 'Close', 'kh' => 'បិទ', 'zh' => '关闭'],
+
+            ['key' => 'services.toolbar.filterByName', 'en' => 'Filter by name', 'kh' => 'តម្រងតាមឈ្មោះ', 'zh' => '按名称筛选'],
+            ['key' => 'services.toolbar.reset', 'en' => 'Reset', 'kh' => 'កំណត់ឡើងវិញ', 'zh' => '重置'],
+            ['key' => 'services.toolbar.status', 'en' => 'Status', 'kh' => 'ស្ថានភាព', 'zh' => '状态'],
+        ];
+    }
+
+    private function getAppointmentTranslations(): array
+    {
+        return [
+            ['key' => 'appointments.title', 'en' => 'Appointments', 'kh' => 'ការណាត់ជួប', 'zh' => '预约'],
+            ['key' => 'appointments.description', 'en' => 'Manage your appointments here.', 'kh' => 'គ្រប់គ្រងការណាត់ជួបរបស់អ្នកនៅទីនេះ។', 'zh' => '在这里管理您的预约。'],
+            ['key' => 'appointments.toolbar.new', 'en' => 'New Appointment', 'kh' => 'ការណាត់ជួបថ្មី', 'zh' => '新建预约'],
+            ['key' => 'appointments.toolbar.filterByUser', 'en' => 'Filter by user...', 'kh' => 'តម្រៀបតាមអ្នកប្រើ...', 'zh' => '按用户筛选...'],
+            ['key' => 'appointments.toolbar.reset', 'en' => 'Reset', 'kh' => 'កំណត់ឡើងវិញ', 'zh' => '重置'],
+            ['key' => 'appointments.toolbar.status', 'en' => 'Status', 'kh' => 'ស្ថានភាព', 'zh' => '状态'],
+            ['key' => 'appointments.columns.user', 'en' => 'User', 'kh' => 'អ្នកប្រើ', 'zh' => '用户'],
+            ['key' => 'appointments.columns.pet', 'en' => 'Pet', 'kh' => 'សត្វចិញ្ចឹម', 'zh' => '宠物'],
+            ['key' => 'appointments.columns.service', 'en' => 'Service', 'kh' => 'សេវាកម្ម', 'zh' => '服务'],
+            ['key' => 'appointments.columns.store', 'en' => 'Store', 'kh' => 'ហាង', 'zh' => '门店'],
+            ['key' => 'appointments.columns.startTime', 'en' => 'Start Time', 'kh' => 'ម៉ោងចាប់ផ្តើម', 'zh' => '开始时间'],
+            ['key' => 'appointments.columns.status', 'en' => 'Status', 'kh' => 'ស្ថានភាព', 'zh' => '状态'],
+            ['key' => 'appointments.rowActions.openMenu', 'en' => 'Open menu', 'kh' => 'បើកម៉ឺនុយ', 'zh' => '打开菜单'],
+            ['key' => 'appointments.rowActions.view', 'en' => 'View', 'kh' => 'មើល', 'zh' => '查看'],
+            ['key' => 'appointments.dialog.view.title', 'en' => 'Appointment Details', 'kh' => 'ព័ត៌មានលម្អិតការណាត់ជួប', 'zh' => '预约详情'],
+            ['key' => 'appointments.dialog.view.buttons.close', 'en' => 'Close', 'kh' => 'បិទ', 'zh' => '关闭'],
+            ['key' => 'appointments.dialog.view.sections.appointmentInfo', 'en' => 'Appointment Information', 'kh' => 'ព័ត៌មានការណាត់ជួប', 'zh' => '预约信息'],
+            ['key' => 'appointments.dialog.view.labels.status', 'en' => 'Status', 'kh' => 'ស្ថានភាព', 'zh' => '状态'],
+            ['key' => 'appointments.dialog.view.labels.startTime', 'en' => 'Start Time', 'kh' => 'ម៉ោងចាប់ផ្តើម', 'zh' => '开始时间'],
+            ['key' => 'appointments.dialog.view.labels.endTime', 'en' => 'End Time', 'kh' => 'ម៉ោងបញ្ចប់', 'zh' => '结束时间'],
+            ['key' => 'appointments.dialog.view.labels.specialRequests', 'en' => 'Special Requests', 'kh' => 'សំណើពិសេស', 'zh' => '特殊要求'],
+            ['key' => 'appointments.dialog.view.sections.userDetails', 'en' => 'User Details', 'kh' => 'ព័ត៌មានអ្នកប្រើ', 'zh' => '用户信息'],
+            ['key' => 'appointments.dialog.view.labels.name', 'en' => 'Name', 'kh' => 'ឈ្មោះ', 'zh' => '姓名'],
+            ['key' => 'appointments.dialog.view.labels.email', 'en' => 'Email', 'kh' => 'អ៊ីមែល', 'zh' => '电子邮件'],
+            ['key' => 'appointments.dialog.view.labels.phone', 'en' => 'Phone', 'kh' => 'លេខទូរស័ព្ទ', 'zh' => '电话号码'],
+            ['key' => 'appointments.dialog.view.labels.username', 'en' => 'Username', 'kh' => 'ឈ្មោះអ្នកប្រើ', 'zh' => '用户名'],
+            ['key' => 'appointments.dialog.view.sections.petDetails', 'en' => 'Pet Details', 'kh' => 'ព័ត៌មានសត្វចិញ្ចឹម', 'zh' => '宠物信息'],
+            ['key' => 'appointments.dialog.view.labels.species', 'en' => 'Species', 'kh' => 'ប្រភេទសត្វ', 'zh' => '物种'],
+            ['key' => 'appointments.dialog.view.labels.breed', 'en' => 'Breed', 'kh' => 'ពូជ', 'zh' => '品种'],
+            ['key' => 'appointments.dialog.view.labels.dateOfBirth', 'en' => 'Date of Birth', 'kh' => 'ថ្ងៃខែឆ្នាំកំណើត', 'zh' => '出生日期'],
+
+            ['key' => 'appointments.dialog.view.sections.serviceDetails', 'en' => 'Service Details', 'kh' => 'ព័ត៌មានសេវាកម្ម', 'zh' => '服务详情'],
+            ['key' => 'appointments.dialog.view.labels.description', 'en' => 'Description', 'kh' => 'ការពិពណ៌នា', 'zh' => '描述'],
+            ['key' => 'appointments.dialog.view.labels.price', 'en' => 'Price', 'kh' => 'តម្លៃ', 'zh' => '价格'],
+            ['key' => 'appointments.dialog.view.labels.duration', 'en' => 'Duration', 'kh' => 'រយៈពេល', 'zh' => '时长'],
+            ['key' => 'appointments.dialog.view.labels.minutes', 'en' => 'minutes', 'kh' => 'នាទី', 'zh' => '分钟'],
+
+            ['key' => 'appointments.dialog.view.sections.storeDetails', 'en' => 'Store Details', 'kh' => 'ព័ត៌មានហាង', 'zh' => '门店信息'],
+            ['key' => 'appointments.dialog.view.labels.address', 'en' => 'Address', 'kh' => 'អាសយដ្ឋាន', 'zh' => '地址'],
+            ['key' => 'appointments.dialog.view.labels.city', 'en' => 'City', 'kh' => 'ទីក្រុង', 'zh' => '城市'],
+            ['key' => 'appointments.dialog.view.labels.state', 'en' => 'State', 'kh' => 'ខេត្ត / រដ្ឋ', 'zh' => '州 / 省'],            
+            ['key' => 'appointments.statuses.pending', 'en' => 'Pending', 'kh' => 'រង់ចាំ', 'zh' => '待定'],            
+            ['key' => 'appointments.statuses.confirmed', 'en' => 'Confirmed', 'kh' => 'បានបញ្ជាក់', 'zh' => '已确认'],            
+            ['key' => 'appointments.statuses.completed', 'en' => 'Completed', 'kh' => 'បានបញ្ចប់', 'zh' => '已完成'],            
+            ['key' => 'appointments.statuses.cancelled', 'en' => 'Cancelled', 'kh' => 'បានលុបចោល', 'zh' => '已取消'],            
+        ];
+    }
+
+    private function getStorePetsTranslations(): array
+    {
+        return [
+            ['key' => 'pets.title', 'en' => 'Manage Pets', 'kh' => '(kh) Manage Pets', 'zh' => '(zh) Manage Pets'],
+            ['key' => 'pets.description', 'en' => 'Here you can manage the pets for this store.', 'kh' => '(kh) Here you can manage the pets for this store.', 'zh' => '(zh) Here you can manage the pets for this store.'],
+            ['key' => 'pets.toolbar.new', 'en' => 'New Pet', 'kh' => '(kh) New Pet', 'zh' => '(zh) New Pet'],
+            ['key' => 'pets.columns.image', 'en' => 'Image', 'kh' => '(kh) Image', 'zh' => '(zh) Image'],
+            ['key' => 'pets.columns.name', 'en' => 'Name', 'kh' => '(kh) Name', 'zh' => '(zh) Name'],
+            ['key' => 'pets.columns.species', 'en' => 'Species', 'kh' => '(kh) Species', 'zh' => '(zh) Species'],
+            ['key' => 'pets.columns.breed', 'en' => 'Breed', 'kh' => '(kh) Breed', 'zh' => '(zh) Breed'],
+            ['key' => 'pets.columns.weight', 'en' => 'Weight', 'kh' => '(kh) Weight', 'zh' => '(zh) Weight'],
+            ['key' => 'pets.columns.dateOfBirth', 'en' => 'Date of Birth', 'kh' => '(kh) Date of Birth', 'zh' => '(zh) Date of Birth'],
+            ['key' => 'pets.dialog.loading', 'en' => 'Loading...', 'kh' => '(kh) Loading...', 'zh' => '(zh) Loading...'],
+            ['key' => 'pets.dialog.create.title', 'en' => 'Add New Pet', 'kh' => '(kh) Add New Pet', 'zh' => '(zh) Add New Pet'],
+            ['key' => 'pets.dialog.create.toast.success.title', 'en' => 'Success', 'kh' => '(kh) Success', 'zh' => '(zh) Success'],
+            ['key' => 'pets.dialog.create.toast.success.description', 'en' => 'Pet created successfully.', 'kh' => '(kh) Pet created successfully.', 'zh' => '(zh) Pet created successfully.'],
+            ['key' => 'pets.dialog.create.toast.error.failed', 'en' => 'Failed to create pet.', 'kh' => '(kh) Failed to create pet.', 'zh' => '(zh) Failed to create pet.'],
+            ['key' => 'pets.dialog.create.buttons.cancel', 'en' => 'Cancel', 'kh' => '(kh) Cancel', 'zh' => '(zh) Cancel'],
+            ['key' => 'pets.dialog.create.buttons.save', 'en' => 'Save Pet', 'kh' => '(kh) Save Pet', 'zh' => '(zh) Save Pet'],
+            ['key' => 'pets.dialog.create.form.name', 'en' => 'Name', 'kh' => '(kh) Name', 'zh' => '(zh) Name'],
+            ['key' => 'pets.dialog.create.form.species', 'en' => 'Species', 'kh' => '(kh) Species', 'zh' => '(zh) Species'],
+            ['key' => 'pets.dialog.create.form.breed', 'en' => 'Breed', 'kh' => '(kh) Breed', 'zh' => '(zh) Breed'],
+            ['key' => 'pets.dialog.create.form.weight', 'en' => 'Weight', 'kh' => '(kh) Weight', 'zh' => '(zh) Weight'],
+            ['key' => 'pets.dialog.create.form.date_of_birth', 'en' => 'Date of Birth', 'kh' => '(kh) Date of Birth', 'zh' => '(zh) Date of Birth'],
+            ['key' => 'pets.dialog.create.form.medical_notes', 'en' => 'Medical Notes', 'kh' => '(kh) Medical Notes', 'zh' => '(zh) Medical Notes'],
+            ['key' => 'pets.dialog.edit.title', 'en' => 'Edit Pet', 'kh' => '(kh) Edit Pet', 'zh' => '(zh) Edit Pet'],
+            ['key' => 'pets.dialog.edit.toast.success.title', 'en' => 'Success', 'kh' => '(kh) Success', 'zh' => '(zh) Success'],
+            ['key' => 'pets.dialog.edit.toast.success.description', 'en' => 'Pet updated successfully.', 'kh' => '(kh) Pet updated successfully.', 'zh' => '(zh) Pet updated successfully.'],
+            ['key' => 'pets.dialog.edit.toast.error.failed', 'en' => 'Failed to update pet.', 'kh' => '(kh) Failed to update pet.', 'zh' => '(zh) Failed to update pet.'],
+            ['key' => 'pets.dialog.edit.buttons.cancel', 'en' => 'Cancel', 'kh' => '(kh) Cancel', 'zh' => '(zh) Cancel'],
+            ['key' => 'pets.dialog.edit.buttons.save', 'en' => 'Save Changes', 'kh' => '(kh) Save Changes', 'zh' => '(zh) Save Changes'],
+            ['key' => 'pets.dialog.view.title', 'en' => 'Pet Details', 'kh' => '(kh) Pet Details', 'zh' => '(zh) Pet Details'],
+            ['key' => 'pets.dialog.view.buttons.close', 'en' => 'Close', 'kh' => '(kh) Close', 'zh' => '(zh) Close'],
+            ['key' => 'pets.dialog.delete.title', 'en' => 'Are you sure?', 'kh' => '(kh) Are you sure?', 'zh' => '(zh) Are you sure?'],
+            ['key' => 'pets.dialog.delete.description', 'en' => 'This action cannot be undone. This will permanently delete the pet.', 'kh' => '(kh) This action cannot be undone. This will permanently delete the pet.', 'zh' => '(zh) This action cannot be undone. This will permanently delete the pet.'],
+            ['key' => 'pets.dialog.delete.toast.success.title', 'en' => 'Success', 'kh' => '(kh) Success', 'zh' => '(zh) Success'],
+            ['key' => 'pets.dialog.delete.toast.success.description', 'en' => 'Pet deleted successfully.', 'kh' => '(kh) Pet deleted successfully.', 'zh' => '(zh) Pet deleted successfully.'],
+            ['key' => 'pets.dialog.delete.toast.error.title', 'en' => 'Error', 'kh' => '(kh) Error', 'zh' => '(zh) Error'],
+            ['key' => 'pets.dialog.delete.toast.error.failed', 'en' => 'Failed to delete pet.', 'kh' => '(kh) Failed to delete pet.', 'zh' => '(zh) Failed to delete pet.'],
+            ['key' => 'pets.dialog.delete.buttons.cancel', 'en' => 'Cancel', 'kh' => '(kh) Cancel', 'zh' => '(zh) Cancel'],
+            ['key' => 'pets.dialog.delete.buttons.delete', 'en' => 'Delete', 'kh' => '(kh) Delete', 'zh' => '(zh) Delete'],
         ];
     }
 }

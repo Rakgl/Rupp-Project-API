@@ -22,6 +22,9 @@ class UserShowResource extends JsonResource
 			'username' => $this->username,
 			'image' => Helper::imageUrl($this->image),
 			'status' => $this->status,
+			'locale' => $this->locale,
+			'phone' => $this->phone,
+			'delivery_address' => $this->delivery_address,
 			'role' => $this->role ? $this->role->name : null,
 		];
     }

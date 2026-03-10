@@ -28,8 +28,8 @@ class AppointmentSeeder extends Seeder
         // Create some dummy Services
         $service1 = Service::create([
             'id' => (string) Str::uuid(),
-            'name' => '{"en": "Basic Grooming", "km": "ការសម្អាតទូទៅ"}',
-            'description' => '{"en": "Includes bath, brush, and nail trim", "km": "រួមបញ្ចូលការងូតទឹក សិតសក់ និងកាត់ក្រចក"}',
+            'name' => '{"en": "Basic Grooming", "kh": "ការសម្អាតទូទៅ"}',
+            'description' => '{"en": "Includes bath, brush, and nail trim", "kh": "រួមបញ្ចូលការងូតទឹក សិតសក់ និងកាត់ក្រចក"}',
             'price' => 25.00,
             'duration_minutes' => 60,
             'status' => 'ACTIVE'
@@ -37,8 +37,8 @@ class AppointmentSeeder extends Seeder
 
         $service2 = Service::create([
             'id' => (string) Str::uuid(),
-            'name' => '{"en": "Full Spa", "km": "ស្ប៉ាពេញលេញ"}',
-            'description' => '{"en": "Premium bath, haircut, nail trim, and ear cleaning", "km": "ការងូតទឹកពិសេស កាត់សក់ កាត់ក្រចក និងសម្អាតត្រចៀក"}',
+            'name' => '{"en": "Full Spa", "kh": "ស្ប៉ាពេញលេញ"}',
+            'description' => '{"en": "Premium bath, haircut, nail trim, and ear cleaning", "kh": "ការងូតទឹកពិសេស កាត់សក់ កាត់ក្រចក និងសម្អាតត្រចៀក"}',
             'price' => 50.00,
             'duration_minutes' => 120,
             'status' => 'ACTIVE'

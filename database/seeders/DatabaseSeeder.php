@@ -27,10 +27,13 @@ class DatabaseSeeder extends Seeder
             StoreSeeder::class,
             AppDownloadLinkSeeder::class,
             CategorySeeder::class,
+            ServiceSeeder::class,
             ProductSeeder::class,
             StoreInventorySeeder::class,
             OrderSeeder::class,
             AppointmentSeeder::class,
+            FavoriteSeeder::class,
+            CartSeeder::class,
         ]);
     }
 }

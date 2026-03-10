@@ -23,6 +23,8 @@ class UserEditResource extends JsonResource
 			'image' => Helper::imageUrl($this->image),
 			'status' => $this->status,
 			'role_id' => $this->role_id,
+			'phone' => $this->phone,
+			'delivery_address' => $this->delivery_address,
 		];
     }
 }

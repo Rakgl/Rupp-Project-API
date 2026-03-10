@@ -17,6 +17,7 @@ class SettingController extends Controller
 				$generalSettings[$key] = Helper::imageUrl($value);
 			}
 		}
+		
 		return response()->json([
 			'success' => true,
 			'data' => [

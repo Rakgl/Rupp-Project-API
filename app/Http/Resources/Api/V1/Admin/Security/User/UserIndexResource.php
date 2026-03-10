@@ -23,6 +23,8 @@ class UserIndexResource extends JsonResource
             'username' => $this->username,
 			'role' => $this->role?->name,
 			'status' => $this->status,
+			'phone' => $this->phone,
+			'delivery_address' => $this->delivery_address,
 			'type' => $this->type,
 			'created_by' => $this->createdBy ? $this->createdBy->name : '',
 			'created_at' => $this->created_at,

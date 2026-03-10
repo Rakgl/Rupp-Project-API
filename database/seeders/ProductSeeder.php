@@ -129,7 +129,7 @@ class ProductSeeder extends Seeder
                         'category_id' => $cat->id,
                         'name' => $prod['name'],
                         'description' => $prod['description'],
-                        'attributes' => $prod['attributes'], // Make sure to decode/encode properly if casting is failing during seed
+                        'attributes' => $prod['attributes'],
                         'price' => $prod['price'],
                         'sku' => $prod['sku'],
                         'image_url' => $prod['image_url'],
