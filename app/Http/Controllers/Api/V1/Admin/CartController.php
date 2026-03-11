@@ -60,7 +60,7 @@ class CartController extends Controller
     public function convertToProduct(Request $request, string $id): JsonResponse
     {
         try {
-            $cart = Cart::with(['items.product', 'user'])->findOrFail($id);
+            $cart = Cart::with(['items.itemable', 'user'])->findOrFail($id);
 
             if ($cart->items->isEmpty()) {
                 return response()->json([
@@ -71,13 +71,13 @@ class CartController extends Controller
 
             return DB::transaction(function () use ($cart, $request) {
                 $totalPrice = $cart->items->sum(function ($item) {
-                    return $item->product->price * $item->quantity;
+                    return ($item->itemable->price ?? 0) * $item->quantity;
                 });
                 $userName = $cart->user ? $cart->user->name : 'Guest';
                 $productName = "Bundle from {$userName}'s Cart " . now()->format('Y-m-d');
 
                 $product = Product::create([
-                    'category_id' => $request->input('category_id', $cart->items->first()->product->category_id),
+                    'category_id' => $request->input('category_id', $cart->items->first()->itemable->category_id ?? null),
                     'name' => [
                         'en' => $request->input('name', $productName),
                     ],
@@ -90,7 +90,7 @@ class CartController extends Controller
                     'attributes' => [
                         'converted_from_cart' => $cart->id,
                         'original_item_count' => $cart->items->count(),
-                        'items_summary' => $cart->items->map(fn($i) => $i->product->name['en'] ?? 'Product')->toArray()
+                        'items_summary' => $cart->items->map(fn($i) => ($i->itemable && is_array($i->itemable->name)) ? ($i->itemable->name['en'] ?? 'Item') : ($i->itemable->name ?? 'Item'))->toArray()
                     ]
                 ]);
 
@@ -119,7 +119,7 @@ class CartController extends Controller
     public function show(string $id): JsonResponse
     {
         try {
-            $cart = Cart::with(['user', 'items.product.category'])->findOrFail($id);
+            $cart = Cart::with(['user', 'items.itemable'])->findOrFail($id);
 
             return response()->json([
                 'success' => true,

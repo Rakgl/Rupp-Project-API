@@ -16,7 +16,8 @@ class PetIndexResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'store_id' => $this->store_id,
+            'user_id' => $this->user_id,
+            'category_id' => $this->category_id,
             'name' => $this->name,
             'species' => $this->species,
             'breed' => $this->breed,

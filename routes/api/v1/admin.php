@@ -24,7 +24,8 @@ use App\Http\Controllers\Api\V1\Admin\OrderController;
 use App\Http\Controllers\Api\V1\Admin\FavoriteController;
 use App\Http\Controllers\Api\V1\Admin\CartController;
 use App\Http\Controllers\Api\V1\Admin\AppointmentController;
-use App\Http\Controllers\Api\V1\Admin\StorePetController;
+use App\Http\Controllers\Api\V1\Admin\PetListingController;
+use App\Http\Controllers\Api\V1\Admin\PetController;
 
 // Public routes
 Route::post('/auth/login', [AuthController::class, 'login']);
@@ -95,8 +96,9 @@ Route::middleware(['auth:sanctum'])->group(function () {
         Route::post('notification-settings/get-chat-id', [StoreNotificationSettingController::class, 'getChatId'])
             ->name('notification-settings.get-chat-id');
 
-        // Store Pets
-        Route::apiResource('stores.pets', StorePetController::class)->shallow();
+        // Pets & Listings
+        Route::apiResource('pets', PetController::class);
+        Route::apiResource('pet-listings', PetListingController::class);
 
         // Payment Methods
         Route::apiResource('payment-methods', PaymentMethodController::class);

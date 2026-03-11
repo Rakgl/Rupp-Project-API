@@ -62,13 +62,13 @@ class CartController extends Controller
     {
         try {
             $cart = $this->getCart($request);
-            $cart->load('items.product.category');
+            $cart->load('items.itemable');
 
             return response()->json([
                 'success' => true,
                 'message' => 'Cart retrieved successfully.',
                 'data' => new CartResource($cart),
-                'session_id' => $cart->session_id // Return session id for guest users
+                'session_id' => $cart->session_id
             ]);
         } catch (\Exception $e) {
             Log::error('Error retrieving cart', ['error' => $e->getMessage()]);
@@ -85,7 +85,8 @@ class CartController extends Controller
     public function add(Request $request): JsonResponse
     {
         $request->validate([
-            'product_id' => 'required|uuid|exists:products,id',
+            'item_id' => 'required|uuid',
+            'item_type' => 'required|in:product,pet_listing,pet,service',
             'quantity' => 'nullable|integer|min:1'
         ]);
 
@@ -93,14 +94,25 @@ class CartController extends Controller
             DB::beginTransaction();
 
             $cart = $this->getCart($request);
-            $productId = $request->input('product_id');
+            $itemId = $request->input('item_id');
+            $rawItemType = $request->input('item_type');
             $quantity = $request->input('quantity', 1);
 
-            $product = Product::findOrFail($productId);
+            $modelType = match($rawItemType) {
+                'product' => \App\Models\Product::class,
+                'pet_listing' => \App\Models\PetListing::class,
+                'pet' => \App\Models\Pet::class,
+                'service' => \App\Models\Service::class,
+                default => \App\Models\Product::class,
+            };
 
-            // Check if product already exists in the cart
+            // Ensure item exists
+            $modelType::findOrFail($itemId);
+
+            // Check if item already exists in the cart
             $cartItem = CartItem::where('cart_id', $cart->id)
-                ->where('product_id', $productId)
+                ->where('itemable_id', $itemId)
+                ->where('itemable_type', $modelType)
                 ->first();
 
             if ($cartItem) {
@@ -112,14 +124,15 @@ class CartController extends Controller
                 CartItem::create([
                     'id' => Str::uuid(),
                     'cart_id' => $cart->id,
-                    'product_id' => $productId,
+                    'itemable_id' => $itemId,
+                    'itemable_type' => $modelType,
                     'quantity' => $quantity,
                 ]);
             }
 
             DB::commit();
 
-            $cart->load('items.product.category');
+            $cart->load('items.itemable');
 
             return response()->json([
                 'success' => true,
@@ -151,7 +164,7 @@ class CartController extends Controller
             $cartItem->quantity = $request->input('quantity');
             $cartItem->save();
 
-            $cart = Cart::with('items.product.category')->find($cartItem->cart_id);
+            $cart = Cart::with('items.itemable')->find($cartItem->cart_id);
 
             return response()->json([
                 'success' => true,
@@ -177,7 +190,7 @@ class CartController extends Controller
             $cartId = $cartItem->cart_id;
             $cartItem->delete();
 
-            $cart = Cart::with('items.product.category')->find($cartId);
+            $cart = Cart::with('items.itemable')->find($cartId);
 
             return response()->json([
                 'success' => true,

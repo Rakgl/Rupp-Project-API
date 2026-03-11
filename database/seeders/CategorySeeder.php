@@ -16,47 +16,50 @@ class CategorySeeder extends Seeder
         $categories = [
             [
                 'name' => [
-                    'en' => 'Dogs',
-                    'kh' => 'ឆ្កែ',
-                    'zh' => '狗'
+                    'en' => 'Dog Supplies',
+                    'kh' => 'គ្រឿងផ្គត់ផ្គង់ឆ្កែ',
+                    'zh' => '狗用品'
                 ],
                 'description' => [
-                    'en' => 'Dogs',
-                    'kh' => 'ឆ្កែ',
-                    'zh' => '狗'
+                    'en' => 'Food, toys, and accessories for dogs',
+                    'kh' => 'ចំណី ប្រដាប់ក្មេងលេង និងគ្រឿងបន្លាស់សម្រាប់ឆ្កែ',
+                    'zh' => '狗狗的食物、玩具和配件'
                 ],
-                'slug' => Str::slug('Dogs'),
-                'image_url' => 'https://example.com/images/category-dogs.png',
+                'slug' => 'dog-supplies',
+                'type' => 'PRODUCT',
+                'image_url' => 'https://images.unsplash.com/photo-1583337130417-3346a1be7dee?auto=format&fit=crop&w=500&q=80',
                 'status' => 'ACTIVE'
             ],
             [
                 'name' => [
-                    'en' => 'Cats',
-                    'kh' => 'ឆ្មា',
-                    'zh' => '猫'
+                    'en' => 'Cat Supplies',
+                    'kh' => 'គ្រឿងផ្គត់ផ្គង់ឆ្មា',
+                    'zh' => '猫用品'
                 ],
                 'description' => [
-                    'en' => 'Cats',
-                    'kh' => 'ឆ្មា',
-                    'zh' => '猫'
+                    'en' => 'Food, toys, and accessories for cats',
+                    'kh' => 'ចំណី ប្រដាប់ក្មេងលេង និងគ្រឿងបន្លាស់សម្រាប់ឆ្មា',
+                    'zh' => '猫咪的食物、玩具和配件'
                 ],
-                'slug' => Str::slug('Cats'),
-                'image_url' => 'https://example.com/images/category-cats.png',
+                'slug' => 'cat-supplies',
+                'type' => 'PRODUCT',
+                'image_url' => 'https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?auto=format&fit=crop&w=500&q=80',
                 'status' => 'ACTIVE'
             ],
             [
                 'name' => [
-                    'en' => 'Fish',
-                    'kh' => 'ត្រី',
-                    'zh' => '鱼'
+                    'en' => 'Fish Supplies',
+                    'kh' => 'គ្រឿងផ្គត់ផ្គង់ត្រី',
+                    'zh' => '鱼类用品'
                 ],
                 'description' => [
-                    'en' => 'Fish',
-                    'kh' => 'ត្រី',
-                    'zh' => '鱼'
+                    'en' => 'Tanks, food, and filters for fish',
+                    'kh' => 'អាង ចំណី និងតម្រងសម្រាប់ត្រី',
+                    'zh' => '鱼缸、食物和过滤器'
                 ],
-                'slug' => Str::slug('Fish'),
-                'image_url' => 'https://example.com/images/category-fish.png',
+                'slug' => 'fish-supplies',
+                'type' => 'PRODUCT',
+                'image_url' => 'https://images.unsplash.com/photo-1524704796725-9fc3044a58b2?auto=format&fit=crop&w=500&q=80',
                 'status' => 'ACTIVE'
             ]
         ];

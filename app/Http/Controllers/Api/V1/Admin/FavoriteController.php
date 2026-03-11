@@ -17,14 +17,14 @@ class FavoriteController extends Controller
     public function index(Request $request): JsonResponse
     {
         try {
-            $query = Favorite::with(['user', 'product.category']);
+            $query = Favorite::with(['user', 'favorable']);
 
             if ($request->has('user_id')) {
                 $query->where('user_id', $request->input('user_id'));
             }
 
-            if ($request->has('product_id')) {
-                $query->where('product_id', $request->input('product_id'));
+            if ($request->has('favorable_id')) {
+                $query->where('favorable_id', $request->input('favorable_id'));
             }
 
             $favorites = $query->latest()->paginate($request->input('per_page', 10));

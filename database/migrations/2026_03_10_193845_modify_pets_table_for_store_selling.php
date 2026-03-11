@@ -17,7 +17,7 @@ return new class extends Migration
                 $table->dropColumn('user_id');
             }
 
-            $table->foreignUuid('store_id')->nullable()->after('id')->constrained('stores')->cascadeOnDelete();
+            $table->foreignUuid('user_id')->nullable()->after('id')->constrained('users')->cascadeOnDelete();
         });
     }
 

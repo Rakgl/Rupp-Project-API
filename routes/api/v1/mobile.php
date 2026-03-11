@@ -65,7 +65,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
     // Categories
     Route::get('/categories', [CategoryController::class, 'index']);
-    Route::get('/categories/{category}', [CategoryController::class, 'show'])->whereUuid('category');
+    Route::get('/categories/{category}', [CategoryController::class, 'show']);
 
     // Services
     Route::get('/services', [ServiceController::class, 'index']);

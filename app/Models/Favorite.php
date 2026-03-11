@@ -14,7 +14,8 @@ class Favorite extends Model
 
     protected $fillable = [
         'user_id',
-        'product_id',
+        'favorable_id',
+        'favorable_type',
     ];
 
     public function user()
@@ -22,8 +23,8 @@ class Favorite extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function product()
+    public function favorable()
     {
-        return $this->belongsTo(Product::class);
+        return $this->morphTo();
     }
 }

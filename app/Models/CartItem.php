@@ -12,7 +12,8 @@ class CartItem extends Model
 
     protected $fillable = [
         'cart_id',
-        'product_id',
+        'itemable_id',
+        'itemable_type',
         'quantity',
     ];
 
@@ -21,8 +22,8 @@ class CartItem extends Model
         return $this->belongsTo(Cart::class);
     }
 
-    public function product()
+    public function itemable()
     {
-        return $this->belongsTo(Product::class);
+        return $this->morphTo();
     }
 }

@@ -35,6 +35,11 @@ class CategoryController extends Controller
                 $query->where('status', $request->input('status'));
             }
 
+            // Filter by type
+            if ($request->has('type')) {
+                $query->where('type', $request->input('type'));
+            }
+
             $categories = $query->latest()->paginate($request->input('per_page', 10));
             $resource   = CategoryIndexResource::collection($categories)->response()->getData(true);
 
@@ -82,6 +87,7 @@ class CategoryController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'name'      => 'required|string|max:255',
+            'type'      => 'required|in:PRODUCT,PET',
             'slug'      => 'nullable|string|unique:categories,slug|max:255',
             'image'     => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
             'status'    => 'required|in:ACTIVE,INACTIVE',
@@ -132,6 +138,7 @@ class CategoryController extends Controller
 
         $validator = Validator::make($request->all(), [
             'name'         => 'sometimes|required|string|max:255',
+            'type'         => 'sometimes|required|in:PRODUCT,PET',
             'slug'         => 'nullable|string|unique:categories,slug,' . $id . '|max:255',
             'image'        => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
             'status'       => 'sometimes|required|in:ACTIVE,INACTIVE',

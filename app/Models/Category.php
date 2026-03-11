@@ -11,6 +11,7 @@ class Category extends Model
     use HasFactory, HasUuids;
 
     protected $fillable = [
+        'type',
         'name',
         'description',
         'slug',
@@ -26,5 +27,10 @@ class Category extends Model
     public function products()
     {
         return $this->hasMany(Product::class);
+    }
+
+    public function pets()
+    {
+        return $this->hasMany(Pet::class);
     }
 }

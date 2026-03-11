@@ -27,7 +27,8 @@ class FavoriteIndexResource extends JsonResource
                     'email'        => $this->user->email ?? null,
                 ];
             }),
-            'product'    => new ProductIndexResource($this->whenLoaded('product')),
+            'favorable_type' => class_basename($this->favorable_type),
+            'favorable'  => $this->whenLoaded('favorable'),
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
         ];

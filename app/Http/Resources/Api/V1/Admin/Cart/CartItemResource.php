@@ -18,9 +18,10 @@ class CartItemResource extends JsonResource
         return [
             'id' => $this->id,
             'cart_id' => $this->cart_id,
-            'product' => new ProductIndexResource($this->whenLoaded('product')),
+            'item_type' => class_basename($this->itemable_type),
+            'item' => $this->whenLoaded('itemable'),
             'quantity' => $this->quantity,
-            'subtotal' => round($this->quantity * ($this->product->price ?? 0), 2),
+            'subtotal' => round($this->quantity * ($this->itemable->price ?? 0), 2),
             'created_at' => $this->created_at?->format('Y-m-d H:i:s'),
             'updated_at' => $this->updated_at?->format('Y-m-d H:i:s'),
         ];

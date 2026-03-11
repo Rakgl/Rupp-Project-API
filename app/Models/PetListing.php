@@ -11,7 +11,7 @@ class PetListing extends Model
     use HasFactory, HasUuids;
 
     protected $fillable = [
-        'store_id',
+        'user_id',
         'pet_id',
         'listing_type',
         'price',
@@ -23,13 +23,23 @@ class PetListing extends Model
         'price' => 'decimal:2',
     ];
 
-    public function store()
+    public function user()
     {
-        return $this->belongsTo(Store::class);
+        return $this->belongsTo(User::class);
     }
 
     public function pet()
     {
         return $this->belongsTo(Pet::class);
+    }
+
+    public function cartItems()
+    {
+        return $this->morphMany(CartItem::class, 'itemable');
+    }
+
+    public function favorites()
+    {
+        return $this->morphMany(Favorite::class, 'favorable');
     }
 }

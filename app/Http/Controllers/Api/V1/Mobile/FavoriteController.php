@@ -14,7 +14,7 @@ class FavoriteController extends Controller
      */
     public function index()
     {
-        $favorites = Auth::user()->favorites()->with('product')->latest()->paginate(10);
+        $favorites = Auth::user()->favorites()->with('favorable')->latest()->paginate(10);
         return response()->json($favorites);
     }
 
@@ -24,12 +24,28 @@ class FavoriteController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'product_id' => 'required|uuid|exists:products,id',
+            'item_id' => 'required|uuid',
+            'item_type' => 'required|in:product,pet_listing,pet,service',
         ]);
+
+        $itemId = $request->input('item_id');
+        $rawItemType = $request->input('item_type');
+
+        $modelType = match($rawItemType) {
+            'product' => \App\Models\Product::class,
+            'pet_listing' => \App\Models\PetListing::class,
+            'pet' => \App\Models\Pet::class,
+            'service' => \App\Models\Service::class,
+            default => \App\Models\Product::class,
+        };
+
+        // Ensure item exists
+        $modelType::findOrFail($itemId);
 
         $favorite = Favorite::firstOrCreate([
             'user_id' => Auth::id(),
-            'product_id' => $request->product_id,
+            'favorable_id' => $itemId,
+            'favorable_type' => $modelType,
         ]);
 
         return response()->json($favorite, 201);

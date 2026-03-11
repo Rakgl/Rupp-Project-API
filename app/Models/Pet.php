@@ -11,7 +11,8 @@ class Pet extends Model
     use HasFactory, HasUuids;
 
     protected $fillable = [
-        'store_id',
+        'user_id',
+        'category_id',
         'name',
         'species',
         'breed',
@@ -26,9 +27,14 @@ class Pet extends Model
         'date_of_birth' => 'date',
     ];
 
-    public function store()
+    public function user()
     {
-        return $this->belongsTo(Store::class);
+        return $this->belongsTo(User::class);
+    }
+
+    public function category()
+    {
+        return $this->belongsTo(Category::class);
     }
 
     public function appointments()

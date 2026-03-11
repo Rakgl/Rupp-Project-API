@@ -26,7 +26,7 @@ class ServiceSeeder extends Seeder
                 ],
                 'price' => 25.00,
                 'duration_minutes' => 90,
-                'image_url' => 'https://example.com/images/services/grooming.png',
+                'image_url' => 'https://images.unsplash.com/photo-1604675879599-2d5f1fdfa9e7?auto=format&fit=crop&w=800&q=80',
                 'status' => 'ACTIVE'
             ],
             [
@@ -42,7 +42,7 @@ class ServiceSeeder extends Seeder
                 ],
                 'price' => 15.00,
                 'duration_minutes' => 45,
-                'image_url' => 'https://example.com/images/services/bath.png',
+                'image_url' => 'https://images.unsplash.com/photo-1560743641-3914f2c45636?auto=format&fit=crop&w=800&q=80',
                 'status' => 'ACTIVE'
             ],
             [
@@ -58,7 +58,7 @@ class ServiceSeeder extends Seeder
                 ],
                 'price' => 5.00,
                 'duration_minutes' => 15,
-                'image_url' => 'https://example.com/images/services/nails.png',
+                'image_url' => 'https://images.unsplash.com/photo-1601758174114-e711dde35264?auto=format&fit=crop&w=800&q=80',
                 'status' => 'ACTIVE'
             ],
             [
@@ -74,7 +74,7 @@ class ServiceSeeder extends Seeder
                 ],
                 'price' => 30.00,
                 'duration_minutes' => 30,
-                'image_url' => 'https://example.com/images/services/vaccine.png',
+                'image_url' => 'https://images.unsplash.com/photo-1628009368231-7bb7cfcb0def?auto=format&fit=crop&w=800&q=80',
                 'status' => 'ACTIVE'
             ],
             [
@@ -90,7 +90,7 @@ class ServiceSeeder extends Seeder
                 ],
                 'price' => 40.00,
                 'duration_minutes' => 60,
-                'image_url' => 'https://example.com/images/services/dental.png',
+                'image_url' => 'https://images.unsplash.com/photo-1587300003388-59208cc962cb?auto=format&fit=crop&w=800&q=80',
                 'status' => 'ACTIVE'
             ]
         ];

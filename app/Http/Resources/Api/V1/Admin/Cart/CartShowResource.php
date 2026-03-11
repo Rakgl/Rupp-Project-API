@@ -17,7 +17,7 @@ class CartShowResource extends JsonResource
         $subtotal = 0;
         if ($this->relationLoaded('items')) {
             $subtotal = $this->items->sum(function ($item) {
-                return $item->quantity * ($item->product->price ?? 0);
+                return $item->quantity * ($item->itemable->price ?? 0);
             });
         }
 

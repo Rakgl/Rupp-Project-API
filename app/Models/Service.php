@@ -29,4 +29,14 @@ class Service extends Model
     {
         return $this->hasMany(Appointment::class);
     }
+
+    public function cartItems()
+    {
+        return $this->morphMany(CartItem::class, 'itemable');
+    }
+
+    public function favorites()
+    {
+        return $this->morphMany(Favorite::class, 'favorable');
+    }
 }

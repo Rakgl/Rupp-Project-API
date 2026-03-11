@@ -39,8 +39,13 @@ class Product extends Model
         return $this->hasMany(StoreInventory::class);
     }
 
+    public function cartItems()
+    {
+        return $this->morphMany(CartItem::class, 'itemable');
+    }
+
     public function favorites()
     {
-        return $this->hasMany(Favorite::class);
+        return $this->morphMany(Favorite::class, 'favorable');
     }
 }

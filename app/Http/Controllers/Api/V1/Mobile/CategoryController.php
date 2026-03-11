@@ -9,11 +9,18 @@ use Illuminate\Http\Request;
 class CategoryController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Display a listing of active categories.
+     * Optional filter: ?type=PRODUCT or ?type=PET
      */
     public function index(Request $request)
     {
-        $categories = Category::where('status', 'ACTIVE')->latest()->paginate(10);
+        $query = Category::where('status', 'ACTIVE');
+
+        if ($request->filled('type')) {
+            $query->where('type', strtoupper($request->type));
+        }
+
+        $categories = $query->latest()->paginate($request->get('per_page', 10));
 
         return response()->json($categories);
     }
