@@ -19,12 +19,14 @@ class Pet extends Model
         'weight',
         'date_of_birth',
         'image_url',
-        'medical_notes'
+        'medical_notes',
+        'price'
     ];
 
     protected $casts = [
         'weight' => 'decimal:2',
         'date_of_birth' => 'date',
+        'price' => 'decimal:2',
     ];
 
     public function user()
