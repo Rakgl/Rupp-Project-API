@@ -27,7 +27,6 @@ class Product extends Model
         'description' => 'array',
         'attributes' => 'array',
         'price' => 'decimal:2',
-        'image_url' => 'array',
     ];
 
     public function category()
