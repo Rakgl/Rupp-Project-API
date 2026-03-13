@@ -56,10 +56,11 @@ class CartSeeder extends Seeder
 
             foreach ($randomProducts as $product) {
                 CartItem::create([
-                    'id'         => Str::uuid(),
-                    'cart_id'    => $cart->id,
-                    'product_id' => $product->id,
-                    'quantity'   => rand(1, 4), // random quantity
+                    'id'            => Str::uuid(),
+                    'cart_id'       => $cart->id,
+                    'itemable_id'   => $product->id,
+                    'itemable_type' => Product::class,
+                    'quantity'      => rand(1, 4), // random quantity
                 ]);
                 $cartItemsInserted++;
             }

@@ -48,14 +48,16 @@ class FavoriteSeeder extends Seeder
             foreach ($randomProducts as $product) {
                 // To avoid duplicate exceptions on the unique constraint, check if it exists
                 $exists = Favorite::where('user_id', $user->id)
-                    ->where('product_id', $product->id)
+                    ->where('favorable_id', $product->id)
+                    ->where('favorable_type', Product::class)
                     ->exists();
 
                 if (!$exists) {
                     Favorite::create([
-                        'id'         => Str::uuid(),
-                        'user_id'    => $user->id,
-                        'product_id' => $product->id,
+                        'id'             => Str::uuid(),
+                        'user_id'        => $user->id,
+                        'favorable_id'   => $product->id,
+                        'favorable_type' => Product::class,
                     ]);
                     $favoritesInserted++;
                 }

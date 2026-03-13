@@ -15,6 +15,7 @@ return new class extends Migration
             $table->string('species', 50)->comment('Dog, Cat, Bird, etc.');
             $table->string('breed', 100)->nullable();
             $table->decimal('weight', 5, 2)->nullable()->comment('Weight in KG');
+            $table->decimal('price', 12, 2)->nullable();
             $table->date('date_of_birth')->nullable();
             $table->string('image_url')->nullable();
             $table->text('medical_notes')->nullable();

@@ -62,6 +62,9 @@ Route::middleware(['auth:sanctum'])->group(function () {
     // Pets
     Route::get('/pets', [PetController::class, 'index']);
     Route::get('/pets/{pet}', [PetController::class, 'show'])->whereUuid('pet');
+    Route::post('/pets', [PetController::class, 'store']);
+    Route::put('/pets/{pet}', [PetController::class, 'update'])->whereUuid('pet');
+    Route::delete('/pets/{pet}', [PetController::class, 'destroy'])->whereUuid('pet');
 
     // Categories
     Route::get('/categories', [CategoryController::class, 'index']);

@@ -23,6 +23,7 @@ return new class extends Migration
         Schema::table('pets', function (Blueprint $table) {
             // Use raw SQL to drop constraint if it exists to be safe in PGSQL
             DB::statement('ALTER TABLE pets DROP CONSTRAINT IF EXISTS pets_store_id_foreign');
+            DB::statement('ALTER TABLE pets DROP CONSTRAINT IF EXISTS pets_user_id_foreign');
             
             $table->foreign('user_id')->references('id')->on('users')->cascadeOnDelete();
         });
@@ -36,6 +37,7 @@ return new class extends Migration
 
         Schema::table('pet_listings', function (Blueprint $table) {
             DB::statement('ALTER TABLE pet_listings DROP CONSTRAINT IF EXISTS pet_listings_store_id_foreign');
+            DB::statement('ALTER TABLE pet_listings DROP CONSTRAINT IF EXISTS pet_listings_user_id_foreign');
 
             $table->foreign('user_id')->references('id')->on('users')->cascadeOnDelete();
         });

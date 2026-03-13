@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\V1\Mobile;
 
 use App\Http\Controllers\Controller;
 use App\Models\Favorite;
+use App\Http\Resources\Api\V1\Mobile\Favorite\FavoriteResource;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -15,7 +16,11 @@ class FavoriteController extends Controller
     public function index()
     {
         $favorites = Auth::user()->favorites()->with('favorable')->latest()->paginate(10);
-        return response()->json($favorites);
+        
+        return FavoriteResource::collection($favorites)->additional([
+            'success' => true,
+            'message' => 'Favorites retrieved successfully.'
+        ]);
     }
 
     /**
@@ -48,7 +53,10 @@ class FavoriteController extends Controller
             'favorable_type' => $modelType,
         ]);
 
-        return response()->json($favorite, 201);
+        return (new FavoriteResource($favorite))->additional([
+            'success' => true,
+            'message' => 'Item added to favorites successfully.'
+        ]);
     }
 
     /**

@@ -17,6 +17,7 @@ class Pet extends Model
         'species',
         'breed',
         'weight',
+        'price',
         'date_of_birth',
         'image_url',
         'medical_notes'
@@ -24,6 +25,7 @@ class Pet extends Model
 
     protected $casts = [
         'weight' => 'decimal:2',
+        'price' => 'decimal:2',
         'date_of_birth' => 'date',
     ];
 
