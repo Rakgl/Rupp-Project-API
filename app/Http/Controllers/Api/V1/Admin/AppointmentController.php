@@ -6,6 +6,9 @@ use App\Http\Controllers\Controller;
 use App\Models\Appointment;
 use App\Models\Service;
 use App\Models\User;
+use App\Models\Store;
+use App\Http\Resources\Api\V1\Admin\Appointment\AppointmentIndexResource;
+use App\Http\Resources\Api\V1\Admin\Appointment\AppointmentShowResource;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
@@ -34,11 +37,14 @@ class AppointmentController extends Controller
             ->when($request->store_id, function ($query, $storeId) {
                 return $query->where('store_id', $storeId);
             })
-            ->with('user', 'store', 'pet', 'service')
+            ->with('user', 'pet', 'service')
             ->latest()
-            ->paginate(10);
+            ->paginate($request->input('per_page', 10));
 
-        return response()->json($appointments);
+        return AppointmentIndexResource::collection($appointments)->additional([
+            'success' => true,
+            'message' => 'Appointments retrieved successfully.'
+        ]);
     }
 
     /**
@@ -48,12 +54,21 @@ class AppointmentController extends Controller
     {
         $request->validate([
             'user_id' => 'required|uuid|exists:users,id',
-            'store_id' => 'required|uuid|exists:stores,id',
+            'store_id' => 'nullable|uuid|exists:stores,id',
             'pet_id' => ['required', 'uuid', 'exists:pets,id', Rule::exists('pets', 'id')->where('user_id', $request->user_id)],
             'service_id' => 'required|uuid|exists:services,id',
             'start_time' => 'required|date',
             'special_requests' => 'nullable|string|max:1000',
         ]);
+
+        $storeId = $request->input('store_id', Store::first()?->id);
+
+        if (!$storeId) {
+            return response()->json([
+                'success' => false,
+                'message' => 'No store available for booking.'
+            ], 422);
+        }
 
         $service = Service::findOrFail($request->service_id);
         $startTime = Carbon::parse($request->start_time);
@@ -61,7 +76,7 @@ class AppointmentController extends Controller
 
         $appointment = Appointment::create([
             'user_id' => $request->user_id,
-            'store_id' => $request->store_id,
+            'store_id' => $storeId,
             'pet_id' => $request->pet_id,
             'service_id' => $request->service_id,
             'start_time' => $startTime,
@@ -70,9 +85,12 @@ class AppointmentController extends Controller
             'status' => 'CONFIRMED', // Admin created appointments are confirmed by default
         ]);
 
-        $appointment->load('user', 'store', 'pet', 'service');
+        $appointment->load('user', 'pet', 'service');
 
-        return response()->json($appointment, 201);
+        return (new AppointmentShowResource($appointment))->additional([
+            'success' => true,
+            'message' => 'Appointment created successfully.'
+        ]);
     }
 
     /**
@@ -80,8 +98,8 @@ class AppointmentController extends Controller
      */
     public function show(Appointment $appointment)
     {
-        $appointment->load('user', 'store', 'pet', 'service');
-        return response()->json($appointment);
+        $appointment->load('user', 'pet', 'service');
+        return new AppointmentShowResource($appointment);
     }
 
     /**
@@ -107,9 +125,12 @@ class AppointmentController extends Controller
 
         $appointment->update($data);
 
-        $appointment->load('user', 'store', 'pet', 'service');
+        $appointment->load('user', 'pet', 'service');
 
-        return response()->json($appointment);
+        return (new AppointmentShowResource($appointment))->additional([
+            'success' => true,
+            'message' => 'Appointment updated successfully.'
+        ]);
     }
 
     /**
@@ -119,6 +140,9 @@ class AppointmentController extends Controller
     {
         $appointment->delete();
 
-        return response()->json(null, 204);
+        return response()->json([
+            'success' => true,
+            'message' => 'Appointment deleted successfully.'
+        ]);
     }
 }

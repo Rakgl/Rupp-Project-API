@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Models\Service;
 use Illuminate\Http\Request;
 
+use App\Http\Resources\Api\V1\Mobile\Service\ServiceResource;
+
 class ServiceController extends Controller
 {
     /**
@@ -15,7 +17,7 @@ class ServiceController extends Controller
     {
         $services = Service::where('status', 'ACTIVE')->latest()->paginate(10);
 
-        return response()->json($services);
+        return ServiceResource::collection($services);
     }
 
     /**
@@ -26,6 +28,6 @@ class ServiceController extends Controller
         if ($service->status !== 'ACTIVE') {
             return response()->json(['message' => 'Service not found'], 404);
         }
-        return response()->json($service);
+        return new ServiceResource($service);
     }
 }

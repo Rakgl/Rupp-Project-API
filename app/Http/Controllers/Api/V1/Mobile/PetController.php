@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Models\Pet;
 use Illuminate\Http\Request;
 
+use App\Http\Resources\Api\V1\Mobile\Pet\PetResource;
+
 class PetController extends Controller
 {
     /**
@@ -31,7 +33,7 @@ class PetController extends Controller
 
         $pets = $query->latest()->paginate($request->get('per_page', 10));
 
-        return response()->json($pets);
+        return PetResource::collection($pets);
     }
 
     /**
@@ -40,6 +42,6 @@ class PetController extends Controller
     public function show(Pet $pet)
     {
         $pet->load(['category']);
-        return response()->json($pet);
+        return new PetResource($pet);
     }
 }

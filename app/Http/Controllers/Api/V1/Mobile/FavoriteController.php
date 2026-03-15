@@ -47,7 +47,22 @@ class FavoriteController extends Controller
         // Ensure item exists
         $modelType::findOrFail($itemId);
 
-        $favorite = Favorite::firstOrCreate([
+        $favorite = Favorite::where([
+            'user_id' => Auth::id(),
+            'favorable_id' => $itemId,
+            'favorable_type' => $modelType,
+        ])->first();
+
+        if ($favorite) {
+            $favorite->delete();
+            return response()->json([
+                'success' => true,
+                'message' => 'Item removed from favorites successfully.',
+                'is_favorite' => false
+            ]);
+        }
+
+        $favorite = Favorite::create([
             'user_id' => Auth::id(),
             'favorable_id' => $itemId,
             'favorable_type' => $modelType,
@@ -55,7 +70,8 @@ class FavoriteController extends Controller
 
         return (new FavoriteResource($favorite))->additional([
             'success' => true,
-            'message' => 'Item added to favorites successfully.'
+            'message' => 'Item added to favorites successfully.',
+            'is_favorite' => true
         ]);
     }
 

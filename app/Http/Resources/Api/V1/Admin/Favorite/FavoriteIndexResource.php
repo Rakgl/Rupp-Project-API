@@ -4,6 +4,13 @@ namespace App\Http\Resources\Api\V1\Admin\Favorite;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 use App\Http\Resources\Api\V1\Admin\Product\ProductIndexResource;
+use App\Http\Resources\Api\V1\Admin\Pet\PetIndexResource;
+use App\Http\Resources\Api\V1\Admin\Service\ServiceIndexResource;
+use App\Http\Resources\Api\V1\Admin\PetListing\PetListingIndexResource;
+use App\Models\Product;
+use App\Models\Pet;
+use App\Models\Service;
+use App\Models\PetListing;
 
 class FavoriteIndexResource extends JsonResource
 {
@@ -15,22 +22,34 @@ class FavoriteIndexResource extends JsonResource
      */
     public function toArray($request)
     {
+        $favorable = $this->whenLoaded('favorable');
+        $favorableData = $favorable;
+
+        if ($favorable instanceof Product) {
+            $favorableData = new ProductIndexResource($favorable);
+        } elseif ($favorable instanceof Pet) {
+            $favorableData = new PetIndexResource($favorable);
+        } elseif ($favorable instanceof Service) {
+            $favorableData = new ServiceIndexResource($favorable);
+        } elseif ($favorable instanceof PetListing) {
+            $favorableData = new PetListingIndexResource($favorable);
+        }
+
         return [
             'id'         => $this->id,
             'user'       => $this->whenLoaded('user', function () {
                 return [
-                    'id'           => $this->user->id,
-                    'first_name'   => $this->user->first_name ?? null,
-                    'last_name'    => $this->user->last_name ?? null,
-                    'name'         => $this->user->name ?? trim(($this->user->first_name ?? '') . ' ' . ($this->user->last_name ?? '')),
-                    'phone_number' => $this->user->phone_number ?? null,
-                    'email'        => $this->user->email ?? null,
+                    'id'    => $this->user->id,
+                    'name'  => $this->user->name,
+                    'phone' => $this->user->phone,
+                    'email' => $this->user->email,
+                    'image' => $this->user->image,
                 ];
             }),
-            'favorable_type' => class_basename($this->favorable_type),
-            'favorable'  => $this->whenLoaded('favorable'),
-            'created_at' => $this->created_at,
-            'updated_at' => $this->updated_at,
+            'type'           => strtolower(class_basename($this->favorable_type)),
+            'details'        => $favorableData,
+            'created_at'     => $this->created_at?->format('Y-m-d H:i:s'),
+            'updated_at'     => $this->updated_at?->format('Y-m-d H:i:s'),
         ];
     }
 }

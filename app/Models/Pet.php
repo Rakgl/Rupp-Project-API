@@ -48,4 +48,9 @@ class Pet extends Model
     {
         return $this->hasMany(PetListing::class);
     }
+
+    public function favorites()
+    {
+        return $this->morphMany(Favorite::class, 'favorable');
+    }
 }

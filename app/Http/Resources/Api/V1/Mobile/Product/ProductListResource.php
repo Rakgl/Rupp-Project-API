@@ -5,6 +5,8 @@ namespace App\Http\Resources\Api\V1\Mobile\Product;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
+use Illuminate\Support\Facades\Auth;
+
 class ProductListResource extends JsonResource
 {
     /**
@@ -22,6 +24,7 @@ class ProductListResource extends JsonResource
             'category_name' => $this->whenLoaded('category', function() {
                 return is_array($this->category->name) ? ($this->category->name[app()->getLocale()] ?? $this->category->name['en'] ?? null) : $this->category->name;
             }),
+            'is_favorite' => Auth::check() ? $this->favorites()->where('user_id', Auth::id())->exists() : false,
         ];
     }
 }

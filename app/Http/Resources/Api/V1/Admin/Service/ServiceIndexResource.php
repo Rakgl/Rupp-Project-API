@@ -16,8 +16,8 @@ class ServiceIndexResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'name' => $this->name['en'] ?? null,
-            'description' => $this->description['en'] ?? null,
+            'name' => is_array($this->name) ? ($this->name['en'] ?? null) : $this->name,
+            'description' => is_array($this->description) ? ($this->description['en'] ?? null) : $this->description,
             'price' => $this->price,
             'duration_minutes' => $this->duration_minutes,
             'image_url' => $this->image_url,
