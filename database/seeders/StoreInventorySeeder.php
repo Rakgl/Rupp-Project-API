@@ -26,12 +26,13 @@ class StoreInventorySeeder extends Seeder
             foreach ($products as $product) {
                 // Randomly Decide to stock this item and quantity
                 if (rand(1, 100) > 30) {
-                    StoreInventory::create([
-                        'id' => (string) Str::uuid(),
-                        'store_id' => $store->id,
-                        'product_id' => $product->id,
-                        'stock_quantity' => rand(5, 100)
-                    ]);
+                    StoreInventory::updateOrCreate(
+                        ['store_id' => $store->id, 'product_id' => $product->id],
+                        [
+                            'id' => (string) Str::uuid(),
+                            'stock_quantity' => rand(5, 100)
+                        ]
+                    );
                 }
             }
         }

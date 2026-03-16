@@ -36,19 +36,19 @@ class AppointmentController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'store_id' => 'nullable|uuid|exists:stores,id',
             'pet_id' => 'required|uuid|exists:pets,id,user_id,' . Auth::id(),
             'service_id' => 'required|uuid|exists:services,id',
             'start_time' => 'required|date|after:now',
             'special_requests' => 'nullable|string|max:1000',
         ]);
 
-        $storeId = $request->input('store_id', Store::first()?->id);
+        // Default to the first store internally as it's required by DB
+        $storeId = Store::first()?->id;
         
         if (!$storeId) {
             return response()->json([
                 'success' => false,
-                'message' => 'No store available for booking.'
+                'message' => 'Service is currently unavailable.'
             ], 422);
         }
 
@@ -56,11 +56,8 @@ class AppointmentController extends Controller
         $startTime = Carbon::parse($request->start_time);
         $endTime = $startTime->copy()->addMinutes($service->duration_minutes);
 
-        // Basic check for overlapping appointments for the same store or pet
-        $overlapping = Appointment::where(function ($query) use ($storeId, $request) {
-            $query->where('store_id', $storeId)
-                  ->orWhere('pet_id', $request->pet_id);
-        })
+        // Check for overlapping appointments for the same pet
+        $overlapping = Appointment::where('pet_id', $request->pet_id)
         ->where(function ($query) use ($startTime, $endTime) {
             $query->where('start_time', '<', $endTime)
                   ->where('end_time', '>', $startTime);
@@ -70,7 +67,7 @@ class AppointmentController extends Controller
 
         if ($overlapping) {
             throw ValidationException::withMessages([
-                'start_time' => 'The selected time slot is no longer available.',
+                'start_time' => 'You already have an appointment scheduled during this time.',
             ]);
         }
 

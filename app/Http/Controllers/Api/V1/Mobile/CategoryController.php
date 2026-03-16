@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\V1\Mobile;
 use App\Http\Controllers\Controller;
 use App\Models\Category;
 use Illuminate\Http\Request;
+use App\Http\Resources\Api\V1\Mobile\Category\CategoryResource;
 
 class CategoryController extends Controller
 {
@@ -22,7 +23,7 @@ class CategoryController extends Controller
 
         $categories = $query->latest()->paginate($request->get('per_page', 10));
 
-        return response()->json($categories);
+        return CategoryResource::collection($categories);
     }
 
     /**
@@ -33,6 +34,7 @@ class CategoryController extends Controller
         if ($category->status !== 'ACTIVE') {
             return response()->json(['message' => 'Category not found'], 404);
         }
-        return response()->json($category);
+        
+        return new CategoryResource($category);
     }
 }

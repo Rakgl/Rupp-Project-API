@@ -44,28 +44,27 @@ class UserSeeder extends Seeder
                 'type' => 'Developer',
             ],
             [
-				'username' => 'u1',
-				'name' => 'User 1',
-				'password' => bcrypt('p@123'),
-				'role_id' => $userRole->id,
-				'type' => 'User',
-			],
-			[
-				'username' => 'd1',
-				'name' => 'Marry Woo', 
-				'password' => bcrypt('p@123'),
-				'role_id' => $userRole->id,
-				'type' => 'User',
-			]
+                'username' => 'u1',
+                'name' => 'User 1',
+                'password' => bcrypt('p@123'),
+                'role_id' => $userRole->id,
+                'type' => 'User',
+            ],
+            [
+                'username' => 'd1',
+                'name' => 'Marry Woo',
+                'password' => bcrypt('p@123'),
+                'role_id' => $userRole->id,
+                'type' => 'User',
+            ]
         ];
 
         foreach ($systemUsers as $userData) {
-            $user = User::updateOrCreate(
+            User::updateOrCreate(
                 ['username' => $userData['username']],
                 [
-                    'id' => (string) Str::uuid(),
                     'name' => $userData['name'],
-                    'email' => '',
+                    'email' => $userData['username'] . '@example.com',
                     'password' => $userData['password'],
                     'role_id' => $userData['role_id'],
                     'status' => 'ACTIVE',
@@ -75,7 +74,6 @@ class UserSeeder extends Seeder
             );
         }
 
-        $this->command->info('System users and their ID tags seeded successfully.');
-
+        $this->command->info('System users seeded successfully.');
     }
 }

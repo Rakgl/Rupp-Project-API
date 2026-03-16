@@ -1649,21 +1649,54 @@ class TranslationSeeder extends Seeder
     {
         return [
             ['key' => 'appointments.title', 'en' => 'Appointments', 'kh' => 'ការណាត់ជួប', 'zh' => '预约'],
-            ['key' => 'appointments.description', 'en' => 'Manage your appointments here.', 'kh' => 'គ្រប់គ្រងការណាត់ជួបរបស់អ្នកនៅទីនេះ។', 'zh' => '在这里管理您的预约。'],
-            ['key' => 'appointments.toolbar.new', 'en' => 'New Appointment', 'kh' => 'ការណាត់ជួបថ្មី', 'zh' => '新建预约'],
-            ['key' => 'appointments.toolbar.filterByUser', 'en' => 'Filter by user...', 'kh' => 'តម្រៀបតាមអ្នកប្រើ...', 'zh' => '按用户筛选...'],
-            ['key' => 'appointments.toolbar.reset', 'en' => 'Reset', 'kh' => 'កំណត់ឡើងវិញ', 'zh' => '重置'],
-            ['key' => 'appointments.toolbar.status', 'en' => 'Status', 'kh' => 'ស្ថានភាព', 'zh' => '状态'],
+            ['key' => 'appointments.description', 'en' => 'Manage customer bookings and schedules.', 'kh' => 'គ្រប់គ្រងការកក់ និងកាលវិភាគរបស់អតិថិជន។', 'zh' => '管理客户预订和时间表。'],
+            
+            // Statuses
+            ['key' => 'appointments.statuses.pending', 'en' => 'Pending', 'kh' => 'រង់ចាំ', 'zh' => '待定'],
+            ['key' => 'appointments.statuses.confirmed', 'en' => 'Confirmed', 'kh' => 'បានបញ្ជាក់', 'zh' => '已确认'],
+            ['key' => 'appointments.statuses.inCare', 'en' => 'In Care', 'kh' => 'កំពុងមើលថែ', 'zh' => '护理中'],
+            ['key' => 'appointments.statuses.completed', 'en' => 'Completed', 'kh' => 'បានបញ្ចប់', 'zh' => '已完成'],
+            ['key' => 'appointments.statuses.cancelled', 'en' => 'Cancelled', 'kh' => 'បានលុបចោល', 'zh' => '已取消'],
+            ['key' => 'appointments.statuses.unknown', 'en' => 'Unknown', 'kh' => 'មិនស្គាល់', 'zh' => '未知'],
+
+            // Columns
             ['key' => 'appointments.columns.user', 'en' => 'User', 'kh' => 'អ្នកប្រើ', 'zh' => '用户'],
             ['key' => 'appointments.columns.pet', 'en' => 'Pet', 'kh' => 'សត្វចិញ្ចឹម', 'zh' => '宠物'],
             ['key' => 'appointments.columns.service', 'en' => 'Service', 'kh' => 'សេវាកម្ម', 'zh' => '服务'],
             ['key' => 'appointments.columns.store', 'en' => 'Store', 'kh' => 'ហាង', 'zh' => '门店'],
-            ['key' => 'appointments.columns.startTime', 'en' => 'Start Time', 'kh' => 'ម៉ោងចាប់ផ្តើម', 'zh' => '开始时间'],
+            ['key' => 'appointments.columns.startTime', 'en' => 'Date & Time', 'kh' => 'កាលបរិច្ឆេទ និងម៉ោង', 'zh' => '日期和时间'],
             ['key' => 'appointments.columns.status', 'en' => 'Status', 'kh' => 'ស្ថានភាព', 'zh' => '状态'],
+
+            // Toolbar
+            ['key' => 'appointments.toolbar.new', 'en' => 'New Appointment', 'kh' => 'ការណាត់ជួបថ្មី', 'zh' => '新建预约'],
+            ['key' => 'appointments.toolbar.filterByUser', 'en' => 'Filter by user...', 'kh' => 'តម្រៀបតាមអ្នកប្រើ...', 'zh' => '按用户筛选...'],
+            ['key' => 'appointments.toolbar.reset', 'en' => 'Reset', 'kh' => 'កំណត់ឡើងវិញ', 'zh' => '重置'],
+            ['key' => 'appointments.toolbar.status', 'en' => 'Status', 'kh' => 'ស្ថានភាព', 'zh' => '状态'],
+
+            // Row Actions
             ['key' => 'appointments.rowActions.openMenu', 'en' => 'Open menu', 'kh' => 'បើកម៉ឺនុយ', 'zh' => '打开菜单'],
-            ['key' => 'appointments.rowActions.view', 'en' => 'View', 'kh' => 'មើល', 'zh' => '查看'],
+            ['key' => 'appointments.rowActions.view', 'en' => 'View Details', 'kh' => 'មើលលម្អិត', 'zh' => '查看详情'],
+            ['key' => 'appointments.rowActions.confirm', 'en' => 'Confirm', 'kh' => 'បញ្ជាក់', 'zh' => '确认'],
+            ['key' => 'appointments.rowActions.markInCare', 'en' => 'Mark In Care', 'kh' => 'សម្គាល់ថា якកំពុងមើលថែ', 'zh' => '标记为护理中'],
+            ['key' => 'appointments.rowActions.complete', 'en' => 'Complete', 'kh' => 'បញ្ចប់', 'zh' => '完成'],
+            ['key' => 'appointments.rowActions.reschedule', 'en' => 'Reschedule', 'kh' => 'ប្តូរពេល', 'zh' => '重新安排'],
+            ['key' => 'appointments.rowActions.cancel', 'en' => 'Cancel', 'kh' => 'លុបចោល', 'zh' => '取消'],
+            ['key' => 'appointments.rowActions.delete', 'en' => 'Delete', 'kh' => 'លុប', 'zh' => '删除'],
+
+            // Dialogs
+            ['key' => 'appointments.dialog.create.title', 'en' => 'Manual Booking', 'kh' => 'ការកក់ដោយដៃ', 'zh' => '手动预订'],
+            ['key' => 'appointments.dialog.create.description', 'en' => 'Fill in the details to book manually.', 'kh' => 'បំពេញព័ត៌មានលម្អិតដើម្បីកក់ដោយដៃ។', 'zh' => '填写详细信息以手动预订。'],
+            ['key' => 'appointments.dialog.create.labels.user', 'en' => 'Customer', 'kh' => 'អតិថិជន', 'zh' => '客户'],
+            ['key' => 'appointments.dialog.create.labels.pet', 'en' => 'Pet', 'kh' => 'សត្វចិញ្ចឹម', 'zh' => '宠物'],
+            ['key' => 'appointments.dialog.create.labels.service', 'en' => 'Service', 'kh' => 'សេវាកម្ម', 'zh' => '服务'],
+            ['key' => 'appointments.dialog.create.labels.startTime', 'en' => 'Appointment Date & Time', 'kh' => 'កាលបរិច្ឆេទ និងម៉ោងណាត់ជួប', 'zh' => '预约日期和时间'],
+            ['key' => 'appointments.dialog.create.labels.specialRequests', 'en' => 'Special Requests / Notes', 'kh' => 'សំណើពិសេស / កំណត់ចំណាំ', 'zh' => '特殊要求 / 备注'],
+            ['key' => 'appointments.dialog.reschedule.title', 'en' => 'Reschedule Appointment', 'kh' => 'ប្តូរពេលណាត់ជួប', 'zh' => '重新安排预约'],
             ['key' => 'appointments.dialog.view.title', 'en' => 'Appointment Details', 'kh' => 'ព័ត៌មានលម្អិតការណាត់ជួប', 'zh' => '预约详情'],
+            ['key' => 'appointments.dialog.delete.title', 'en' => 'Delete Appointment', 'kh' => 'លុបការណាត់ជួប', 'zh' => '删除预约'],
             ['key' => 'appointments.dialog.view.buttons.close', 'en' => 'Close', 'kh' => 'បិទ', 'zh' => '关闭'],
+            
+            // View Dialog Sections
             ['key' => 'appointments.dialog.view.sections.appointmentInfo', 'en' => 'Appointment Information', 'kh' => 'ព័ត៌មានការណាត់ជួប', 'zh' => '预约信息'],
             ['key' => 'appointments.dialog.view.labels.status', 'en' => 'Status', 'kh' => 'ស្ថានភាព', 'zh' => '状态'],
             ['key' => 'appointments.dialog.view.labels.startTime', 'en' => 'Start Time', 'kh' => 'ម៉ោងចាប់ផ្តើម', 'zh' => '开始时间'],
@@ -1678,24 +1711,31 @@ class TranslationSeeder extends Seeder
             ['key' => 'appointments.dialog.view.labels.species', 'en' => 'Species', 'kh' => 'ប្រភេទសត្វ', 'zh' => '物种'],
             ['key' => 'appointments.dialog.view.labels.breed', 'en' => 'Breed', 'kh' => 'ពូជ', 'zh' => '品种'],
             ['key' => 'appointments.dialog.view.labels.dateOfBirth', 'en' => 'Date of Birth', 'kh' => 'ថ្ងៃខែឆ្នាំកំណើត', 'zh' => '出生日期'],
-
             ['key' => 'appointments.dialog.view.sections.serviceDetails', 'en' => 'Service Details', 'kh' => 'ព័ត៌មានសេវាកម្ម', 'zh' => '服务详情'],
             ['key' => 'appointments.dialog.view.labels.description', 'en' => 'Description', 'kh' => 'ការពិពណ៌នា', 'zh' => '描述'],
             ['key' => 'appointments.dialog.view.labels.price', 'en' => 'Price', 'kh' => 'តម្លៃ', 'zh' => '价格'],
             ['key' => 'appointments.dialog.view.labels.duration', 'en' => 'Duration', 'kh' => 'រយៈពេល', 'zh' => '时长'],
             ['key' => 'appointments.dialog.view.labels.minutes', 'en' => 'minutes', 'kh' => 'នាទី', 'zh' => '分钟'],
-
             ['key' => 'appointments.dialog.view.sections.storeDetails', 'en' => 'Store Details', 'kh' => 'ព័ត៌មានហាង', 'zh' => '门店信息'],
             ['key' => 'appointments.dialog.view.labels.address', 'en' => 'Address', 'kh' => 'អាសយដ្ឋាន', 'zh' => '地址'],
             ['key' => 'appointments.dialog.view.labels.city', 'en' => 'City', 'kh' => 'ទីក្រុង', 'zh' => '城市'],
-            ['key' => 'appointments.dialog.view.labels.state', 'en' => 'State', 'kh' => 'ខេត្ត / រដ្ឋ', 'zh' => '州 / 省'],            
-            ['key' => 'appointments.statuses.pending', 'en' => 'Pending', 'kh' => 'រង់ចាំ', 'zh' => '待定'],            
-            ['key' => 'appointments.statuses.confirmed', 'en' => 'Confirmed', 'kh' => 'បានបញ្ជាក់', 'zh' => '已确认'],            
-            ['key' => 'appointments.statuses.completed', 'en' => 'Completed', 'kh' => 'បានបញ្ចប់', 'zh' => '已完成'],            
-            ['key' => 'appointments.statuses.cancelled', 'en' => 'Cancelled', 'kh' => 'បានលុបចោល', 'zh' => '已取消'],            
+            ['key' => 'appointments.dialog.view.labels.state', 'en' => 'State', 'kh' => 'ខេត្ត / រដ្ឋ', 'zh' => '州 / 省'],
+
+            // Notifications
+            ['key' => 'appointments.notifications.created.title', 'en' => 'Appointment Created', 'kh' => 'ការណាត់ជួបត្រូវបានបង្កើត', 'zh' => '预约已创建'],
+            ['key' => 'appointments.notifications.statusUpdated.title', 'en' => 'Status Updated', 'kh' => 'ស្ថានភាពត្រូវបានធ្វើបច្ចុប្បន្នភាព', 'zh' => '状态已更新'],
+            ['key' => 'appointments.notifications.rescheduled.title', 'en' => 'Appointment Rescheduled', 'kh' => 'ការណាត់ជួបត្រូវបានប្តូរពេល', 'zh' => '预约已重新安排'],
+            ['key' => 'appointments.notifications.deleted.title', 'en' => 'Appointment Deleted', 'kh' => 'ការណាត់ជួបត្រូវបានលុប', 'zh' => '预约已删除'],
+            ['key' => 'appointments.notifications.errorCreate', 'en' => 'Failed to create appointment.', 'kh' => 'មិនអាចបង្កើតការណាត់ជួបបានទេ។', 'zh' => '创建预约失败。'],
+            ['key' => 'appointments.notifications.errorUpdate', 'en' => 'Failed to update status.', 'kh' => 'មិនអាចធ្វើបច្ចុប្បន្នភាពស្ថានភាពបានទេ។', 'zh' => '更新状态失败。'],
+
+            // Reschedule Dialog additional keys
+            ['key' => 'appointments.dialog.reschedule.description', 'en' => 'Select a new date and time for this appointment.', 'kh' => 'ជ្រើសរើសកាលបរិច្ឆេទ និងពេលវេលាថ្មីសម្រាប់ការណាត់ជួបនេះ។', 'zh' => '为此预约选择新的日期和时间。'],
+            ['key' => 'appointments.dialog.reschedule.labels.newTime', 'en' => 'New Appointment Date & Time', 'kh' => 'កាលបរិច្ឆេទ និងម៉ោងណាត់ជួបថ្មី', 'zh' => '新的预约日期和时间'],
+            ['key' => 'appointments.dialog.reschedule.buttons.submit', 'en' => 'Confirm Reschedule', 'kh' => 'បញ្ជាក់ការប្តូរពេល', 'zh' => '确认重新安排'],
         ];
     }
-
+    
     private function getStorePetsTranslations(): array
     {
         return [

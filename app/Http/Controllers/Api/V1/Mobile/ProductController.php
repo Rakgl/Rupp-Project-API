@@ -33,7 +33,7 @@ class ProductController extends Controller
             });
         }
 
-        $products = $query->with('category')
+        $products = $query->with(['category', 'storeInventories'])
                           ->orderBy('created_at', 'desc')
                           ->paginate($request->get('limit', 15));
 
@@ -49,7 +49,7 @@ class ProductController extends Controller
             return response()->json(['message' => 'Product not available'], 404);
         }
         
-        $product->load('category');
+        $product->load(['category', 'storeInventories']);
         return new ProductShowResource($product);
     }
 }

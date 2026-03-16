@@ -4,8 +4,9 @@ namespace App\Http\Resources\Api\V1\Mobile\PetListing;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
-use Illuminate\Support\Facades\Auth;
 use App\Http\Resources\Api\V1\Mobile\Pet\PetResource;
+
+use Illuminate\Support\Facades\Auth;
 
 class PetListingResource extends JsonResource
 {
@@ -18,12 +19,12 @@ class PetListingResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'listing_type' => $this->listing_type,
+            'listing_type' => $this->listing_type, // SALE, ADOPTION
             'price' => (float) $this->price,
             'description' => $this->description,
             'status' => $this->status,
-            'pet' => new PetResource($this->whenLoaded('pet')),
             'is_favorite' => Auth::check() ? $this->favorites()->where('user_id', Auth::id())->exists() : false,
+            'pet' => new PetResource($this->whenLoaded('pet')),
             'created_at' => $this->created_at->toDateTimeString(),
         ];
     }

@@ -17,6 +17,8 @@ use App\Http\Controllers\Api\V1\Mobile\CategoryController;
 use App\Http\Controllers\Api\V1\Mobile\FavoriteController;
 use App\Http\Controllers\Api\V1\Mobile\ServiceController;
 use App\Http\Controllers\Api\V1\Mobile\PetController;
+use App\Http\Controllers\Api\V1\Mobile\PetListingController;
+use App\Http\Controllers\Api\V1\Mobile\OrderController;
 
 Route::post('/auth/login', [AuthController::class, 'login']);
 
@@ -66,6 +68,10 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::put('/pets/{pet}', [PetController::class, 'update'])->whereUuid('pet');
     Route::delete('/pets/{pet}', [PetController::class, 'destroy'])->whereUuid('pet');
 
+    // Pet Listings (Marketplace for Sale/Adoption)
+    Route::get('/pet-listings', [PetListingController::class, 'index']);
+    Route::get('/pet-listings/{petListing}', [PetListingController::class, 'show']);
+
     // Categories
     Route::get('/categories', [CategoryController::class, 'index']);
     Route::get('/categories/{category}', [CategoryController::class, 'show']);
@@ -80,6 +86,11 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::put('/cart/items/{cartItem}', [CartController::class, 'update']);
     Route::delete('/cart/items/{cartItem}', [CartController::class, 'remove']);
     Route::delete('/cart/clear', [CartController::class, 'clear']);
+
+    // Orders (Checkout)
+    Route::get('/orders', [OrderController::class, 'index']);
+    Route::post('/orders', [OrderController::class, 'store']);
+    Route::get('/orders/{order}', [OrderController::class, 'show']);
 
     // Appointments
     Route::get('/appointments', [AppointmentController::class, 'index']);

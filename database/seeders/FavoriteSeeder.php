@@ -4,10 +4,10 @@ namespace Database\Seeders;
 
 use App\Models\Favorite;
 use App\Models\Product;
+use App\Models\Pet;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Str;
-use Illuminate\Support\Facades\DB;
 
 class FavoriteSeeder extends Seeder
 {
@@ -18,52 +18,44 @@ class FavoriteSeeder extends Seeder
      */
     public function run()
     {
-        // Truncate the favorites table before seeding
-        // We use DB::table to truncate since it's cleaner and avoids foreign key issues depending on the DB
-        DB::statement('TRUNCATE TABLE favorites CASCADE');
-
-        // Retrieve existing users and products
         $users = User::all();
         $products = Product::all();
+        $pets = Pet::all();
 
-        // If no users or products, there's nothing to seed
-        if ($users->isEmpty() || $products->isEmpty()) {
-            $this->command->info('No users or products found. Skipped seeding favorites.');
+        if ($users->isEmpty()) {
             return;
         }
 
-        $favoritesInserted = 0;
-
         foreach ($users as $user) {
-            // Give each user a random number of favorite products (e.g., between 0 and 5)
-            $numberOfFavorites = rand(0, min(5, $products->count()));
-
-            if ($numberOfFavorites === 0) {
-                continue;
+            // Favorite some products
+            if (!$products->isEmpty()) {
+                $favProducts = $products->random(rand(1, 3));
+                foreach ($favProducts as $product) {
+                    Favorite::updateOrCreate(
+                        [
+                            'user_id' => $user->id,
+                            'favorable_id' => $product->id,
+                            'favorable_type' => Product::class
+                        ],
+                        ['id' => Str::uuid()]
+                    );
+                }
             }
 
-            // Pick random products for the user
-            $randomProducts = $products->random($numberOfFavorites);
-
-            foreach ($randomProducts as $product) {
-                // To avoid duplicate exceptions on the unique constraint, check if it exists
-                $exists = Favorite::where('user_id', $user->id)
-                    ->where('favorable_id', $product->id)
-                    ->where('favorable_type', Product::class)
-                    ->exists();
-
-                if (!$exists) {
-                    Favorite::create([
-                        'id'             => Str::uuid(),
-                        'user_id'        => $user->id,
-                        'favorable_id'   => $product->id,
-                        'favorable_type' => Product::class,
-                    ]);
-                    $favoritesInserted++;
+            // Favorite some pets
+            if (!$pets->isEmpty()) {
+                $favPets = $pets->random(rand(1, 2));
+                foreach ($favPets as $pet) {
+                    Favorite::updateOrCreate(
+                        [
+                            'user_id' => $user->id,
+                            'favorable_id' => $pet->id,
+                            'favorable_type' => Pet::class
+                        ],
+                        ['id' => Str::uuid()]
+                    );
                 }
             }
         }
-
-        $this->command->info("Successfully seeded {$favoritesInserted} favorites.");
     }
 }
