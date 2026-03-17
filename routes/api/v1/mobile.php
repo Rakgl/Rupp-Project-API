@@ -20,6 +20,26 @@ use App\Http\Controllers\Api\V1\Mobile\PetController;
 use App\Http\Controllers\Api\V1\Mobile\PetListingController;
 use App\Http\Controllers\Api\V1\Mobile\OrderController;
 
+
+// About / Settings
+Route::get('/settings', [SettingController::class, 'index']);
+
+// Products
+Route::get('/products', [ProductController::class, 'index']);
+Route::get('/products/{product}', [ProductController::class, 'show']);
+
+// Marketplace (Pet Listings for Sale)
+Route::get('/pet-listings', [PetListingController::class, 'index']);
+Route::get('/pet-listings/{petListing}', [PetListingController::class, 'show']);
+
+// Categories
+Route::get('/categories', [CategoryController::class, 'index']);
+Route::get('/categories/{category}', [CategoryController::class, 'show']);
+
+// Services
+Route::get('/services', [ServiceController::class, 'index']);
+Route::get('/services/{service}', [ServiceController::class, 'show'])->whereUuid('service');
+
 Route::post('/auth/login', [AuthController::class, 'login']);
 
 // Register
@@ -39,7 +59,7 @@ Route::get('/get-translations', [TranslationController::class, 'getTranslations'
 Route::get('/version', [AppVersionController::class, 'version']);
 Route::post('/auth/refresh-token', [AuthController::class, 'refreshToken']);
 
-// Auth
+
 Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/auth/logout', [AuthController::class, 'logout']);
 
@@ -54,31 +74,12 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/notifications', [NotificationController::class, 'index']);
     Route::post('/notifications/mark-as-read', [NotificationController::class, 'markAsRead']);
 
-    // Settings
-    Route::get('/settings', [SettingController::class, 'index']);
-    
-    // Product
-    Route::get('/products', [ProductController::class, 'index']);
-    Route::get('/products/{product}', [ProductController::class, 'show']);
-
-    // Pets
+    // My Pets (Private collection)
     Route::get('/pets', [PetController::class, 'index']);
     Route::get('/pets/{pet}', [PetController::class, 'show'])->whereUuid('pet');
     Route::post('/pets', [PetController::class, 'store']);
     Route::put('/pets/{pet}', [PetController::class, 'update'])->whereUuid('pet');
     Route::delete('/pets/{pet}', [PetController::class, 'destroy'])->whereUuid('pet');
-
-    // Pet Listings (Marketplace for Sale/Adoption)
-    Route::get('/pet-listings', [PetListingController::class, 'index']);
-    Route::get('/pet-listings/{petListing}', [PetListingController::class, 'show']);
-
-    // Categories
-    Route::get('/categories', [CategoryController::class, 'index']);
-    Route::get('/categories/{category}', [CategoryController::class, 'show']);
-
-    // Services
-    Route::get('/services', [ServiceController::class, 'index']);
-    Route::get('/services/{service}', [ServiceController::class, 'show'])->whereUuid('service');
 
     // Cart
     Route::get('/cart', [CartController::class, 'index']);
@@ -91,6 +92,8 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/orders', [OrderController::class, 'index']);
     Route::post('/orders', [OrderController::class, 'store']);
     Route::get('/orders/{order}', [OrderController::class, 'show']);
+    Route::post('/orders/{order}/verify-payment', [OrderController::class, 'verifyPayment']);
+    Route::post('/orders/{order}/cancel', [OrderController::class, 'cancel']);
 
     // Appointments
     Route::get('/appointments', [AppointmentController::class, 'index']);
