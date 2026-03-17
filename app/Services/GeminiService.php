@@ -24,11 +24,15 @@ class GeminiService
     }
 
     /**
-     * Single entry point — handles both Q&A and actions via function calling.
-     * If the user asks a question, Gemini answers directly.
-     * If the user wants to perform an action, Gemini calls a function and we execute it.
+     * Single entry point — handles Q&A and actions with conversation history.
+     *
+     * @param  string  $userPrompt  The current user message.
+     * @param  string  $dataContext  Pre-scoped data the AI can access.
+     * @param  array  $tools  Function declarations for Gemini.
+     * @param  callable  $functionExecutor  Callback to execute function calls.
+     * @param  array  $history  Previous messages [{role: 'user'|'model', message: '...'}].
      */
-    public function askWithTools(string $userPrompt, string $dataContext, array $tools, callable $functionExecutor): string
+    public function askWithTools(string $userPrompt, string $dataContext, array $tools, callable $functionExecutor, array $history = []): string
     {
         $systemInstruction = $this->buildSystemInstruction($dataContext);
 
@@ -37,8 +41,16 @@ class GeminiService
             ->withSystemInstruction(Content::parse($systemInstruction, Role::USER))
             ->withTool(new Tool(functionDeclarations: $tools));
 
-        // Initial request
-        $response = $model->generateContent($userPrompt);
+        // Build conversation: history + current message
+        $contents = [];
+        foreach ($history as $entry) {
+            $role = $entry['role'] === 'user' ? Role::USER : Role::MODEL;
+            $contents[] = Content::parse($entry['message'], $role);
+        }
+        $contents[] = Content::parse($userPrompt, Role::USER);
+
+        // Send to Gemini
+        $response = $model->generateContent(...$contents);
         $parts = $response->parts();
 
         // Check if Gemini wants to call a function
@@ -49,19 +61,18 @@ class GeminiService
             $result = $functionExecutor($functionCall->name, $functionCall->args);
 
             // Send function result back to Gemini for a natural language response
-            $response = $model->generateContent(
-                Content::parse($userPrompt, Role::USER),
-                new Content(parts: $parts, role: Role::MODEL),
-                new Content(
-                    parts: [
-                        new Part(functionResponse: new FunctionResponse(
-                            name: $functionCall->name,
-                            response: $result,
-                        )),
-                    ],
-                    role: Role::USER,
-                ),
+            $contents[] = new Content(parts: $parts, role: Role::MODEL);
+            $contents[] = new Content(
+                parts: [
+                    new Part(functionResponse: new FunctionResponse(
+                        name: $functionCall->name,
+                        response: $result,
+                    )),
+                ],
+                role: Role::USER,
             );
+
+            $response = $model->generateContent(...$contents);
         }
 
         return $response->text();
