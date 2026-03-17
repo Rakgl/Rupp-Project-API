@@ -29,6 +29,13 @@ class Product extends Model
         'price' => 'decimal:2',
     ];
 
+    protected $appends = ['stock_quantity'];
+
+    public function getStockQuantityAttribute()
+    {
+        return (int) $this->storeInventories()->sum('stock_quantity');
+    }
+
     public function category()
     {
         return $this->belongsTo(Category::class);

@@ -20,7 +20,7 @@ class UserShowResource extends JsonResource
 			'name' => $this->name,
 			'email' => $this->email ? $this->email : null,
 			'username' => $this->username,
-			'image' => Helper::imageUrl($this->image),
+			'image' => asset($this->image),
 			'status' => $this->status,
 			'locale' => $this->locale,
 			'phone' => $this->phone,

@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Models\Appointment;
 use App\Models\Order;
 use App\Models\User;
+use App\Http\Resources\Api\V1\Admin\Appointment\AppointmentIndexResource;
+use App\Http\Resources\Api\V1\Admin\Order\OrderIndexResource;
 use Carbon\Carbon;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Log;
@@ -51,8 +53,8 @@ class DashboardController extends Controller
                         'new_users_today' => $newUsersToday,
                     ],
                     'lists' => [
-                        'upcoming_appointments' => $upcomingAppointments,
-                        'recent_orders' => $recentOrders,
+                        'upcoming_appointments' => AppointmentIndexResource::collection($upcomingAppointments),
+                        'recent_orders' => OrderIndexResource::collection($recentOrders),
                     ]
                 ]
             ]);

@@ -13,14 +13,14 @@ class ServiceSeeder extends Seeder
     public function run(): void
     {
         $services = [
-            [
-                'name' => ['en' => 'Full Grooming', 'kh' => 'សេវាកម្មកាត់សម្អាតរោមពេញលេញ', 'zh' => '全套美容'],
-                'description' => ['en' => 'Complete hair cut, bath, nail trimming, and ear cleaning.', 'kh' => 'កាត់រោម ងូតទឹក កាត់ក្រចក និងសម្អាតត្រចៀកឱ្យបានពេញលេញ។', 'zh' => '全套理发、洗澡、剪指甲和洗耳朵。'],
-                'price' => 25.00,
-                'duration_minutes' => 90,
-                'image_url' => 'https://images.unsplash.com/photo-1604675879599-2d5f1fdfa9e7?auto=format&fit=crop&w=800&q=80',
-                'status' => 'ACTIVE'
-            ],
+            // [
+            //     'name' => ['en' => 'Full Grooming', 'kh' => 'សេវាកម្មកាត់សម្អាតរោមពេញលេញ', 'zh' => '全套美容'],
+            //     'description' => ['en' => 'Complete hair cut, bath, nail trimming, and ear cleaning.', 'kh' => 'កាត់រោម ងូតទឹក កាត់ក្រចក និងសម្អាតត្រចៀកឱ្យបានពេញលេញ។', 'zh' => '全套理发、洗澡、剪指甲和洗耳朵。'],
+            //     'price' => 25.00,
+            //     'duration_minutes' => 90,
+            //     'image_url' => 'https://images.unsplash.com/photo-1604675879599-2d5f1fdfa9e7?auto=format&fit=crop&w=800&q=80',
+            //     'status' => 'ACTIVE'
+            // ],
             [
                 'name' => ['en' => 'Pet Bath & Brush', 'kh' => 'ងូតទឹក និងសិតរោមសត្វចិញ្ចឹម', 'zh' => '宠物洗澡和梳毛'],
                 'description' => ['en' => 'Professional bath with premium shampoo and thorough brushing.', 'kh' => 'ងូតទឹកដោយប្រើសាប៊ូពិសេស និងការសិតរោមឱ្យបានស្អាតល្អ។', 'zh' => '使用优质洗发水进行专业洗澡并彻底梳理。'],
@@ -29,14 +29,14 @@ class ServiceSeeder extends Seeder
                 'image_url' => 'https://images.unsplash.com/photo-1560743641-3914f2c45636?auto=format&fit=crop&w=800&q=80',
                 'status' => 'ACTIVE'
             ],
-            [
-                'name' => ['en' => 'Nail Trimming', 'kh' => 'ការកាត់ក្រចក', 'zh' => '修剪指甲'],
-                'description' => ['en' => 'Safe and quick nail trimming for your pets.', 'kh' => 'ការកាត់ក្រចកដោយសុវត្ថិភាព និងរហ័សសម្រាប់សត្វចិញ្ចឹមរបស់អ្នក។', 'zh' => '为您宠物进行安全快速的修剪指甲。'],
-                'price' => 5.00,
-                'duration_minutes' => 15,
-                'image_url' => 'https://images.unsplash.com/photo-1601758174114-e711dde35264?auto=format&fit=crop&w=800&q=80',
-                'status' => 'ACTIVE'
-            ],
+            // [
+            //     'name' => ['en' => 'Nail Trimming', 'kh' => 'ការកាត់ក្រចក', 'zh' => '修剪指甲'],
+            //     'description' => ['en' => 'Safe and quick nail trimming for your pets.', 'kh' => 'ការកាត់ក្រចកដោយសុវត្ថិភាព និងរហ័សសម្រាប់សត្វចិញ្ចឹមរបស់អ្នក។', 'zh' => '为您宠物进行安全快速的修剪指甲。'],
+            //     'price' => 5.00,
+            //     'duration_minutes' => 15,
+            //     'image_url' => 'https://images.unsplash.com/photo-1601758174114-e711dde35264?auto=format&fit=crop&w=800&q=80',
+            //     'status' => 'ACTIVE'
+            // ],
             [
                 'name' => ['en' => 'Vaccination', 'kh' => 'ការចាក់វ៉ាក់សាំង', 'zh' => '疫苗接种'],
                 'description' => ['en' => 'Essential vaccinations to keep your pets healthy.', 'kh' => 'ការចាក់វ៉ាក់សាំងចាំបាច់ ដើម្បីរក្សាសុខភាពសត្វចិញ្ចឹមរបស់អ្នក។', 'zh' => '必不可少的疫苗接种以保持您的宠物健康。'],
@@ -61,14 +61,6 @@ class ServiceSeeder extends Seeder
                 'image_url' => 'https://images.unsplash.com/photo-1576201836106-db1758fd1c97?auto=format&fit=crop&w=800&q=80',
                 'status' => 'ACTIVE'
             ],
-            [
-                'name' => ['en' => 'Pet Boarding (Per Night)', 'kh' => 'សេវាកម្មស្នាក់នៅ (ក្នុងមួយយប់)', 'zh' => '宠物寄养（每晚）'],
-                'description' => ['en' => 'Safe and comfortable overnight stay for your pets.', 'kh' => 'ការស្នាក់នៅពេញមួយយប់ដោយសុវត្ថិភាព និងផាសុកភាពសម្រាប់សត្វចិញ្ចឹមរបស់អ្នក។', 'zh' => '为您宠物提供安全舒适的过夜住宿。'],
-                'price' => 15.00,
-                'duration_minutes' => 1440,
-                'image_url' => 'https://images.unsplash.com/photo-1548546738-8542ad3913fe?auto=format&fit=crop&w=800&q=80',
-                'status' => 'ACTIVE'
-            ]
         ];
 
         foreach ($services as $service) {

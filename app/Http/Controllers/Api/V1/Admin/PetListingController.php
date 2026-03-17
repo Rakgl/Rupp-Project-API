@@ -56,17 +56,46 @@ class PetListingController extends Controller
     public function store(Request $request): JsonResponse
     {
         try {
-            $validated = $request->validate([
-                'pet_id' => 'required|exists:pets,id',
+            $request->validate([
+                'pet_name'     => 'required|string|max:255',
+                'species'      => 'required|string|max:255',
+                'breed'        => 'nullable|string|max:255',
+                'category_id'  => 'nullable|exists:categories,id',
+                'weight'       => 'nullable|numeric',
+                'date_of_birth' => 'nullable|date',
+                'medical_notes' => 'nullable|string',
+                'image'        => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
                 'listing_type' => 'required|string|in:SALE,ADOPTION',
-                'price' => 'nullable|numeric|required_if:listing_type,SALE',
-                'description' => 'nullable|string',
-                'status' => 'nullable|string|in:AVAILABLE,PENDING,SOLD',
+                'price'        => 'nullable|numeric|required_if:listing_type,SALE',
+                'description'  => 'nullable|string',
+                'status'       => 'nullable|string|in:AVAILABLE,PENDING,SOLD',
             ]);
 
-            $validated['user_id'] = $request->user()->id;
-            
-            $listing = PetListing::create($validated);
+            $imageUrl = null;
+            if ($request->hasFile('image')) {
+                $imageUrl = $request->file('image')->store('uploads/pets', 'public');
+            }
+
+            $pet = \App\Models\Pet::create([
+                'user_id'      => $request->user()->id,
+                'category_id'  => $request->input('category_id'),
+                'name'         => $request->input('pet_name'),
+                'species'      => $request->input('species'),
+                'breed'        => $request->input('breed'),
+                'weight'       => $request->input('weight'),
+                'date_of_birth' => $request->input('date_of_birth'),
+                'medical_notes' => $request->input('medical_notes'),
+                'image_url'    => $imageUrl,
+            ]);
+
+            $listing = PetListing::create([
+                'pet_id'       => $pet->id,
+                'user_id'      => $request->user()->id,
+                'listing_type' => $request->input('listing_type'),
+                'price'        => $request->input('price'),
+                'description'  => $request->input('description'),
+                'status'       => $request->input('status', 'AVAILABLE'),
+            ]);
 
             return response()->json([
                 'success' => true,

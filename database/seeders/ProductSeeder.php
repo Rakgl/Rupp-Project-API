@@ -22,15 +22,15 @@ class ProductSeeder extends Seeder
 
         $products = [
             // Dog Supplies
-            [
-                'category_slug' => 'dog-supplies',
-                'name' => ['en' => 'Royal Canin Adult Dog Food', 'kh' => 'ចំណីឆ្កែពេញវ័យ Royal Canin', 'zh' => '皇家成犬粮'],
-                'description' => ['en' => 'Tailored nutrition for adult dogs to maintain health and vitality.', 'kh' => 'អាហារូបត្ថម្ភដែលសម្រិតសម្រាំងសម្រាប់ឆ្កែពេញវ័យ ដើម្បីរក្សាសុខភាព និងថាមពល។', 'zh' => '为成年犬量身定制的营养，旨在保持健康和活力。'],
-                'price' => 55.00,
-                'sku' => 'DOG-FOOD-001',
-                'image_url' => 'https://images.unsplash.com/photo-1589924691106-073b697596cd?auto=format&fit=crop&w=800&q=80',
-                'attributes' => ['brand' => 'Royal Canin', 'weight' => '10kg', 'flavor' => 'Chicken'],
-            ],
+            // [
+            //     'category_slug' => 'dog-supplies',
+            //     'name' => ['en' => 'Royal Canin Adult Dog Food', 'kh' => 'ចំណីឆ្កែពេញវ័យ Royal Canin', 'zh' => '皇家成犬粮'],
+            //     'description' => ['en' => 'Tailored nutrition for adult dogs to maintain health and vitality.', 'kh' => 'អាហារូបត្ថម្ភដែលសម្រិតសម្រាំងសម្រាប់ឆ្កែពេញវ័យ ដើម្បីរក្សាសុខភាព និងថាមពល។', 'zh' => '为成年犬量身定制的营养，旨在保持健康和活力。'],
+            //     'price' => 55.00,
+            //     'sku' => 'DOG-FOOD-001',
+            //     'image_url' => 'https://images.unsplash.com/photo-1589924691106-073b697596cd?auto=format&fit=crop&w=800&q=80',
+            //     'attributes' => ['brand' => 'Royal Canin', 'weight' => '10kg', 'flavor' => 'Chicken'],
+            // ],
             [
                 'category_slug' => 'dog-supplies',
                 'name' => ['en' => 'Durable Chew Toy', 'kh' => 'ប្រដាប់ក្មេងលេងឆ្កែជាប់ធន់', 'zh' => '耐咬玩具'],
@@ -69,15 +69,15 @@ class ProductSeeder extends Seeder
                 'image_url' => 'https://images.unsplash.com/photo-1545249390-6bdfa286032f?auto=format&fit=crop&w=800&q=80',
                 'attributes' => ['material' => 'Sisal & Plush', 'height' => '150cm'],
             ],
-            [
-                'category_slug' => 'cat-supplies',
-                'name' => ['en' => 'Interactive Laser Toy', 'kh' => 'ប្រដាប់ក្មេងលេងឡាស៊ែរ', 'zh' => '互动激光玩具'],
-                'description' => ['en' => 'Automatic rotating laser light to keep your cat active.', 'kh' => 'ពន្លឺឡាស៊ែរបង្វិលដោយស្វ័យប្រវត្តិ ដើម្បីឱ្យឆ្មារបស់អ្នកមានសកម្មភាព។', 'zh' => '自动旋转激光灯，让您的猫保持活跃。'],
-                'price' => 15.00,
-                'sku' => 'CAT-TOY-001',
-                'image_url' => 'https://images.unsplash.com/photo-1548546738-8542ad3913fe?auto=format&fit=crop&w=800&q=80',
-                'attributes' => ['battery' => 'AA', 'mode' => 'Automatic'],
-            ],
+            // [
+            //     'category_slug' => 'cat-supplies',
+            //     'name' => ['en' => 'Interactive Laser Toy', 'kh' => 'ប្រដាប់ក្មេងលេងឡាស៊ែរ', 'zh' => '互动激光玩具'],
+            //     'description' => ['en' => 'Automatic rotating laser light to keep your cat active.', 'kh' => 'ពន្លឺឡាស៊ែរបង្វិលដោយស្វ័យប្រវត្តិ ដើម្បីឱ្យឆ្មារបស់អ្នកមានសកម្មភាព។', 'zh' => '自动旋转激光灯，让您的猫保持活跃。'],
+            //     'price' => 15.00,
+            //     'sku' => 'CAT-TOY-001',
+            //     'image_url' => 'https://images.unsplash.com/photo-1548546738-8542ad3913fe?auto=format&fit=crop&w=800&q=80',
+            //     'attributes' => ['battery' => 'AA', 'mode' => 'Automatic'],
+            // ],
 
             // Fish Supplies
             [
@@ -89,37 +89,37 @@ class ProductSeeder extends Seeder
                 'image_url' => 'https://images.unsplash.com/photo-1522069169874-c58ec4b76be5?auto=format&fit=crop&w=800&q=80',
                 'attributes' => ['brand' => 'Tetra', 'weight' => '100g'],
             ],
-            [
-                'category_slug' => 'fish-supplies',
-                'name' => ['en' => 'LED Aquarium Kit', 'kh' => 'អាងត្រី LED ពេញលេញ', 'zh' => 'LED 水族箱套装'],
-                'description' => ['en' => '5-gallon glass aquarium with LED lighting and filter.', 'kh' => 'អាងត្រីកញ្ចក់ចំណុះ ៥ ហ្គាឡុង ជាមួយនឹងភ្លើង LED និងតម្រង។', 'zh' => '5 加仑玻璃水族箱，配有 LED 照明和过滤器。'],
-                'price' => 45.00,
-                'sku' => 'FISH-TANK-001',
-                'image_url' => 'https://images.unsplash.com/photo-1524704796725-9fc3044a58b2?auto=format&fit=crop&w=800&q=80',
-                'attributes' => ['capacity' => '5 Gallon', 'lighting' => 'LED'],
-            ],
+            // [
+            //     'category_slug' => 'fish-supplies',
+            //     'name' => ['en' => 'LED Aquarium Kit', 'kh' => 'អាងត្រី LED ពេញលេញ', 'zh' => 'LED 水族箱套装'],
+            //     'description' => ['en' => '5-gallon glass aquarium with LED lighting and filter.', 'kh' => 'អាងត្រីកញ្ចក់ចំណុះ ៥ ហ្គាឡុង ជាមួយនឹងភ្លើង LED និងតម្រង។', 'zh' => '5 加仑玻璃水族箱，配有 LED 照明和过滤器。'],
+            //     'price' => 45.00,
+            //     'sku' => 'FISH-TANK-001',
+            //     'image_url' => 'https://images.unsplash.com/photo-1524704796725-9fc3044a58b2?auto=format&fit=crop&w=800&q=80',
+            //     'attributes' => ['capacity' => '5 Gallon', 'lighting' => 'LED'],
+            // ],
 
             // Bird Supplies
-            [
-                'category_slug' => 'bird-supplies',
-                'name' => ['en' => 'Wild Bird Seed Mix', 'kh' => 'ល្បាយគ្រាប់ធញ្ញជាតិបក្សី', 'zh' => '野鸟种子混合物'],
-                'description' => ['en' => 'Premium blend of seeds to attract various birds.', 'kh' => 'ល្បាយគ្រាប់ធញ្ញជាតិគុណភាពខ្ពស់ ដើម្បីទាក់ទាញបក្សីផ្សេងៗគ្នា។', 'zh' => '吸引各种鸟类的高级种子混合物。'],
-                'price' => 10.50,
-                'sku' => 'BIRD-FOOD-001',
-                'image_url' => 'https://images.unsplash.com/photo-1552728089-57bdde30eba3?auto=format&fit=crop&w=800&q=80',
-                'attributes' => ['weight' => '2kg', 'ingredients' => 'Sunflower, Millet'],
-            ],
+            // [
+            //     'category_slug' => 'bird-supplies',
+            //     'name' => ['en' => 'Wild Bird Seed Mix', 'kh' => 'ល្បាយគ្រាប់ធញ្ញជាតិបក្សី', 'zh' => '野鸟种子混合物'],
+            //     'description' => ['en' => 'Premium blend of seeds to attract various birds.', 'kh' => 'ល្បាយគ្រាប់ធញ្ញជាតិគុណភាពខ្ពស់ ដើម្បីទាក់ទាញបក្សីផ្សេងៗគ្នា។', 'zh' => '吸引各种鸟类的高级种子混合物。'],
+            //     'price' => 10.50,
+            //     'sku' => 'BIRD-FOOD-001',
+            //     'image_url' => 'https://images.unsplash.com/photo-1552728089-57bdde30eba3?auto=format&fit=crop&w=800&q=80',
+            //     'attributes' => ['weight' => '2kg', 'ingredients' => 'Sunflower, Millet'],
+            // ],
 
             // Small Pet Supplies
-            [
-                'category_slug' => 'small-pet-supplies',
-                'name' => ['en' => 'Timothy Hay for Rabbits', 'kh' => 'ស្មៅ Timothy សម្រាប់ទន្សាយ', 'zh' => '兔用提摩西草'],
-                'description' => ['en' => 'High-fiber hay essential for rabbit digestion.', 'kh' => 'ស្មៅដែលមានជាតិសរសៃខ្ពស់ ចាំបាច់សម្រាប់ការរំលាយអាហាររបស់ទន្សាយ។', 'zh' => '高纤维干草，对兔子的消化至关重要。'],
-                'price' => 12.00,
-                'sku' => 'SMALL-FOOD-001',
-                'image_url' => 'https://images.unsplash.com/photo-1585110396054-c8182a7a8ce0?auto=format&fit=crop&w=800&q=80',
-                'attributes' => ['type' => 'Hay', 'weight' => '1kg'],
-            ],
+            // [
+            //     'category_slug' => 'small-pet-supplies',
+            //     'name' => ['en' => 'Timothy Hay for Rabbits', 'kh' => 'ស្មៅ Timothy សម្រាប់ទន្សាយ', 'zh' => '兔用提摩西草'],
+            //     'description' => ['en' => 'High-fiber hay essential for rabbit digestion.', 'kh' => 'ស្មៅដែលមានជាតិសរសៃខ្ពស់ ចាំបាច់សម្រាប់ការរំលាយអាហាររបស់ទន្សាយ។', 'zh' => '高纤维干草，对兔子的消化至关重要。'],
+            //     'price' => 12.00,
+            //     'sku' => 'SMALL-FOOD-001',
+            //     'image_url' => 'https://images.unsplash.com/photo-1585110396054-c8182a7a8ce0?auto=format&fit=crop&w=800&q=80',
+            //     'attributes' => ['type' => 'Hay', 'weight' => '1kg'],
+            // ],
         ];
 
         foreach ($products as $prod) {

@@ -20,6 +20,7 @@ class CategoryShowResource extends JsonResource
             'description' => is_array($this->description) ? ($this->description['en'] ?? null) : $this->description,
             'slug' => $this->slug,
             'image_url' => $this->image_url,
+            'type' => $this->type,
             'status' => $this->status,
             'created_at' => $this->created_at?->format('Y-m-d H:i:s'),
             'updated_at' => $this->updated_at?->format('Y-m-d H:i:s'),

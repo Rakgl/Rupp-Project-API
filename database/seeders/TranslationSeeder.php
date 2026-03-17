@@ -219,6 +219,7 @@ class TranslationSeeder extends Seeder
             ['key' => 'nav.carts', 'en' => 'Carts', 'kh' => 'រទេះ', 'zh' => '购物车'],
             ['key' => 'nav.favorites', 'en' => 'Favorites', 'kh' => 'ចំណូលចិត្ត', 'zh' => '收藏夹'],
             ['key' => 'nav.services', 'en' => 'Services', 'kh' => 'សេវាកម្ម', 'zh' => '服务'],
+            ['key' => 'nav.pets', 'en' => 'Pets', 'kh' => 'សត្វចិញ្ចឹម', 'zh' => '宠物'],
             ['key' => 'nav.appointments', 'en' => 'Appointments', 'kh' => 'ការណាត់ជួប', 'zh' => '预约'],
         ];
     }
