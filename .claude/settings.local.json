@@ -1,0 +1,12 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(find /d/Work/zrupp/Rupp-Project-API -maxdepth 2 -type f -name README*)",
+      "Bash(xargs -I {} basename {})",
+      "Bash(composer require:*)",
+      "Bash(php artisan:*)",
+      "Bash(find /d/Work/zrupp/Rupp-Project-API -name *.env* -type f)",
+      "Bash(find /d/Work/zrupp/Rupp-Project-API/app/Http/Requests/Api -type f -name *.php)"
+    ]
+  }
+}

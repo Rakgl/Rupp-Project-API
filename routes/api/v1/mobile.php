@@ -19,6 +19,7 @@ use App\Http\Controllers\Api\V1\Mobile\ServiceController;
 use App\Http\Controllers\Api\V1\Mobile\PetController;
 use App\Http\Controllers\Api\V1\Mobile\PetListingController;
 use App\Http\Controllers\Api\V1\Mobile\OrderController;
+use App\Http\Controllers\Api\V1\Mobile\GeminiChatController;
 
 
 // About / Settings
@@ -105,4 +106,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/favorites', [FavoriteController::class, 'index']);
     Route::post('/favorites', [FavoriteController::class, 'store']);
     Route::delete('/favorites/{favorite}', [FavoriteController::class, 'destroy'])->whereUuid('favorite');
+
+    // AI Assistant (Gemini)
+    Route::post('/ai/ask', [GeminiChatController::class, 'ask']);
 });
