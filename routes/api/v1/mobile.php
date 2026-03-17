@@ -109,4 +109,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
     // AI Assistant (Gemini)
     Route::post('/ai/ask', [GeminiChatController::class, 'ask']);
+    Route::get('/ai/conversations', [GeminiChatController::class, 'conversations']);
+    Route::get('/ai/conversations/{conversationId}', [GeminiChatController::class, 'messages']);
+    Route::delete('/ai/conversations/{conversationId}', [GeminiChatController::class, 'deleteConversation']);
 });

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\V1\Mobile;
 
 use App\Http\Controllers\Controller;
+use App\Models\AiChatHistory;
 use App\Models\Appointment;
 use App\Models\Pet;
 use App\Models\PetListing;
@@ -16,20 +17,54 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Str;
 
 class GeminiChatController extends Controller
 {
+    const MAX_HISTORY_MESSAGES = 10;
+
     /**
-     * Single AI endpoint — answers questions AND can perform actions (book appointments).
-     * Gemini decides whether to answer directly or call a function based on user intent.
+     * Single AI endpoint — answers questions AND can perform actions.
+     * Supports conversation memory via conversation_id.
      */
     public function ask(Request $request, GeminiService $gemini): JsonResponse
     {
         $request->validate([
             'prompt' => 'required|string|max:500',
+            'conversation_id' => 'nullable|uuid',
         ]);
 
         $user = Auth::user();
+        $conversationId = $request->input('conversation_id') ?? Str::uuid()->toString();
+
+        // Verify conversation belongs to this user (if provided)
+        if ($request->filled('conversation_id')) {
+            $owns = AiChatHistory::where('conversation_id', $conversationId)
+                ->where('user_id', $user->id)
+                ->exists();
+
+            if (!$owns) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Conversation not found.',
+                ], 404);
+            }
+        }
+
+        // Load last N messages for context (sliding window)
+        $history = AiChatHistory::where('conversation_id', $conversationId)
+            ->where('user_id', $user->id)
+            ->orderBy('created_at', 'desc')
+            ->limit(self::MAX_HISTORY_MESSAGES)
+            ->get()
+            ->reverse()
+            ->map(fn ($msg) => [
+                'role' => $msg->role,
+                'message' => $msg->message,
+            ])
+            ->values()
+            ->toArray();
+
         $dataContext = $this->buildUserDataContext($user);
 
         $tools = [
@@ -42,11 +77,28 @@ class GeminiChatController extends Controller
                 $dataContext,
                 $tools,
                 fn (string $name, array $args) => $this->executeFunction($name, $args, $user),
+                $history,
             );
+
+            // Save user message and AI reply
+            AiChatHistory::create([
+                'user_id' => $user->id,
+                'conversation_id' => $conversationId,
+                'role' => 'user',
+                'message' => $request->input('prompt'),
+            ]);
+
+            AiChatHistory::create([
+                'user_id' => $user->id,
+                'conversation_id' => $conversationId,
+                'role' => 'model',
+                'message' => $reply,
+            ]);
 
             return response()->json([
                 'success' => true,
                 'data' => [
+                    'conversation_id' => $conversationId,
                     'reply' => $reply,
                 ],
             ]);
@@ -61,6 +113,98 @@ class GeminiChatController extends Controller
                 'message' => 'Unable to process your request right now. Please try again later.',
             ], 503);
         }
+    }
+
+    /**
+     * List user's AI conversations.
+     */
+    public function conversations(): JsonResponse
+    {
+        $user = Auth::user();
+
+        $conversations = AiChatHistory::where('user_id', $user->id)
+            ->selectRaw('conversation_id, MIN(message) as first_message, MAX(created_at) as last_active, COUNT(*) as message_count')
+            ->groupBy('conversation_id')
+            ->orderByDesc('last_active')
+            ->paginate(20);
+
+        // Get the actual first user message for each conversation as the title
+        $conversationIds = $conversations->pluck('conversation_id');
+        $firstMessages = AiChatHistory::whereIn('conversation_id', $conversationIds)
+            ->where('role', 'user')
+            ->orderBy('created_at')
+            ->get()
+            ->unique('conversation_id')
+            ->keyBy('conversation_id');
+
+        $conversations->getCollection()->transform(function ($conv) use ($firstMessages) {
+            return [
+                'conversation_id' => $conv->conversation_id,
+                'title' => Str::limit($firstMessages[$conv->conversation_id]->message ?? '', 50),
+                'message_count' => $conv->message_count,
+                'last_active' => $conv->last_active,
+            ];
+        });
+
+        return response()->json([
+            'success' => true,
+            'data' => $conversations,
+        ]);
+    }
+
+    /**
+     * Get messages for a specific conversation.
+     */
+    public function messages(string $conversationId): JsonResponse
+    {
+        $user = Auth::user();
+
+        $messages = AiChatHistory::where('conversation_id', $conversationId)
+            ->where('user_id', $user->id)
+            ->orderBy('created_at')
+            ->paginate(50);
+
+        if ($messages->isEmpty()) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Conversation not found.',
+            ], 404);
+        }
+
+        $messages->getCollection()->transform(fn ($msg) => [
+            'role' => $msg->role,
+            'message' => $msg->message,
+            'created_at' => $msg->created_at,
+        ]);
+
+        return response()->json([
+            'success' => true,
+            'data' => $messages,
+        ]);
+    }
+
+    /**
+     * Delete a conversation.
+     */
+    public function deleteConversation(string $conversationId): JsonResponse
+    {
+        $user = Auth::user();
+
+        $deleted = AiChatHistory::where('conversation_id', $conversationId)
+            ->where('user_id', $user->id)
+            ->delete();
+
+        if ($deleted === 0) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Conversation not found.',
+            ], 404);
+        }
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Conversation deleted.',
+        ]);
     }
 
     /**
@@ -79,7 +223,6 @@ class GeminiChatController extends Controller
      */
     protected function createAppointment(array $args, $user): array
     {
-        // Resolve pet by name — must belong to the authenticated user
         $pet = Pet::where('user_id', $user->id)
             ->where('name', 'ILIKE', $args['pet_name'] ?? '')
             ->first();
@@ -88,7 +231,6 @@ class GeminiChatController extends Controller
             return ['error' => "Could not find a pet named \"{$args['pet_name']}\" in your account."];
         }
 
-        // Resolve service by name
         $locale = app()->getLocale();
         $service = Service::where('status', 'ACTIVE')
             ->get()
@@ -101,9 +243,8 @@ class GeminiChatController extends Controller
             return ['error' => "Could not find a service matching \"{$args['service_name']}\"."];
         }
 
-        // Parse and validate start time
         try {
-            $startTime = Carbon::parse($args['start_time']);
+            $startTime = Carbon::parse($args['start_time'], 'Asia/Phnom_Penh');
         } catch (\Exception $e) {
             return ['error' => "Invalid date/time format: \"{$args['start_time']}\". Use YYYY-MM-DD HH:MM."];
         }
@@ -114,7 +255,6 @@ class GeminiChatController extends Controller
 
         $endTime = $startTime->copy()->addMinutes($service->duration_minutes);
 
-        // Check overlapping appointments
         $overlapping = Appointment::where('pet_id', $pet->id)
             ->where(function ($query) use ($startTime, $endTime) {
                 $query->where('start_time', '<', $endTime)
@@ -127,13 +267,11 @@ class GeminiChatController extends Controller
             return ['error' => 'There is already an appointment for this pet during that time.'];
         }
 
-        // Resolve store
         $storeId = Store::first()?->id;
         if (!$storeId) {
             return ['error' => 'Service is currently unavailable. No store configured.'];
         }
 
-        // Create the appointment
         $appointment = Appointment::create([
             'user_id' => $user->id,
             'store_id' => $storeId,
@@ -162,14 +300,12 @@ class GeminiChatController extends Controller
 
     /**
      * Build data context scoped to the authenticated user's permissions.
-     * Gemini can ONLY see data assembled here — it never touches the DB.
      */
     protected function buildUserDataContext($user): string
     {
         $locale = app()->getLocale();
         $sections = [];
 
-        // 1. User's own pets
         $pets = Pet::where('user_id', $user->id)
             ->with('category')
             ->get()
@@ -186,7 +322,6 @@ class GeminiChatController extends Controller
             $sections[] = "USER'S PETS:\n" . $pets->toJson(JSON_PRETTY_PRINT);
         }
 
-        // 2. Products (public catalog — active only)
         $products = Product::where('status', 'ACTIVE')
             ->with(['category', 'storeInventories'])
             ->limit(50)
@@ -203,7 +338,6 @@ class GeminiChatController extends Controller
             $sections[] = "PRODUCTS (Accessories & Supplies):\n" . $products->toJson(JSON_PRETTY_PRINT);
         }
 
-        // 3. Pet listings (marketplace — active only)
         $listings = PetListing::where('status', 'ACTIVE')
             ->with('pet.category')
             ->limit(50)
@@ -222,7 +356,6 @@ class GeminiChatController extends Controller
             $sections[] = "PET LISTINGS (For Sale / Adoption):\n" . $listings->toJson(JSON_PRETTY_PRINT);
         }
 
-        // 4. Services (public — active only)
         $services = Service::where('status', 'ACTIVE')
             ->limit(30)
             ->get()
@@ -237,7 +370,6 @@ class GeminiChatController extends Controller
             $sections[] = "SERVICES (Grooming, Vet, etc.):\n" . $services->toJson(JSON_PRETTY_PRINT);
         }
 
-        // 5. Categories (for context)
         $categories = Category::where('status', 'ACTIVE')
             ->get()
             ->map(fn ($cat) => [
