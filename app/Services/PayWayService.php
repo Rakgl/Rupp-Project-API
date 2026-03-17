@@ -13,8 +13,7 @@ class PayWayService {
 	}
 
 	public function hash($hash_str) {
-        $hash = base64_encode(hash_hmac('sha512', $hash_str, config('payway.api_key'), true));
-        return $hash;
+        return base64_encode(hash_hmac('sha512', $hash_str, config('payway.api_key'), true));
     }
 
 	public function merchantId() {
@@ -22,23 +21,85 @@ class PayWayService {
 	}
 
 	public function lifetime() {
-		return config('payway.lifetime');
+		return config('payway.lifetime', 15);
 	}
+
+    public function purchase(string $tran_id, float $amount, array $options = [])
+    {
+        $req_time = date('YmdHis');
+        $merchant_id = $this->merchantId();
+        $amount = number_format($amount, 2, '.', ''); // Ensure 2 decimal places
+        
+        $firstname = $options['firstname'] ?? 'Guest';
+        $lastname = $options['lastname'] ?? 'User';
+        $email = $options['email'] ?? 'guest@example.com';
+        $phone = $options['phone'] ?? '012345678';
+        $type = $options['type'] ?? 'purchase';
+        $payment_option = $options['payment_option'] ?? 'abapay_khqr';
+        $currency = $options['currency'] ?? 'USD';
+        
+        $items = $options['items'] ?? '';
+        if (is_array($items)) {
+            $items = base64_encode(json_encode($items));
+        }
+        
+        $shipping = $options['shipping'] ?? '';
+        $return_url = isset($options['return_url']) ? base64_encode($options['return_url']) : '';
+        $cancel_url = isset($options['cancel_url']) ? base64_encode($options['cancel_url']) : '';
+        $continue_success_url = $options['continue_success_url'] ?? '';
+        $custom_fields = $options['custom_fields'] ?? '';
+
+        // ABA PayWay v2 Hash Sequence:
+        // merchant_id + tran_id + amount + items + shipping + firstname + lastname + email + phone + type + payment_option + return_url + cancel_url + continue_success_url + currency + custom_fields + req_time
+        $hash_str = $merchant_id . $tran_id . $amount . $items . $shipping . $firstname . $lastname . $email . $phone . $type . $payment_option . $return_url . $cancel_url . $continue_success_url . $currency . $custom_fields . $req_time;
+        
+        $hash = $this->hash($hash_str);
+
+        $data = [
+            'req_time' => $req_time,
+            'merchant_id' => $merchant_id,
+            'tran_id' => $tran_id,
+            'amount' => $amount,
+            'firstname' => $firstname,
+            'lastname' => $lastname,
+            'email' => $email,
+            'phone' => $phone,
+            'type' => $type,
+            'payment_option' => $payment_option,
+            'items' => $items,
+            'shipping' => $shipping,
+            'currency' => $currency,
+            'return_url' => $return_url,
+            'cancel_url' => $cancel_url,
+            'continue_success_url' => $continue_success_url,
+            'custom_fields' => $custom_fields,
+            'hash' => $hash,
+        ];
+
+        return $this->create($data);
+    }
 
 	public function checkTransaction($tranNo) : array
 	{
 		$merchantId = $this->merchantId();
-		$req_time = date('YYYYmmddHis');
+		$req_time = date('YmdHis');
 
+        // Some versions of PayWay v2 use a query string format for check-transaction
+        $params = [
+            'merchant_id' => $merchantId,
+            'req_time' => $req_time,
+            'tran_id' => $tranNo,
+        ];
+        ksort($params);
+        $hash_str = http_build_query($params);
+        
 		$data = [
 			'req_time' => $req_time,
 			'merchant_id' => $merchantId,
 			'tran_id' => $tranNo,
-			'hash' => $this->hash(
-				$req_time . $merchantId . $tranNo
-			),
+			'hash' => $this->hash($hash_str),
 		];
-		$res = Http::asForm()->post(config('payway.api_url') .'/payments/check-transaction-2', $data)->json();
+		$res = Http::asForm()->post(config('payway.api_url') .'/payments/check-transaction', $data)->json();
 		return $res;
     }
 

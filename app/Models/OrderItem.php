@@ -12,7 +12,8 @@ class OrderItem extends Model
 
     protected $fillable = [
         'order_id',
-        'product_id',
+        'itemable_id',
+        'itemable_type',
         'quantity',
         'unit_price',
         'subtotal'
@@ -28,8 +29,13 @@ class OrderItem extends Model
         return $this->belongsTo(Order::class);
     }
 
+    public function itemable()
+    {
+        return $this->morphTo();
+    }
+
     public function product()
     {
-        return $this->belongsTo(Product::class);
+        return $this->belongsTo(Product::class, 'itemable_id')->where('itemable_type', Product::class);
     }
 }

@@ -17,39 +17,12 @@ class AuthController extends Controller
     public function login(MobileAuthenticationRequest $request)
     {
         $phone = ltrim($request->phone, '0');
-        $isNewRegistration = false;
 
         $user = User::where('phone', $phone)
             ->where('status', 'ACTIVE')
             ->first();
 
-        if (!$user) {
-            DB::beginTransaction();
-            try {
-                $user = User::create([
-                    'id'         => (string) Str::uuid(),
-                    'name'       => $request->name ?? 'User ' . $phone,
-                    'email'      => $request->email ?? null,
-                    'phone'      => $phone,
-                    'username'   => $phone,
-                    'password'   => Hash::make($request->password),
-                    'status'     => 'ACTIVE',
-                    'type'       => 'Mobile',
-                    'update_num' => 0,
-                ]);
-
-                DB::commit();
-                $isNewRegistration = true;
-            } catch (\Exception $e) {
-                DB::rollBack();
-                return response()->json([
-                    'success' => false,
-                    'message' => 'Registration failed: ' . $e->getMessage(),
-                ], 500);
-            }
-        }
-
-        if (!Hash::check($request->password, $user->password)) {
+        if (!$user || !Hash::check($request->password, $user->password)) {
             return response()->json([
                 'success' => false,
                 'message' => 'Incorrect phone number or password.',
@@ -61,7 +34,7 @@ class AuthController extends Controller
         return response()->json([
             'success' => true,
             'data'    => $data,
-            'message' => $isNewRegistration ? 'Registered and logged in successfully.' : 'Login successfully.'
+            'message' => 'Login successfully.'
         ]);
     }
 

@@ -10,12 +10,34 @@ class OTPHelper
 {
 	public static function send($phone, $lengthOTP): \Illuminate\Http\JsonResponse|array
     {
+        // Debug bypass for sending OTP
+        if (env('APP_DEBUG_OTP') === true) {
+            return [
+                'success' => true,
+                'message' => 'OTP sent via debug bypass.',
+                'data' => [
+                    'transaction_code' => 'DEBUG_TRANSACTION_' . uniqid(),
+                ],
+            ];
+        }
+
 		$phone = '855' . $phone;
 		$url = env('MEKONG_SMS_URL');
-		$pass = md5(env('MEKONG_SMS_PASS'));
+        $pass = env('MEKONG_SMS_PASS');
+        $user = env('MEKONG_SMS_USER');
+
+        if (!$url || !$pass || !$user) {
+            return [
+                'success' => false,
+                'message' => 'OTP service is not configured.',
+                'data' => null,
+            ];
+        }
+
+		$pass = md5($pass);
         try {
             $response = Http::asForm()->post($url . '/otp/sendotp.aspx',[
-                'user'=> env('MEKONG_SMS_USER'),
+                'user'=> $user,
                 'pass'=> $pass,
                 'sender'=> env('MEKONG_SMS_SENDER'),
 				'ph'=> $phone,
@@ -29,8 +51,8 @@ class OTPHelper
         catch (\Exception $exception){
             return [
                 'success' => false,
-                'message' => '',
-                'data' => $exception,
+                'message' => 'Could not send OTP. Please try again later.',
+                'data' => null,
             ];
         }
     }
@@ -76,6 +98,17 @@ class OTPHelper
 
 	public static function verify($otp, $transactionCode): \Illuminate\Http\JsonResponse|array
 	{
+        // Debug bypass for OTP verification
+        if (env('APP_DEBUG_OTP') === true && $otp === md5('000000' . $transactionCode)) {
+            return [
+                'success' => true,
+                'message' => "OTP verified via debug bypass.",
+                'data' => [
+                    'transaction_code' => $transactionCode
+                ],
+            ];
+        }
+
 		$url = env('MEKONG_SMS_URL');
 		$pass = md5(env('MEKONG_SMS_PASS'));
 		try {

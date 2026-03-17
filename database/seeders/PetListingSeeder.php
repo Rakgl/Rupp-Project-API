@@ -27,9 +27,9 @@ class PetListingSeeder extends Seeder
                 ['pet_id' => $pet->id],
                 [
                     'user_id' => $user->id,
-                    'listing_type' => $pet->species === 'Dog' ? 'SALE' : 'ADOPTION',
-                    'price' => $pet->species === 'Dog' ? 450.00 : 0.00,
-                    'description' => "Available for " . ($pet->species === 'Dog' ? "Sale" : "Adoption") . ". " . $pet->medical_notes,
+                    'listing_type' => 'SALE',
+                    'price' => $pet->price ?? 100.00,
+                    'description' => "Available for Sale. " . $pet->medical_notes,
                     'status' => 'AVAILABLE',
                 ]
             );

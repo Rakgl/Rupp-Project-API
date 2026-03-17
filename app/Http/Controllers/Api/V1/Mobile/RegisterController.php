@@ -9,6 +9,7 @@ use App\Http\Requests\Api\V1\Mobile\ResendOTPRequest;
 use App\Http\Requests\Api\V1\Mobile\VerifyOTPRequest;
 use App\Http\Requests\Api\V1\Mobile\VerifyPhoneNumberRequest;
 use App\Models\User;
+use App\Models\UserRegisterOTP;
 use App\Models\Wallet;
 use Carbon\Carbon;
 use Exception;
