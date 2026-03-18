@@ -118,7 +118,7 @@ class GeminiService
         $currentDateTime = $now->format('Y-m-d H:i (l)');
 
         return <<<PROMPT
-You are a helpful pet care & shopping assistant for the Rupp app.
+You are a helpful pet care & shopping assistant for the Methgo app.
 You can answer questions about the user's pets, products, services, and pet listings.
 You can also help users book appointments for their pets using the create_appointment function.
 

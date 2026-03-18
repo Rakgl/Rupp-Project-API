@@ -28,17 +28,52 @@ All authenticated endpoints require: `Authorization: Bearer {token}`
 
 ---
 
-## Step 1: Get Payment Method ID
+## Step 1: Fetch Payment Methods
 
-The KHQR payment method ID is: `59415cc0-4436-4aa6-ab61-79f690d1f350`
-
-To dynamically fetch payment methods, use:
+**Do NOT hardcode payment method IDs.** Fetch them dynamically:
 
 ```
-GET {{BASE_URL}}/api/v1/mobile/settings
+GET {{BASE_URL}}/api/v1/mobile/payment-methods
+Authorization: Bearer {token}
 ```
 
-Look for payment methods in the response. Use the `id` where `name === "KHQR"`.
+### Response
+
+```json
+{
+    "data": [
+        {
+            "id": "uuid-1",
+            "name": "KHQR",
+            "description": "Scan to pay with any banking app",
+            "type": "BANK",
+            "image": "https://..."
+        },
+        {
+            "id": "uuid-2",
+            "name": "Cash on Delivery",
+            "description": "Pay with cash when your order arrives",
+            "type": "CASH",
+            "image": null
+        },
+        {
+            "id": "uuid-3",
+            "name": "Bank Transfer",
+            "description": "Transfer directly to our bank account",
+            "type": "BANK",
+            "image": null
+        }
+    ]
+}
+```
+
+### How to use
+
+1. Call this endpoint when showing the checkout/payment method selection screen
+2. Display all methods with their `name`, `description`, and `image`
+3. When user selects one, store the `id` to send with the order
+4. If `name === "KHQR"` → after order, show the payment screen with deeplink/QR (see Step 4)
+5. If `name === "Cash on Delivery"` → after order, show order confirmation (no payment screen needed)
 
 ---
 
@@ -108,7 +143,7 @@ Content-Type: application/json
 
 {
     "fulfillment_type": "PICKUP",
-    "payment_method_id": "59415cc0-4436-4aa6-ab61-79f690d1f350"
+    "payment_method_id": "{{selected_payment_method_id}}"
 }
 ```
 
@@ -118,7 +153,7 @@ Content-Type: application/json
 |-------|------|----------|-------------|
 | `fulfillment_type` | string | Yes | `"PICKUP"` or `"DELIVERY"` |
 | `delivery_address` | string | Only if DELIVERY | Max 500 chars |
-| `payment_method_id` | UUID | No | Use KHQR payment method ID. If omitted, uses default. |
+| `payment_method_id` | UUID | Yes | ID from `GET /payment-methods` response |
 
 ### Success Response (with KHQR)
 
@@ -358,12 +393,14 @@ PENDING (created, awaiting payment)
 
 | Method | Endpoint | Auth | Description |
 |--------|----------|------|-------------|
+| GET | `/payment-methods` | Yes | Fetch available payment methods |
+| GET | `/payment-history` | Yes | User's order/payment history (all statuses) |
 | GET | `/cart` | Yes | View current cart |
 | POST | `/cart/add` | Yes | Add item to cart |
 | PUT | `/cart/items/{id}` | Yes | Update item quantity |
 | DELETE | `/cart/items/{id}` | Yes | Remove item from cart |
 | DELETE | `/cart/clear` | Yes | Clear entire cart |
-| POST | `/orders` | Yes | Place order (returns payment info) |
+| POST | `/orders` | Yes | Place order (returns payment info if KHQR) |
 | GET | `/orders` | Yes | List user's orders |
 | GET | `/orders/{id}` | Yes | View single order |
 | POST | `/orders/{id}/verify-payment` | Yes | Check if payment went through |
