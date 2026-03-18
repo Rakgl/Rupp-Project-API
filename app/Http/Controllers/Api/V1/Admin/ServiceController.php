@@ -26,8 +26,9 @@ class ServiceController extends Controller
 
             // Search by name
             if ($request->has('search') && !empty($request->input('search'))) {
-                $searchTerm = $request->input('search');
-                $query->whereRaw('LOWER(name) LIKE ?', ['%' . strtolower($searchTerm) . '%']);
+                $searchTerm = strtolower($request->input('search'));
+                // Cast the JSON column to text before applying LOWER()
+                $query->whereRaw('LOWER(name::text) LIKE ?', ['%' . $searchTerm . '%']);
             }
 
             // Filter by status

@@ -36,7 +36,7 @@ class SettingSeeder extends Seeder
             [
                 'id' => Str::uuid(),
                 'setting_key' => "about_us_description",
-                'setting_value' => "Methgo is a pet shop and animal shelter that have been dedicated for years into taking care of animals and turn them into a good lovely pet. For animal lover who interested and in need of a companion.",
+                'setting_value' => "A pet shop and animal shelter that have been dedicated for years into taking care of animals and turn them into a good lovely pet. For animal lover who interested and in need of a companion.",
             ],
             [
                 'id' => Str::uuid(),
@@ -52,6 +52,21 @@ class SettingSeeder extends Seeder
                 'id' => Str::uuid(),
                 'setting_key' => "footer_note",
                 'setting_value' => "Have a great day from Ferry",
+            ],
+            [
+                'id' => Str::uuid(),
+                'setting_key' => "facebook_url",
+                'setting_value' => "https://facebook.com/methgopetshop", 
+            ],
+            [
+                'id' => Str::uuid(),
+                'setting_key' => "instagram_url",
+                'setting_value' => "https://instagram.com/methgopetshop", 
+            ],
+            [
+                'id' => Str::uuid(),
+                'setting_key' => "telegram_url",
+                'setting_value' => "https://t.me/methgopetshop", 
             ],
         ]);
     }

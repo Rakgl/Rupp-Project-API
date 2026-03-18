@@ -31,6 +31,11 @@ class SettingController extends Controller
                         'longitude' => $generalSettings['longitude'] ?? null,
                     ],
                     'footer_note' => $generalSettings['footer_note'] ?? null,
+					'social_media' => [
+						'facebook' => $generalSettings['facebook_url'] ?? null,
+						'instagram' => $generalSettings['instagram_url'] ?? null,
+						'telegram' => $generalSettings['telegram_url'] ?? null,
+					],
                 ]
 			],
 		]);

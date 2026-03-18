@@ -19,12 +19,14 @@ class PetListingController extends Controller
         try {
             $query = PetListing::query()->with(['pet', 'user']);
 
-            if ($request->has('search')) {
+      if ($request->filled('search')) {
                 $searchTerm = $request->input('search');
+                
                 $query->whereHas('pet', function ($q) use ($searchTerm) {
-                    $q->where('name', 'like', "%{$searchTerm}%")
-                      ->orWhere('species', 'like', "%{$searchTerm}%")
-                      ->orWhere('breed', 'like', "%{$searchTerm}%");
+                    // 2. Use 'ilike' for PostgreSQL case-insensitive searching
+                    $q->where('name', 'ilike', "%{$searchTerm}%")
+                      ->orWhere('species', 'ilike', "%{$searchTerm}%")
+                      ->orWhere('breed', 'ilike', "%{$searchTerm}%");
                 });
             }
 

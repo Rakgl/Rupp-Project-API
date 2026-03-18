@@ -28,6 +28,7 @@ class ProductIndexResource extends JsonResource
         : asset('storage/' . $this->image_url)) 
     : null,  
             'sku' => $this->sku,
+            'stock_quantity' => $this->stock_quantity,
             'status' => $this->status,
             'category' => new CategoryShowResource($this->whenLoaded('category')),
             'created_at' => $this->created_at?->format('Y-m-d H:i:s'),

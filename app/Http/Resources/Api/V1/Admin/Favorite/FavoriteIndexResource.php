@@ -43,7 +43,11 @@ class FavoriteIndexResource extends JsonResource
                     'name'  => $this->user->name,
                     'phone' => $this->user->phone,
                     'email' => $this->user->email,
-                    'image' => $this->user->image,
+                    'image' => $this->user->image 
+    ? (filter_var($this->user->image, FILTER_VALIDATE_URL) 
+        ? $this->user->image 
+        : asset('storage/' . $this->user->image)) 
+    : null,
                 ];
             }),
             'type'           => strtolower(class_basename($this->favorable_type)),

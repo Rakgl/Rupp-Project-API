@@ -22,22 +22,41 @@ class AppointmentController extends Controller
     public function index(Request $request)
     {
         $request->validate([
-            'status' => 'nullable|string|in:PENDING,CONFIRMED,IN_CARE,COMPLETED,CANCELLED',
-            'user_id' => 'nullable|uuid|exists:users,id',
-            'store_id' => 'nullable|uuid|exists:stores,id',
+            'search'   => 'nullable|string|max:255',
+            'status'   => 'nullable|string|in:PENDING,CONFIRMED,IN_CARE,COMPLETED,CANCELLED',
+            'user_id'  => 'nullable|uuid|exists:users,id',
+            'pet_id'   => 'nullable|uuid|exists:pets,id',
+            'per_page' => 'nullable|integer|min:1|max:100', 
         ]);
 
         $appointments = Appointment::query()
-            ->when($request->status, function ($query, $status) {
-                return $query->where('status', $status);
+            ->with(['user', 'pet', 'service'])
+            // 2. Add the search logic for relationships
+            ->when($request->filled('search'), function ($query) use ($request) {
+                $searchTerm = $request->input('search');
+                
+                // CRITICAL: Wrap the OR conditions in a closure so they don't break your status/id filters
+                $query->where(function ($q) use ($searchTerm) {
+                    $q->whereHas('user', function ($userQuery) use ($searchTerm) {
+                        $userQuery->where('name', 'ilike', "%{$searchTerm}%");
+                    })
+                    ->orWhereHas('pet', function ($petQuery) use ($searchTerm) {
+                        $petQuery->where('name', 'ilike', "%{$searchTerm}%");
+                    })
+                    ->orWhereHas('service', function ($serviceQuery) use ($searchTerm) {
+                        $serviceQuery->where('name', 'ilike', "%{$searchTerm}%");
+                    });
+                });
             })
-            ->when($request->user_id, function ($query, $userId) {
-                return $query->where('user_id', $userId);
+            ->when($request->filled('status'), function ($query) use ($request) {
+                return $query->where('status', $request->input('status'));
             })
-            ->when($request->store_id, function ($query, $storeId) {
-                return $query->where('store_id', $storeId);
+            ->when($request->filled('user_id'), function ($query) use ($request) {
+                return $query->where('user_id', $request->input('user_id'));
             })
-            ->with('user', 'pet', 'service')
+            ->when($request->filled('pet_id'), function ($query) use ($request) {
+                return $query->where('pet_id', $request->input('pet_id'));
+            })
             ->latest()
             ->paginate($request->input('per_page', 10));
 

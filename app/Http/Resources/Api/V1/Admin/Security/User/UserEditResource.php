@@ -20,7 +20,11 @@ class UserEditResource extends JsonResource
 			'name' => $this->name,
 			'email' => $this->email ? $this->email : null,
 			'username' => $this->username,
-			'image' => Helper::imageUrl($this->image),
+			'image' => $this->image 
+    ? (filter_var($this->image, FILTER_VALIDATE_URL) 
+        ? $this->image 
+        : asset('storage/' . $this->image)) 
+    : null,  
 			'status' => $this->status,
 			'role_id' => $this->role_id,
 			'phone' => $this->phone,
