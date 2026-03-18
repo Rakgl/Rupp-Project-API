@@ -19,6 +19,7 @@ use App\Http\Controllers\Api\V1\Mobile\ServiceController;
 use App\Http\Controllers\Api\V1\Mobile\PetController;
 use App\Http\Controllers\Api\V1\Mobile\PetListingController;
 use App\Http\Controllers\Api\V1\Mobile\OrderController;
+use App\Http\Controllers\Api\V1\Mobile\PaymentMethodController;
 use App\Http\Controllers\Api\V1\Mobile\GeminiChatController;
 
 
@@ -89,12 +90,18 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::delete('/cart/items/{cartItem}', [CartController::class, 'remove']);
     Route::delete('/cart/clear', [CartController::class, 'clear']);
 
+    // Payment Methods
+    Route::get('/payment-methods', [PaymentMethodController::class, 'index']);
+
     // Orders (Checkout)
     Route::get('/orders', [OrderController::class, 'index']);
     Route::post('/orders', [OrderController::class, 'store']);
     Route::get('/orders/{order}', [OrderController::class, 'show']);
     Route::post('/orders/{order}/verify-payment', [OrderController::class, 'verifyPayment']);
     Route::post('/orders/{order}/cancel', [OrderController::class, 'cancel']);
+
+    // Payment History
+    Route::get('/payment-history', [OrderController::class, 'paymentHistory']);
 
     // Appointments
     Route::get('/appointments', [AppointmentController::class, 'index']);

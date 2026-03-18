@@ -27,6 +27,30 @@ class PaymentMethodSeeder extends Seeder
 				'updated_by' => null,
 				'update_num' => 0
 			],
+			[
+				'id' => Str::uuid(),
+				'name' => "Cash on Delivery",
+				'description' => 'Pay with cash when your order arrives',
+				'type' => 'CASH',
+				'status' => 'ACTIVE',
+				'created_at' => Carbon::now(),
+				'updated_at' => Carbon::now(),
+				'created_by' => null,
+				'updated_by' => null,
+				'update_num' => 0
+			],
+			[
+				'id' => Str::uuid(),
+				'name' => "Bank Transfer",
+				'description' => 'Transfer directly to our bank account',
+				'type' => 'BANK',
+				'status' => 'ACTIVE',
+				'created_at' => Carbon::now(),
+				'updated_at' => Carbon::now(),
+				'created_by' => null,
+				'updated_by' => null,
+				'update_num' => 0
+			],
 		]);
     }
 }

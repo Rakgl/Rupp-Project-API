@@ -56,6 +56,12 @@ class OrderResource extends JsonResource
                     ];
                 });
             }),
+            'payment_method' => $this->whenLoaded('paymentMethod', function() {
+                return [
+                    'id' => $this->paymentMethod->id,
+                    'name' => $this->paymentMethod->name,
+                ];
+            }),
             'created_at' => $this->created_at->toDateTimeString(),
         ];
     }

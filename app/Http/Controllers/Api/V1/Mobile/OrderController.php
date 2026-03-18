@@ -39,6 +39,19 @@ class OrderController extends Controller
     }
 
     /**
+     * Display the user's payment history.
+     */
+    public function paymentHistory()
+    {
+        $orders = Order::where('user_id', Auth::id())
+            ->with(['orderItems.itemable', 'paymentMethod'])
+            ->latest()
+            ->paginate(10);
+
+        return OrderResource::collection($orders);
+    }
+
+    /**
      * Store a newly created order from the current cart.
      */
     public function store(Request $request)
