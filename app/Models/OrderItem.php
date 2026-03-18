@@ -36,6 +36,8 @@ class OrderItem extends Model
 
     public function product()
     {
-        return $this->belongsTo(Product::class, 'itemable_id')->where('itemable_type', Product::class);
+        return $this->itemable_type === Product::class
+            ? $this->belongsTo(Product::class, 'itemable_id')
+            : $this->belongsTo(Product::class, 'itemable_id')->whereRaw('1 = 0');
     }
 }

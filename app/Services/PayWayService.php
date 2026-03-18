@@ -28,8 +28,8 @@ class PayWayService {
     {
         $req_time = date('YmdHis');
         $merchant_id = $this->merchantId();
-        $amount = number_format($amount, 2, '.', ''); // Ensure 2 decimal places
-        
+        $amount = number_format($amount, 2, '.', '');
+
         $firstname = $options['firstname'] ?? 'Guest';
         $lastname = $options['lastname'] ?? 'User';
         $email = $options['email'] ?? 'guest@example.com';
@@ -37,22 +37,32 @@ class PayWayService {
         $type = $options['type'] ?? 'purchase';
         $payment_option = $options['payment_option'] ?? 'abapay_khqr';
         $currency = $options['currency'] ?? 'USD';
-        
+
         $items = $options['items'] ?? '';
         if (is_array($items)) {
             $items = base64_encode(json_encode($items));
         }
-        
+
         $shipping = $options['shipping'] ?? '';
         $return_url = isset($options['return_url']) ? base64_encode($options['return_url']) : '';
         $cancel_url = isset($options['cancel_url']) ? base64_encode($options['cancel_url']) : '';
         $continue_success_url = $options['continue_success_url'] ?? '';
+        $return_deeplink = $options['return_deeplink'] ?? '';
         $custom_fields = $options['custom_fields'] ?? '';
+        $return_params = $options['return_params'] ?? '';
+        $payout = $options['payout'] ?? '';
+        $lifetime = $options['lifetime'] ?? $this->lifetime();
+        $additional_params = $options['additional_params'] ?? '';
+        $google_pay_token = $options['google_pay_token'] ?? '';
+        $skip_success_page = $options['skip_success_page'] ?? '';
 
-        // ABA PayWay v2 Hash Sequence:
-        // merchant_id + tran_id + amount + items + shipping + firstname + lastname + email + phone + type + payment_option + return_url + cancel_url + continue_success_url + currency + custom_fields + req_time
-        $hash_str = $merchant_id . $tran_id . $amount . $items . $shipping . $firstname . $lastname . $email . $phone . $type . $payment_option . $return_url . $cancel_url . $continue_success_url . $currency . $custom_fields . $req_time;
-        
+        // PayWay v1 Hash Sequence (all 24 fields in exact order):
+        $hash_str = $req_time . $merchant_id . $tran_id . $amount . $items . $shipping
+            . $firstname . $lastname . $email . $phone . $type . $payment_option
+            . $return_url . $cancel_url . $continue_success_url . $return_deeplink
+            . $currency . $custom_fields . $return_params . $payout . $lifetime
+            . $additional_params . $google_pay_token . $skip_success_page;
+
         $hash = $this->hash($hash_str);
 
         $data = [
@@ -72,7 +82,14 @@ class PayWayService {
             'return_url' => $return_url,
             'cancel_url' => $cancel_url,
             'continue_success_url' => $continue_success_url,
+            'return_deeplink' => $return_deeplink,
             'custom_fields' => $custom_fields,
+            'return_params' => $return_params,
+            'payout' => $payout,
+            'lifetime' => $lifetime,
+            'additional_params' => $additional_params,
+            'google_pay_token' => $google_pay_token,
+            'skip_success_page' => $skip_success_page,
             'hash' => $hash,
         ];
 
@@ -134,7 +151,13 @@ class PayWayService {
 	public function create(array $data): array
 	{
 		$url = config('payway.api_url') . config('payway.api_purchase');
-		$response = Http::asForm()->post($url, $data)->json();
+		$httpResponse = Http::asForm()->post($url, $data);
+		\Log::info('ABA PayWay raw response', [
+			'url' => $url,
+			'status' => $httpResponse->status(),
+			'body' => $httpResponse->body(),
+		]);
+		$response = $httpResponse->json();
 
 		$dataResponse = [
 			'success' => false,

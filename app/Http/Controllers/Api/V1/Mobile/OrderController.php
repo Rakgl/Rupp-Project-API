@@ -146,7 +146,10 @@ class OrderController extends Controller
                     'phone' => $user->phone ?? '012345678',
                     'items' => $abaItems,
                     'shipping' => number_format($order->delivery_fee, 2, '.', ''),
+                    'return_url' => url('/api/v1/web/payway/callback'),
                 ]);
+
+                \Log::info('ABA PayWay response', ['response' => $abaResponse]);
 
                 if ($abaResponse['success']) {
                     $paymentInfo = $abaResponse['data'];

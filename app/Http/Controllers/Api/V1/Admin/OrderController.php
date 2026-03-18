@@ -65,7 +65,7 @@ class OrderController extends Controller
     public function show(string $id): JsonResponse
     {
         try {
-            $order = Order::with(['user', 'store', 'paymentMethod', 'orderItems.product'])->findOrFail($id);
+            $order = Order::with(['user', 'store', 'paymentMethod', 'orderItems.itemable'])->findOrFail($id);
 
             return response()->json([
                 'success' => true,
@@ -105,7 +105,7 @@ class OrderController extends Controller
         try {
             $order = Order::findOrFail($id);
             $order->update($validator->validated());
-            $order->load(['user', 'store', 'paymentMethod', 'orderItems.product']);
+            $order->load(['user', 'store', 'paymentMethod', 'orderItems.itemable']);
 
             return response()->json([
                 'success' => true,
@@ -164,7 +164,7 @@ class OrderController extends Controller
     public function getItems(string $id): JsonResponse
     {
         try {
-            $order = Order::with('orderItems.product')->findOrFail($id);
+            $order = Order::with('orderItems.itemable')->findOrFail($id);
             
             return response()->json([
                 'success' => true,
