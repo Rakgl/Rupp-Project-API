@@ -22,7 +22,11 @@ class CategoryResource extends JsonResource
             'description' => is_array($this->description) ? ($this->description[$locale] ?? $this->description['en'] ?? null) : $this->description,
             'slug' => $this->slug,
             'type' => $this->type,
-            'image_url' => $this->image_url,
+            'image_url' => $this->image_url 
+    ? (filter_var($this->image_url, FILTER_VALIDATE_URL) 
+        ? $this->image_url 
+        : asset('storage/' . $this->image_url)) 
+    : null,  
             'status' => $this->status,
         ];
     }

@@ -23,7 +23,11 @@ class PetResource extends JsonResource
             'weight' => (float) $this->weight,
             'date_of_birth' => $this->date_of_birth ? $this->date_of_birth->format('Y-m-d') : null,
             'price' => $this->when($request->routeIs('*.pets.*'), (float) $this->price), // Only show for private pet profile
-            'image_url' => $this->image_url,
+            'image_url' => $this->image_url 
+    ? (filter_var($this->image_url, FILTER_VALIDATE_URL) 
+        ? $this->image_url 
+        : asset('storage/' . $this->image_url)) 
+    : null,  
             'medical_notes' => $this->medical_notes,
             'category_name' => $this->whenLoaded('category', function() {
                 return is_array($this->category->name) ? ($this->category->name[app()->getLocale()] ?? $this->category->name['en'] ?? null) : $this->category->name;

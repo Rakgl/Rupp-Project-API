@@ -21,7 +21,11 @@ class ServiceResource extends JsonResource
             'description' => is_array($this->description) ? ($this->description[app()->getLocale()] ?? $this->description['en'] ?? null) : $this->description,
             'price' => (float) $this->price,
             'duration_minutes' => $this->duration_minutes,
-            'image_url' => $this->image_url,
+            'image_url' => $this->image_url 
+    ? (filter_var($this->image_url, FILTER_VALIDATE_URL) 
+        ? $this->image_url 
+        : asset('storage/' . $this->image_url)) 
+    : null,
             'is_favorite' => Auth::check() ? $this->favorites()->where('user_id', Auth::id())->exists() : false,
             'created_at' => $this->created_at->toDateTimeString(),
         ];

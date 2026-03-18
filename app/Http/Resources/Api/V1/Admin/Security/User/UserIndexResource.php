@@ -19,7 +19,12 @@ class UserIndexResource extends JsonResource
             'id' => $this->id,
             'name' => $this->name,
             'email' => $this->email,
-            'image' => Helper::imageUrl($this->image), 
+            // 'image' => Helper::imageUrl($this->image), 
+            'image' => $this->image 
+    ? (filter_var($this->image, FILTER_VALIDATE_URL) 
+        ? $this->image 
+        : asset('storage/' . $this->image)) 
+    : null,
             'username' => $this->username,
 			'role' => $this->role?->name,
 			'status' => $this->status,

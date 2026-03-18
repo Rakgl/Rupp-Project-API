@@ -19,7 +19,11 @@ class CategoryShowResource extends JsonResource
             'name' => is_array($this->name) ? ($this->name['en'] ?? null) : $this->name,
             'description' => is_array($this->description) ? ($this->description['en'] ?? null) : $this->description,
             'slug' => $this->slug,
-            'image_url' => $this->image_url,
+            'image_url' => $this->image_url 
+    ? (filter_var($this->image_url, FILTER_VALIDATE_URL) 
+        ? $this->image_url 
+        : asset('storage/' . $this->image_url)) 
+    : null,  
             'type' => $this->type,
             'status' => $this->status,
             'created_at' => $this->created_at?->format('Y-m-d H:i:s'),

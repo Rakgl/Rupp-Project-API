@@ -22,7 +22,11 @@ class ProductIndexResource extends JsonResource
             'description' => is_array($this->description) ? ($this->description['en'] ?? null) : $this->description,
             'attributes' => $this->attributes,
             'price' => (float) $this->price,
-            'image_url' => $this->image_url,
+            'image_url' => $this->image_url 
+    ? (filter_var($this->image_url, FILTER_VALIDATE_URL) 
+        ? $this->image_url 
+        : asset('storage/' . $this->image_url)) 
+    : null,  
             'sku' => $this->sku,
             'status' => $this->status,
             'category' => new CategoryShowResource($this->whenLoaded('category')),

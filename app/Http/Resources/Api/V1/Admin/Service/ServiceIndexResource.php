@@ -20,7 +20,11 @@ class ServiceIndexResource extends JsonResource
             'description' => is_array($this->description) ? ($this->description['en'] ?? null) : $this->description,
             'price' => $this->price,
             'duration_minutes' => $this->duration_minutes,
-            'image_url' => $this->image_url,
+            'image_url' => $this->image_url 
+    ? (filter_var($this->image_url, FILTER_VALIDATE_URL) 
+        ? $this->image_url 
+        : asset('storage/' . $this->image_url)) 
+    : null,  
             'status' => $this->status,
             'created_at' => $this->created_at?->format('Y-m-d H:i:s'),
         ];

@@ -23,7 +23,11 @@ class PetIndexResource extends JsonResource
             'breed' => $this->breed,
             'weight' => $this->weight,
             'date_of_birth' => $this->date_of_birth ? $this->date_of_birth->format('Y-m-d') : null,
-            'image_url' => $this->image_url,
+            'image_url' => $this->image_url 
+    ? (filter_var($this->image_url, FILTER_VALIDATE_URL) 
+        ? $this->image_url 
+        : asset('storage/' . $this->image_url)) 
+    : null,  
             'medical_notes' => $this->medical_notes,
             'created_at' => $this->created_at?->format('Y-m-d H:i:s'),
             'updated_at' => $this->updated_at?->format('Y-m-d H:i:s'),

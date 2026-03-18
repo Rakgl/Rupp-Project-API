@@ -33,7 +33,11 @@ class ProductShowResource extends JsonResource
             'id' => $this->id,
             'name' => is_array($this->name) ? ($this->name[app()->getLocale()] ?? $this->name['en'] ?? null) : $this->name,
             'price' => (float) $this->price,
-            'image_url' => $this->image_url,
+            'image_url' => $this->image_url 
+    ? (filter_var($this->image_url, FILTER_VALIDATE_URL) 
+        ? $this->image_url 
+        : asset('storage/' . $this->image_url)) 
+    : null,  
             'description' => is_array($this->description) ? ($this->description[app()->getLocale()] ?? $this->description['en'] ?? null) : $this->description,
             'category_name' => $this->whenLoaded('category', function() {
                 return is_array($this->category->name) ? ($this->category->name[app()->getLocale()] ?? $this->category->name['en'] ?? null) : $this->category->name;
